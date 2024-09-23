@@ -1,0 +1,104 @@
+<div class="container">
+
+ {{ if Enable_chat }} <div class="row">
+    <div class="col-6"> {{ endif }}
+		<div class="card-body">
+				{{  if Show_label  }}
+				
+			<div class="column" style="background-color:#ffffff;text-align: center;font-size: 20px">
+				<mark_stage1> Stage 1 </mark_stage1> : Please discuss with your group member for <br>
+				Round <strong > {{ player.group.roundNumber }} </strong> of Match #{{ player.group.matchNumber }} 
+				<br>
+				<button style="visibility: hidden;" class="otree-btn-next btn btn-primary" id="NextButton" > 
+				</button> 
+				<div class="row" style="background-color:#ffffff;">
+					<!-- <div class="column" -->
+						 <!-- style="background-color:#ffffff;text-align: center; align-content: center; position: relative;"> -->
+
+					<!-- </div> -->
+					<div class="column"
+						 style="background-color:#ffffff;text-align: center; align-content: center; position: relative;">
+						<button type='X_button' onclick="event.preventDefault()">
+							X
+						</button>
+
+					</div>
+					<div class="column"
+						 style="background-color:#ffffff;text-align: center; align-content: center; position: relative;">
+						<button type='Y_button' onclick="event.preventDefault()">
+							Y
+						</button>
+
+					</div>
+					<!-- <div class="column" -->
+						 <!-- style="background-color:#ffffff;text-align: center; align-content: center; position: relative;"> -->
+
+					<!-- </div> -->
+				</div>
+				<br><br>
+			</div>
+
+					{{ else }}
+
+			<div class="column" style="background-color:#ffffff;text-align: center;font-size: 20px">
+				<mark_stage1> Stage 1 </mark_stage1>: 
+				{{if player.session.config.Faction_Size == 2 }}
+				Please  discuss with your group member and select your choice <br> for
+				{{ else }}
+
+				Please select your choice for<br>
+				{{ endif }}
+				
+				
+				 Round <strong > {{ player.group.roundNumber }} </strong> of Match #{{ player.group.matchNumber }}
+				
+				<br>
+				<br>
+				<div class="row" style="background-color:#ffffff;">
+					<!-- <div class="column" -->
+						 <!-- style="background-color:#ffffff;text-align: center; align-content: center; position: relative;"> -->
+
+					<!-- </div> -->
+					<div class="column"
+						 style="background-color:#ffffff;text-align: center; align-content: center; position: relative;">
+						<button   onclick="sendValue()"  	 class="btn btn-primary" name="myChoice" value=0 
+								 style="height: 50px; width: 50px; line-height: 19px; padding: 3px; background-color: #8ec9ff ; border-color: green; border-width: 3px ; color: black">
+							X
+						</button>
+
+					</div>
+					<div class="column"
+						 style="background-color:#ffffff;text-align: center; align-content: center; position: relative;">
+						<button  onclick="sendValue()"    class="btn btn-primary" name="myChoice" value=1  
+								style="height: 50px; width: 50px; line-height: 19px; padding: 3px; background-color:#f9ff87; border-color: green; border-width: 3px ; color: black">
+							Y
+						</button>
+
+					</div>
+				
+				</div>
+					<br>
+					<br>
+
+
+					<div class="column" 
+						 style="background-color:#ffffff;text-align: center; align-content: center; position: relative;">
+
+					</div>
+				<br><br>
+			</div>
+				{{endif}}
+
+		</div>
+	
+	
+	{{ if Enable_chat }}
+		</div>
+    <div class="col-6">
+		<div class="card-body">
+		{{chat nickname=player.chat_nickname channel=player.channel_str }}	
+		</div>
+    </div>		
+</div>
+{{ endif }}
+</div>

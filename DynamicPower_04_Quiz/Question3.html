@@ -1,0 +1,70 @@
+{% extends "otree/Page.html" %}
+{% load staticfiles otree %}
+
+{% block app_styles %}
+    {% include 'DynamicPower_05_Experiment/commonCSS.html' %}
+{% endblock %}
+
+{% block scripts %}
+    {% include 'DynamicPower_05_Experiment/commonJS.html' %}
+
+    <script>
+
+	ShowTables();
+
+    </script>
+{% endblock %}
+
+
+
+
+
+{% block title %}
+    Quiz
+{% endblock %}
+
+{% block content %}
+
+		{% include 'DynamicPower_05_Experiment/commonHTML_Table.html' %}
+		<input type="hidden" name="placeholder" value="," id="id_calculatorHistory"/>
+
+
+    <div class="card-body" style="text-align: left">
+		<div style="position:relative;left: 10%;width: 80%;background-color: #ffffff">
+
+		{{ if Faction_Number_minus1 == 1 }} 
+        <p><strong style="color: blue">Question 3:</strong> Suppose you and the other participant made choices as shown in the table, 
+		{{ else }}
+		<p><strong style="color: blue">Question 3:</strong> Suppose you and the other participants made choices as shown in the table, 
+		{{ endif }} 
+		
+		{{ if End  }}
+			what will be the maximal points you can spend in this round? 
+		{{ else }}
+			what will be your points spent in this round?
+		{{ endif }}
+
+	<br> {{ if End }} <em>  Hint: In stage 2, you can spend at most what you’ve earned in stage 1. </em> 
+		{{ else }} <em>  Hint: In stage 2, you will spend {{FixedRatio}} of what you’ve earned in stage 1. </em>  
+		{{endif }}</p>
+	<center> 
+	<input  name='quiz2' id='quiz2' class='quiz' type='number' style='width: 60px;' placeholder="integer" /> points 
+	
+	
+	<p> 
+    <input type="button" onclick="SubmitFunction()" value = "Check my answer" >
+	 <p style='text-align: center; color: red;' id='quiz2_error' ></p>
+	
+	
+	
+        <p style="text-align: center;" id="quizMessage"></p>
+	</center> 	
+		
+    </div>
+	</div>
+	<center>
+<button class="otree-btn-next btn btn-primary" id="NextButton" style="display:none;">Next</button>
+    <input type="hidden" name="quizHistory2" value="," id="id_testingHistory"/>
+	</center> 
+	
+{% endblock %}

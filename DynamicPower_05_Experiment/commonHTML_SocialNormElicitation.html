@@ -1,0 +1,68 @@
+<div class="container" style="max-width: 1000px">
+ {{ if Enable_chat }}   <div class="row">
+    <div class="col-6 " id ="Table_Belief" > {{ endif }}
+		<div class="column" style="background-color:#ffffff;text-align: center;font-size: 20px">
+		<b> Question 3: How socially appropriate will MOST PEOPLE agree your actions are? </b>
+
+		</div>
+		<div>
+		<table class="table table_belief" style=" text-align: center" >
+		<tr> 
+			<th>   </th>
+			<th style="width:150px">  Very  socially inappropriate </th>
+			<th style="width:150px">  Somewhat socially inappropriate </th>  
+			<th style="width:150px">  Somewhat socially appropriate </th>
+			<th style="width:150px">  Very socially appropriate</th>  
+		</tr>
+		<tr>
+			
+			<th><button type="X_button" onclick="event.preventDefault()"> X </button> </th> 
+
+			{{ for choice in  form.mySNorm_X}}
+			<td> {{ choice }} </td>
+			{{ endfor }}
+		</tr>
+		
+		<tr>
+			<th> <button type="Y_button" onclick="event.preventDefault()"> Y </button> </th>
+			 {{ for choice in  form.mySNorm_Y}}
+				<td> {{ choice }} </td>
+			{{ endfor }}
+		</tr>
+				
+		<!-- //ID = 1; maybe later will be the fixed ID number -->
+		<!-- <tr> -->
+			<!-- <th> <button type="X_button" style="height:30px; width: 30px;"  onclick="event.preventDefault()" > X </button>  </th>  -->
+
+			<!-- <td colspan="4"> -->
+			 <!-- <input id="mySNorm_X_input" type="range" min="0"  max="100" class="slider" oninput="myNorm(this)">  -->
+			 <!-- <input type="hidden"  id="mySNorm_X" name="mySNorm_X" /> 	</td>  -->
+			<!-- <td style="border-left: hidden"> <span id='mySNorm_X_out' style="height: 20px;"> </span>  </td> -->
+		<!-- </tr> -->
+		
+		<!-- <tr> -->
+			<!-- <th> <button type="Y_button"  style="height:30px; width: 30px;"  onclick="event.preventDefault()"> Y </button> </th> -->
+			<!-- <td colspan="4"> -->
+			 <!-- <input id="mySNorm_Y_input" type="range" min="0"  max="100" class="slider" oninput="myNorm(this)">  -->
+			 <!-- <input type="hidden"  id="mySNorm_Y" name="mySNorm_Y" /> 	</td>  -->
+			 <!-- <td style="border-left: hidden"> <span id='mySNorm_Y_out' style="height: 20px;"> </span>  </td>  -->
+		<!-- </tr> -->
+		
+
+		
+		</table>
+		</div>
+	
+	{{ if Enable_chat }}
+	</div>
+    <div class="col-6">
+		<div class="card-body">
+		{{chat nickname=player.chat_nickname channel=player.channel_str }}	
+		</div>
+    </div>		
+	</div>
+	{{ endif }}
+	
+
+
+</div>

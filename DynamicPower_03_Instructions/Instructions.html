@@ -1,0 +1,52 @@
+{% extends "otree/Page.html" %}
+{% load staticfiles otree %}
+
+{% block app_styles %}
+    {% include 'DynamicPower_05_Experiment/commonCSS.html' %}
+{% endblock %}
+
+{% block scripts %}
+    {% include 'DynamicPower_05_Experiment/commonJS.html' %}
+{% endblock %}
+
+{% block title %}
+    Round Payoffs
+{% endblock %}
+
+{% block content %}
+
+    {% include 'DynamicPower_05_Experiment/commonHTML_PayoffTables.html' %}
+    <br><br>
+
+    <div class="card-body" style="text-align: left">
+
+        <p> Possible combinations of choices and the resulting payoffs
+            are summarized in the three tables above (labeled  <strong class="inlineTable2">2 Tasks in the Queue</strong>,
+            <strong class="inlineTable3">3 Tasks in the Queue</strong>, and <strong class="inlineTable4">4 Tasks in the Queue</strong>).
+            These payoffs are determined based on the revenue and costs associated with the capacity choices and the tasks in the queue. The details
+            of how the payoffs are determined will be described next, for now, we will provide a few examples of how to
+            read these summary tables. In particular, if you choose <strong class="inlineOption2" >2</strong> and the
+            participant you are paired with chooses <strong class="inlineOption2">2</strong> and there are </p>
+        <ul>
+            <li> <strong class="inlineTable2">2 Tasks in the Queue</strong>, then your payoff for the round will be 24 points, and the
+                other's payoff will be 24 points.
+            </li>
+            <li> <strong class="inlineTable3">3 Tasks in the Queue</strong>, then your payoff for the round will be 44 points, and the
+                other's payoff will be 44 points.
+            </li>
+            <li> <strong class="inlineTable4">4 Tasks in the Queue</strong>, then your payoff for the round will be 64 points, and the
+                other's payoff will be 64 points.
+            </li>
+        </ul>
+
+        <p><strong style="color: black">At the end of the experiment, your total points (accumulated across all rounds and matches) will be converted into
+            cash at the exchange rate of {{ PointsPerDollar }} points = $1. </strong></p>
+
+
+        <p style="text-align: center"><br/><br/>
+            <button class="otree-btn-next btn btn-primary" id="NextButton" style="display:inline-block;">Continue</button>
+        </p>
+
+    </div>
+
+{% endblock %}

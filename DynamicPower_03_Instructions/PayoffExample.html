@@ -1,0 +1,46 @@
+{% extends "otree/Page.html" %}
+{% load staticfiles otree %}
+
+{% block app_styles %}
+    {% include 'DynamicPower_05_Experiment/commonCSS.html' %}
+{% endblock %}
+
+{% block scripts %}
+    {% include 'DynamicPower_05_Experiment/commonJS.html' %}
+{% endblock %}
+
+{% block title %}
+    Payoff Calculation Example
+{% endblock %}
+
+{% block content %}
+
+    {% include 'DynamicPower_05_Experiment/commonHTML_PayoffCalculationsTables.html' %}
+    <br>
+
+    <div class="card-body" style="text-align: left">
+
+        <p> Possible combination of choices, tasks in the queue, and the resulting payoffs are presented in the tables above.
+            In addition, we present revenue, cost, and the fraction of the time you will work
+            associated with those combinations. For example, if in a given round there are
+            <strong class="inlineTable2">2 Tasks in the Queue</strong>, you choose <strong class="inlineOption2">2</strong> and the participant that you are paired with
+        chooses <strong class="inlineOption2">2</strong>, then
+
+        <ul>
+            <li> the total capacity is 4 (&#61; <strong class="inlineOption2">2</strong> &#43; <strong class="inlineOption2">2</strong>).</li>
+            <li> 2 tasks are processed (the smaller between <strong class="inlineTable2">2 Tasks in the Queue</strong> and the total capacity of 4).</li>
+            <li> the <strong style="color: blue">Revenue</strong> is 72 (&#61; 36 &#215; 2) </li>
+            <li> the fraction of the time you end up working T is 2/4 (&#61; (2 tasks in the queue)/(total capacity of 4))</li>
+            <li> the <strong style="color: red">Cost</strong> is 48 (&#61; 6 &#215; (2/4)<sup>2</sup> &#43; 54 &#215; (2/4) &#43; 20, rounded to the nearest integer) </li>
+            <li> your <strong style="color: green">Payoff</strong> is 24 (&#61; 72 &#8722; 48) </li>
+        </ul>
+
+        <p> The payoffs for the participant that you are paired with are calculated in the same way.</p>
+
+        <p style="text-align: center"><br/><br/>
+            <button class="otree-btn-next btn btn-primary" id="NextButton" style="display:inline-block;">Continue</button>
+        </p>
+
+    </div>
+
+{% endblock %}

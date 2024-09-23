@@ -1,0 +1,98 @@
+{% extends "DynamicPower_02e_Personality/myPage.html" %}
+{% load staticfiles otree %}
+
+
+{% block scripts %}
+
+    <!-- define a script -->
+    <script>
+
+
+
+
+    </script>
+
+{% endblock %}
+
+
+{% block title %}
+
+    Task #6 (Page 2)
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="row" style="background-color: #ffffff; padding: 5px 200px 5px 200px; font-size: 18px; text-align: justify">
+
+        Describe yourself as you generally are now, not as you wish to be in the future.
+        Describe yourself as you honestly see yourself, in relation to other people you know of the same sex as you are,
+        and roughly your same age. So that you can describe yourself in an honest manner, your
+        responses will be kept in absolute confidence. Indicate for each statement whether it is 1.
+        Very Inaccurate, 2. Moderately Inaccurate, 3. Neither Accurate Nor Inaccurate, 4. Moderately Accurate, or 5. Very Accurate as a description of you.
+
+    </div>
+
+    <div class="row">
+    <div class="column" style="background-color:white;">
+        <table class="table" id="decisionTable1">
+            {% for number,question in randomQuestionsOrder %}
+            <tr style="height: 60px;">
+                <td align="center" style="vertical-align:middle;width: 85px">#{{ number }} of {{ Constants.numQuestions }}</td>
+
+                <td align="left" style="vertical-align:middle;width: 300px;"> {{ question }} </td>
+
+                <td align="center" style="vertical-align:middle; width: 1100px;">
+                    <input type="radio" id="radio-btn-1-{{ number }}" name="radio-btns-{{ number }}">
+                    <label for="radio-btn-1-{{ number }}" onclick="updateSelection({{ number }}-10,1)" class="btn">Very Inaccurate</label>
+
+                    <input type="radio" id="radio-btn-2-{{ number }}" name="radio-btns-{{ number }}">
+                    <label for="radio-btn-2-{{ number }}" onclick="updateSelection({{ number }}-10,2)" class="btn">Moderately Inaccurate</label>
+
+                    <input type="radio" id="radio-btn-3-{{ number }}" name="radio-btns-{{ number }}">
+                    <label for="radio-btn-3-{{ number }}" onclick="updateSelection({{ number }}-10,3)" class="btn">Neither Accurate Nor Inaccurate</label>
+
+                    <input type="radio" id="radio-btn-4-{{ number }}" name="radio-btns-{{ number }}">
+                    <label for="radio-btn-4-{{ number }}" onclick="updateSelection({{ number }}-10,4)" class="btn">Moderately Accurate</label>
+
+                    <input type="radio" id="radio-btn-5-{{ number }}" name="radio-btns-{{ number }}">
+                    <label for="radio-btn-5-{{ number }}" onclick="updateSelection({{ number }}-10,5)" class="btn">Very Accurate</label>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    </div>
+
+    <input type="hidden" name="myResponses2" value=",0,0,0,0,0,0,0,0,0,0" id="id_responses"/>
+    <p style="text-align: center">
+
+        <button type="button" class="otree-btn-next btn btn-primary" id="NextButtonIncomplete" data-toggle="modal" data-target="#exampleModal" style="display:inline-block;background-color: #8f8f81; border-color: #8f8f81">Submit</button>
+        <button class="otree-btn-next btn btn-primary" id="NextButton" style="display:none;">Submit</button>
+
+    </p>
+
+
+    <!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">You have not responded to all questions...</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Please confirm that you would like to submit an incomplete questionnaire or go back and respond to the remaining questions.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Go back.</button>
+        <button name="NextButton" class="btn btn-primary btn-large">Submit Incomplete.</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

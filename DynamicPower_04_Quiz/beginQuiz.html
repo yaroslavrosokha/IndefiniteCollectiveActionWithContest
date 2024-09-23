@@ -1,0 +1,38 @@
+{% extends "DynamicPower_02_Introduction/myPage.html" %}
+{% load staticfiles otree %}
+
+{% block title %}
+    Quiz
+{% endblock %}
+
+{% block content %}
+    <div class="card bg-light instructions">
+    <div class="card-body">
+	<div style="position:relative;left: 15%;width: 75%;background-color: #ffffff">
+
+    <p align="justify">Next, there will be a quiz with 7 questions.</p>
+
+    <p align="justify">
+        You have to answer each question correctly in order to proceed to the next question.
+    </p>
+
+    <p align="justify">
+        If you answer a question incorrectly, you will see the answer. Please raise your hand if you have questions. 
+    </p>
+
+    <!-- <p align="justify"> -->
+       <!-- <strong> Throughout the quiz, you may refer to the printed instructions. </strong> -->
+    <!-- </p> -->
+
+
+    </p>
+            <p style="text-align: center"><br/>
+                <button class="otree-btn-next btn btn-primary" id="NextButton" style="display:inline-block;">Begin Quiz</button>
+            </p>
+
+    </div>
+
+    </div>
+	</div>
+
+{% endblock %}

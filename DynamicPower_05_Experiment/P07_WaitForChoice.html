@@ -1,0 +1,64 @@
+{% extends 'otree/WaitPage.html' %}
+{% load otree %}
+
+
+{% block title %}
+
+    Match #{{ player.group.matchNumber }}
+
+{% endblock %}
+
+
+{% block content %}
+    <div class="_otree-content">
+		{% include 'DynamicPower_05_Experiment/commonHTML_Table.html' %}
+
+        <br>
+
+        <div class="column" style="background-color:#ffffff;text-align: center;">
+            <p style="font-size: 18px;color: gray;z-index: 6; position: relative;">Please wait while 
+			{{ if Faction_Number_minus1 == 1 }}
+			 the other participant makes the choices.</p>
+			{{ else }}
+			 other participants make the choices.</p>
+			{{ endif }}
+			
+        </div>
+    </div>
+    <input type="hidden" name="calculatorHistory7" value="," id="id_calculatorHistory"/>
+
+{% endblock %}
+
+
+{% block app_scripts %}
+	{% include 'DynamicPower_05_Experiment/commonJS.html' %}	
+
+
+    <script>
+	
+		var select = document.getElementById('id_calculatorHistory'),
+    input = document.getElementById('calculatorHistory7');
+
+	select.addEventListener('change', function(){
+		input.value = select.value;
+	});
+
+	
+      	ShowTables();
+
+		update_ToBeDecided1();
+		// make sure the scroll bar starts from the right
+		$(document).ready(function(){
+		$('#column2').scrollLeft($(history_table).width())
+
+		})
+    </script>
+
+{% endblock %}
+
+
+{% block app_styles %}
+
+    {% include 'DynamicPower_05_Experiment/commonCSS.html' %}
+
+{% endblock %}

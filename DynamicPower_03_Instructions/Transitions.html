@@ -1,0 +1,62 @@
+{% extends "otree/Page.html" %}
+{% load staticfiles otree %}
+
+{% block app_styles %}
+    {% include 'DynamicPower_05_Experiment/commonCSS.html' %}
+{% endblock %}
+
+{% block scripts %}
+    {% include 'DynamicPower_05_Experiment/commonJS.html' %}
+{% endblock %}
+
+
+
+
+{% block title %}
+   How # of Tasks in the Queue are Determined
+{% endblock %}
+
+{% block content %}
+
+    <br>
+
+    <div class="card-body" style="text-align: left">
+
+
+        <p>In each round, a random number of new tasks will become available to join the queue. This number will be drawn at random from a
+            set of numbers {2,3,4}, with each number equally likely. We will refer to this random number as <strong style="color: red">Number of New Tasks</strong>.</p>
+        <p>To determine the <strong class="inlineTable"># of Tasks in the Queue</strong> in a given round,
+            we will use the <strong style="color: red">Number of New Tasks</strong> together with any <strong style="font-style: italic">Leftover Tasks</strong> from the previous round as follows:
+            <ul>
+            <li>In Round 1, there are no previous rounds and, therefore, <strong class="inlineTable"># of Tasks in the Queue</strong> will be equal
+                to the <strong style="color: red">Number of New Tasks</strong>.</li>
+            <li>In Round >1, <strong class="inlineTable"># of Tasks in the Queue</strong> will be determined in two steps:
+                </li>
+            <ul>
+                <li>First, we will determine the number of <strong style="font-style: italic">Leftover Tasks</strong> from the previous round.
+                    <ul>
+                        <li> If <strong class="inlineTable"># of Tasks in the Queue</strong> in the previous round is less than or equal to the <strong style="color: blue;">Total Capacity</strong>
+                            in the previous round, then the number of <strong style="font-style: italic">Leftover Tasks</strong> is 0.
+                        </li>
+                        <li> If <strong class="inlineTable"># of Tasks in the Queue</strong> in the previous round is greater than the <strong style="color: blue;">Total Capacity</strong>
+                            in the previous round, then the number of <strong style="font-style: italic">Leftover Tasks</strong> is (<strong class="inlineTable"># of Tasks in the Queue</strong> &#8722;  <strong style="color: blue;">Total Capacity</strong>).
+
+                        </li>
+                    </ul>
+                <li>Second, we will determine the <strong class="inlineTable"># of Tasks in the Queue</strong> in the current round by
+                    adding the <strong style="font-style: italic">Leftover Tasks</strong> to the <strong style="color: red">Number of New Tasks</strong> in the current round.</li>
+            </ul>
+        <li><mark style="background: yellow">Importantly, the Queue is capped at 4 tasks.</mark> That is, any tasks that arrive beyond the limit of 4 will be discarded. For example,
+            if in a given round there are 2 leftover tasks in the queue and 3 new tasks arrive that round, then the queue will contain 4 tasks and 1 will be discarded. </li>
+        </ul>
+
+        </p>
+
+
+    <p style="text-align: center"><br/>
+                <button class="otree-btn-next btn btn-primary" id="NextButton" style="display:inline-block;">Continue</button>
+    </p>
+
+    </div>
+
+{% endblock %}

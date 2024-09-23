@@ -1,0 +1,83 @@
+{% extends "otree/Page.html" %}
+{% load staticfiles otree %}
+
+
+{% block title %}
+
+    Match #{{ player.group.matchNumber }}
+
+{% endblock %}
+
+
+
+{% block content %}
+
+		{% include 'DynamicPower_05_Experiment/commonHTML_Table.html' %}
+        
+        {% include 'DynamicPower_05_Experiment/commonHTML_Effort.html' %}
+		    <input type="hidden" name="calculatorHistory8" value="," id="id_calculatorHistory"/>
+
+
+{% endblock %}
+
+
+
+{% block scripts %}
+	{% include 'DynamicPower_05_Experiment/commonJS.html' %}	
+
+
+    <script>
+	var select = document.getElementById('id_calculatorHistory'),
+		input = document.getElementById('calculatorHistory8');
+
+		select.addEventListener('change', function(){
+			input.value = select.value;
+		});
+
+	function sendValue() {
+		liveSend({ 'my_id': js_vars.my_id});
+		
+		document.getElementById('form').submit();
+	
+	}
+	
+	function liveRecv(data) {
+		console.log('received', data);
+		if (data === 'Competed') {
+			document.getElementById("NextButton").click(); 
+		}
+		// handle other types of messages here..
+	}
+	
+	ShowTables();
+	// make sure the scroll bar starts from the right
+	$(document).ready(function(){	
+	$('#column2').scrollLeft($(history_table).width())
+	})
+	
+	setTimeout(
+	function () {
+		alert("Please click 'Next' when you are ready.");
+	},
+	20*1000 // 20 seconds; 90 percentile of endoenous case T6 END
+	);
+	
+	setTimeout(
+	function () {
+		alert("Please click 'Next' when you are ready.");
+	},
+	60*1000 // 20 seconds; 90 percentile of endoenous case T6 END
+	);
+
+
+
+    </script>
+
+{% endblock %}
+
+
+{% block app_styles %}
+
+    {% include 'DynamicPower_05_Experiment/commonCSS.html' %}
+
+{% endblock %}

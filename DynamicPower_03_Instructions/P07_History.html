@@ -1,0 +1,68 @@
+{% extends "otree/Page.html" %}
+{% load staticfiles otree %}
+
+{% block app_styles %}
+    {% include 'DynamicPower_05_Experiment/commonCSS.html' %}
+{% endblock %}
+
+
+{% block scripts %}
+    {% include 'DynamicPower_05_Experiment/commonJS.html' %}
+	<script type="text/javascript" async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
+
+
+	ShowTables();
+	<!-- document.getElementById("CalculatorButton").disabled = true; -->
+	document.getElementsByClassName('CurrentRound_cell LeftBorder')[0].innerHTML = "Round 4";
+
+
+	// make sure the scroll bar starts from the right
+	$(document).ready(function(){
+    $('#column2').scrollLeft($(this).height())
+	})
+	
+	setTimeout(
+		function () {
+			alert("Please click 'Next' when you are done reading this page.");
+		},
+		120*1000 // 120 seconds
+	);
+
+
+
+    </script>
+{% endblock %}
+
+
+{% block title %}
+    How History Will be Recorded 
+	<!-- (P07_History) -->
+{% endblock %}
+
+{% block content %}
+
+		{% include 'DynamicPower_05_Experiment/commonHTML_Table.html' %}
+	 <input type="hidden" name="placeholder" value="," id="id_calculatorHistory"/>
+
+
+
+
+<br>
+    <div class="card-body" style="text-align: left">
+	
+		<div style="position:relative;left: 20%;width: 60%;background-color: #ffffff">
+
+		<br> </br>
+		
+		<p> The history of all variables will be recorded as presented in the example table above. </p>
+		<p> You will be able to see the full history of your current match by scrolling to the left of the history. </p>
+		<p> The history table will be cleared at the beginning of each new match. </p>
+
+			
+        <p style="text-align: center"> <br> </br>
+            <button class="otree-btn-next btn btn-primary" id="NextButton" style="display:inline-block;">Next</button>
+        </p>
+	</div>
+    </div>
+
+{% endblock %}

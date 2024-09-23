@@ -1,0 +1,51 @@
+{% extends "DynamicPower_02e_Personality/myPage.html" %}
+{% load staticfiles otree %}
+
+{% block title %}
+    Task #6
+{% endblock %}
+
+{% block scripts %}
+<script>
+setTimeout(
+    function () {
+        alert("Please click 'Next' when you are done reading this page.");
+    },
+    60*1000 // 60 seconds
+);
+</script>
+{% endblock %}
+
+
+{% block content %}
+    <div class="card bg-light instructions">
+    <div class="card-body">
+        <div style="position:relative;left: 25%;width: 50%;background-color: #ffffff">
+    
+
+    <p align="justify">
+        This task is made up of 66 questions. You will have 6 minutes to complete the questionnaire.
+    </p>
+
+    <p align="justify">
+        The top right-hand corner of the screen will display the time remaining.
+    </p>
+	
+	<p align="justify">
+        If this task is selected at the end of the experiment, you will get a flat payment of $4.
+    </p>
+
+    <p align="justify">
+        <b>The answers you give in the task will not affect part 2 of the experiment in any way.</b>
+    </p>
+</div>
+
+    <p style="text-align: center"><br/>
+        <button class="otree-btn-next btn btn-primary" id="NextButton" style="display:inline-block;">Begin Questionnaire</button>
+    </p>
+
+    </div>
+
+    </div>
+
+{% endblock %}

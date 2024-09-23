@@ -1,0 +1,78 @@
+{% extends "otree/Page.html" %}
+{% load staticfiles otree %}
+
+{% block app_styles %}
+    {% include 'DynamicPower_05_Experiment/commonCSS.html' %}
+{% endblock %}
+
+{% block scripts %}
+    {% include 'DynamicPower_05_Experiment/commonJS.html' %}
+
+    <script>
+
+	ShowTables()
+	// make sure the scroll bar starts from the right
+	$(document).ready(function(){
+    $('#column2').scrollLeft($(this).height())
+	})
+
+    </script>
+{% endblock %}
+
+{% block title %}
+    Quiz
+{% endblock %}
+
+{% block content %}
+
+{% include 'DynamicPower_05_Experiment/commonHTML_Table.html' %}
+ <input type="hidden" name="placeholder" value="," id="id_calculatorHistory"/>
+
+    <div class="card-body" style="text-align: left">
+		<div style="position:relative;left: 10%;width: 80%;background-color: #ffffff">
+
+        <!-- <p><strong style="color: blue">Question 7:</strong>  -->
+        <p><strong style="color: blue">Question 4:</strong> 
+		What is the probability that the match will continue to the next round? (rounded to the nearest integer)
+        <br> <em> Hint: At the end of each round the computer will roll a ten-sided fair dice. If the computer rolls a {{ CutoffRoll }} , 
+		then the match ends after the current round. </em> </p>
+		<p style="text-align: center">
+                <button class="otree-btn-next btn btn-primary" id="startMatchButton" type="button"
+                style="background-color: var(--N-color); border-color: black; color: black; font-weight: bold"
+            onclick="answerContinuation(0)">0 %</button>
+            <button class="otree-btn-next btn btn-primary" id="startMatchButton" type="button"
+                style="background-color: var(--N-color); border-color: black; color: black; font-weight: bold"
+            onclick="answerContinuation(10)">10 %</button>
+                <button class="otree-btn-next btn btn-primary" id="startMatchButton" type="button"
+                style="background-color: var(--N-color); border-color: black; color: black; font-weight: bold"
+            onclick="answerContinuation(25)">25 %</button>
+            <button class="otree-btn-next btn btn-primary" id="startMatchButton" type="button"
+                style="background-color: var(--N-color); border-color: black; color: black; font-weight: bold"
+            onclick="answerContinuation(30)">30 %</button>
+                            <button class="otree-btn-next btn btn-primary" id="startMatchButton" type="button"
+                style="background-color: var(--N-color); border-color: black; color: black; font-weight: bold"
+            onclick="answerContinuation(50)">50 %</button>
+                        <button class="otree-btn-next btn btn-primary" id="startMatchButton" type="button"
+                style="background-color: var(--N-color); border-color: black; color: black; font-weight: bold"
+            onclick="answerContinuation(60)">60 %</button>
+                            <button class="otree-btn-next btn btn-primary" id="startMatchButton" type="button"
+                style="background-color: var(--N-color); border-color: black; color: black; font-weight: bold"
+            onclick="answerContinuation(75)">75 %</button>
+                            <button class="otree-btn-next btn btn-primary" id="startMatchButton" type="button"
+                style="background-color: var(--N-color); border-color: black; color: black; font-weight: bold"
+            onclick="answerContinuation(90)">90 %</button>
+                            <button class="otree-btn-next btn btn-primary" id="startMatchButton" type="button"
+                style="background-color: var(--N-color); border-color: black; color: black; font-weight: bold"
+            onclick="answerContinuation(100)">100 %</button>
+            </p>
+
+        <p style="text-align: center; color: red;" id="quizMessage"></p>
+	
+    </div>
+	</div>
+
+	<center>
+<button class="otree-btn-next btn btn-primary" id="NextButton" style="display:none;">Next</button>
+    <input type="hidden" name="quizHistory7" value="," id="id_testingHistory"/>
+	</center>
+{% endblock %}

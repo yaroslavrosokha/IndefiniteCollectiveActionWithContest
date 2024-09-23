@@ -1,0 +1,55 @@
+<div class="container">
+  {{ if Enable_chat }}  <div class="row">
+    <div class="col-6">  {{ endif }}
+		<div class="card-body">
+			<div class="column" style="background-color:#ffffff;text-align: center;font-size: 20px">
+			In <mark_stage1> Stage 1 </mark_stage1>  of this round, you earned {{player.myPayoff }}.
+			<br>
+			<br>
+			{{ if player.session.config.Contest == "endogenous" }}
+			{{  if Show_label  }}
+			Please discuss with your group member 
+			for Round <strong > {{ player.group.roundNumber }} </strong> of Match #{{ player.group.matchNumber }} <br>
+			How many points do you want to spend in  <mark_stage2> Stage 2 </mark_stage2>? <br><br>
+			<button style="visibility: hidden;" class="otree-btn-next btn btn-primary" id="NextButton" >  </button> 
+
+			{{ else }}
+			Please decide how many points do you want to spend in  <mark_stage2> Stage 2 </mark_stage2>? <br><br>
+			<input  name="myEffort"  id="id_effort"/>
+			
+			 {{ formfield_errors 'myEffort' }}
+			<!-- {{ formfield player.myEffort label=effort_label }} <br> -->
+			
+			
+			{{ endif }}
+			
+			{{ else }}
+			
+			You will spend {{ myEffort_exo }}  to purchase the shares. 
+			
+			
+			{{ endif}} 
+			
+			<br>
+			<br>
+			<button type ="button" class="btn btn-primary" 	 style="display:inline-block;" 
+			onclick = "sendValue()">Next</button>
+			
+			
+			
+			</div>
+		</div>
+	
+	
+	{{ if Enable_chat }}
+		</div>
+    <div class="col-6">
+		<div class="card-body">
+		{{chat nickname=player.chat_nickname channel=player.channel_str }}	
+		</div>
+    </div>		
+	
+  </div>
+  {{ endif }}
+</div>
+

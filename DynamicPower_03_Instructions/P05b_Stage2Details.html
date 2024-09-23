@@ -1,0 +1,445 @@
+{% extends "otree/Page.html" %}
+{% load staticfiles otree %}
+
+{% block app_styles %}
+    {% include 'DynamicPower_05_Experiment/commonCSS.html' %}
+{% endblock %}
+
+
+
+
+{% block title %}
+   <mark_stage2> Stage 2 Examples </mark_stage2>
+	<!-- (P05_Stage2Details) -->
+{% endblock %}
+
+{% block content %}
+		{% include 'DynamicPower_05_Experiment/commonHTML_Table.html' %}
+ <input type="hidden" name="placeholder" value="," id="id_calculatorHistory"/>
+
+
+    <div class="card-body" style="text-align: left">
+		<div style="position:relative;left: 20%;width: 60%;background-color: #ffffff">
+	
+	
+	<center>
+
+		<p>To see an example, click the 'Example' button below. {{ if End}} You will need to see 5 examples. {{ endif}} </p>
+
+		<p> 
+		<button type="button" id="ShowExample" class="otree-btn-next btn btn-primary" 
+		style="left:5px; bottom:2px; height: 21px; width: 300px; line-height: 15px; padding: 3px; background-color: #1e8f27; border-color: #1e8f27;"
+		onclick="showExampleShares(this)" > Example  </button>
+		</p>
+		
+		<p  id="example_spend" style="display:none;" >  </p>
+		<button type="button"  id="example_spend_b" class="otree-btn-next btn btn-primary" 
+		style="display:none;left:5px; bottom:2px; height: 21px; width: 50px; line-height: 15px; padding: 3px; background-color: #1e8f27; border-color: #1e8f27;" 
+		onclick="NextHightlight(this, 'example_earn')" > Next </button> </p>
+
+		<p  id="example_earn" style="display:none;" >  </p>
+		<button type="button"  id="example_earn_b" class="otree-btn-next btn btn-primary" 
+		style="display:none;left:5px; bottom:2px; height: 21px; width: 50px; line-height: 15px; padding: 3px; background-color: #1e8f27; border-color: #1e8f27;" 
+		onclick="NextHightlight(this, 'example_nextShare')" > Next </button> </p>
+		
+		<p  id="example_nextShare" style="display:none;" >  </p>
+
+	</center>
+
+
+		<div style="background-color: lightgrey;"> <em>
+		<center> Recap </center>
+		            <ul>
+                <li> <strong> Your payoff of each round </strong>  = 
+				<mark_stage1>points you earn in Stage 1 </mark_stage1>- <mark_stage2> points you spend in Stage 2 </mark_stage2> </li>
+				
+                <li> The number of shares you get in the next round will be 
+						determined by what percentage of total points spent in Stage 2 was spent by you. 
+						{{ if End}} (If no one spent any point, each of you will get {{ EqualShares}} shares in the next round.) {{ endif }}</li>
+						
+				<li> At the end of each round the computer will roll a ten-sided fair dice.
+					If the computer rolls a number less than {{ CutoffRoll }}, then the match continues for at least one more round </li>
+					
+					
+					
+            </ul>
+		</em>
+
+		</div>
+		<center>
+            <button class="otree-btn-next btn btn-primary" id="NextButton" style="display:none;">Next</button>
+			<input type='hidden' name='stage2Details' value=',' id='id_testingHistory'/>
+
+         </center>
+
+</div>
+
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+{% include 'DynamicPower_05_Experiment/commonJS.html' %}
+	<script type="text/javascript" async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
+		MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        },
+        "HTML-CSS": { availableFonts: ["TeX"] }
+    });
+    
+	setTimeout(
+		function () {
+			alert("Please click 'Next' when you are done reading this page.");
+		},
+		120*1000 // 120 seconds
+	);
+
+	
+		<!-- Only generate the current table-->
+	var Card = document.getElementById("InformationTable");
+	var Card_div = document.createElement('div');
+	Card_div.className = "row";
+	Card_div.style = "justify-content: center;";
+	Card.appendChild(Card_div);	
+	
+	
+	var div_c1 =  document.createElement('div');
+	div_c1.className = "closeTable";
+	div_c1.style.width = "50px";
+	div_c1.id = "column1";
+	ShowFirstColumn(div_c1);
+	Card_div.appendChild(div_c1);
+
+	var div_c2 = document.createElement('div');
+	div_c2.className = "closeTable";
+	div_c2.style.width = "300px";
+	div_c2.id = "column2";
+	ShowCurrentTable(div_c2);
+	Card_div.appendChild(div_c2);	
+	document.getElementsByClassName('CurrentRound_cell LeftBorder')[0].innerHTML = "Example Round  ";
+
+	var div_c3 = document.createElement('div');
+	div_c3.className = "closeTable";
+	div_c3.style.width = "300px";
+	div_c3.id = "column3";
+	ShowNextTable(div_c3);
+	Card_div.appendChild(div_c3);	
+
+ <!-- Function to show Next round -->
+	function ShowNextTable(element) {
+		var tbl = document.createElement('table');
+		tbl.className = "table current_table"; 
+		tbl.id = "next_table";
+		tbl.style.display = "table";
+
+		var tr = document.createElement('tr');
+		var td = document.createElement('td');
+		td.className="CurrentRound_cell LeftBorder TopBorder RightBorder";
+		td.colSpan = "5";
+		td.innerHTML="Next Round ";
+		
+		tr.appendChild(td);
+		tbl.appendChild(tr);
+		
+		for (var row = 0; row < js_vars.Faction_Number_minus1+2 ; row++ ) {
+			var tr = document.createElement('tr');
+			var rowlength = js_vars.Current[row].length;
+			for (var i = 0; i <5; i++ ) {
+				var td = document.createElement('td');
+				td.className = "CurrentRound_cell ";
+				td.className += "col"+String(i+5);
+				td.className += " row"+String(row);
+				
+				if (i==0) {
+					td.className += " LeftBorder";
+				}
+				else if (i==4) {
+					td.className += " RightBorder";
+				}
+				
+				if (row== js_vars.Faction_Number_minus1+1) {
+					td.className += " BottomBorder";
+				}
+				if (row==0) {
+					if (i==0 ) {
+						td.innerHTML = "New Shares";
+					}
+					else {
+						td.innerHTML = js_vars.Current[x[row]][i];
+					}
+				}
+				<!-- Here the table is created by rows  -->
+				else if ( i +5 < rowlength) {					
+					td.innerHTML = js_vars.Current[x[row]][i+5];
+					}
+				else {
+						td.innerHTML = "";
+					}
+				tr.appendChild(td);
+			}
+			tbl.appendChild(tr);
+			
+		}
+		element.appendChild(tbl);
+	}
+	
+	<!-- Start with the highlighted shares.  -->
+
+	<!-- var shares = document.getElementsByClassName("col1 ");	  -->
+	<!-- shares[0].className += " top_highlight_instruction left_highlight_instruction "; -->
+	<!-- shares[1].className += " left_highlight_instruction "; -->
+	<!-- shares[2].className += " left_highlight_instruction "; -->
+	<!-- shares[3].className += " left_highlight_instruction "; -->
+	<!-- shares[4].className += " bottom_highlight_instruction left_highlight_instruction "; -->
+	<!-- var shares = document.getElementsByClassName("col2 ");	  -->
+	<!-- shares[0].className += " top_highlight_instruction  right_highlight_instruction"; -->
+	<!-- shares[1].className += "  right_highlight_instruction"; -->
+	<!-- shares[2].className += "  right_highlight_instruction"; -->
+	<!-- shares[3].className += "  right_highlight_instruction"; -->
+	<!-- shares[4].className += " bottom_highlight_instruction  right_highlight_instruction"; -->
+	
+	<!-- function Unhighlight(ele) { -->
+		<!-- var shares = document.getElementsByClassName("col1 ");	  -->
+		<!-- shares[0].className = shares[0].className.replace(" top_highlight_instruction left_highlight_instruction ",""); -->
+		<!-- shares[1].className = shares[1].className.replace(" left_highlight_instruction ", ""); -->
+		<!-- shares[2].className = shares[2].className.replace(" left_highlight_instruction ",""); -->
+		<!-- shares[3].className = shares[3].className.replace(" left_highlight_instruction ",""); -->
+		<!-- shares[4].className = shares[4].className.replace(" bottom_highlight_instruction left_highlight_instruction ",""); -->
+		<!-- var shares = document.getElementsByClassName("col2 ");	  -->
+		<!-- shares[0].className = shares[0].className.replace(" top_highlight_instruction  right_highlight_instruction", ""); -->
+		<!-- shares[1].className = shares[1].className.replace("  right_highlight_instruction",""); -->
+		<!-- shares[2].className = shares[2].className.replace("  right_highlight_instruction",""); -->
+		<!-- shares[3].className = shares[3].className.replace("  right_highlight_instruction",""); -->
+		<!-- shares[4].className = shares[4].className.replace(" bottom_highlight_instruction  right_highlight_instruction",""); -->
+
+		<!-- ele.style="display:none"; -->
+		<!-- document.getElementById("ToBeDecided3").style = "border-color: red; border-width: thick; "; -->
+		<!-- document.getElementById("line2").style = "display:block"; -->
+
+	<!-- } -->
+	
+
+	function highlightColuns(highlights) {
+		highlights[0].className += " top_highlight_instruction left_highlight_instruction right_highlight_instruction";
+		if ( js_vars.Faction_Number_minus1 == 1 ) {
+		highlights[2].className += " bottom_highlight_instruction left_highlight_instruction right_highlight_instruction";
+		highlights[1].className += " left_highlight_instruction right_highlight_instruction";
+
+		}
+		if ( js_vars.Faction_Number_minus1 != 1 ) {
+		highlights[4].className += " bottom_highlight_instruction left_highlight_instruction right_highlight_instruction";
+		for (let i = 1; i<=3 ; i++) {
+		highlights[i].className += " left_highlight_instruction right_highlight_instruction";
+		}
+		}
+		
+
+	}
+	
+	function UnhighlightColuns(highlights) {
+		highlights[0].className = highlights[0].className.replace(" top_highlight_instruction left_highlight_instruction right_highlight_instruction","");
+		if ( js_vars.Faction_Number_minus1 == 1 ) {
+		highlights[2].className = highlights[2].className .replace(" bottom_highlight_instruction left_highlight_instruction right_highlight_instruction","");
+		highlights[1].className = highlights[1].className.replace(" left_highlight_instruction right_highlight_instruction","");
+
+		}
+		if ( js_vars.Faction_Number_minus1 != 1 ) {
+		highlights[4].className = highlights[4].className .replace(" bottom_highlight_instruction left_highlight_instruction right_highlight_instruction","");
+		for (let i = 1; i<=3 ; i++) {
+			highlights[i].className = highlights[i].className.replace(" left_highlight_instruction right_highlight_instruction","");
+			}
+		}
+		
+	}
+	
+	function NextHightlight(ele, tag) {
+		ele.style.display="none";
+		document.getElementById(tag).style.display = "block";
+		
+		if (tag=='example_earn') {
+			document.getElementById(tag+'_b').style.display = "block";
+			var a = document.getElementsByClassName("CurrentRound_cell col3");
+			UnhighlightColuns(a);	
+			var b = document.getElementsByClassName("CurrentRound_cell col4 Me");
+			b[0].style = "border-color: red; border-width: thick; ";
+		}
+		if (tag == 'example_nextShare') {
+			var b = document.getElementsByClassName("CurrentRound_cell col4 Me");
+			b[0].style = "border-color: black; border-width: 1px; ";
+			var c = document.getElementsByClassName("CurrentRound_cell col5 row1");
+			c[0].style = "border-color: red; border-width: thick; ";
+			if (MyVariables.match < 5 && !js_vars.Exo) {
+			document.getElementById('ShowExample').disabled = false; 
+			}
+			else if ( MyVariables.match ==1 && js_vars.Exo) {
+			document.getElementById("NextButton").style = "display:block";
+			}	
+			else if (MyVariables.match == 5  && !js_vars.Exo ) {
+			document.getElementById("NextButton").style = "display:block";
+			}	
+		}
+
+	}
+	
+	<!-- Show the examples of different spends -->
+	var MyVariables = {period:0,match:0};
+	
+	function getRandomInt(max) {
+	  return Math.floor(Math.random() * max);
+	}
+	
+	const js1 = js_vars.Current[1];
+	const js2 = js_vars.Current[2];
+	const js3 = js_vars.Current[3];
+	const js4 = js_vars.Current[4];
+	
+	function showExampleShares(ele) {
+		document.getElementsByClassName('CurrentRound_cell LeftBorder')[0].innerHTML = "Example Round ";
+		if (js_vars.Exo) {
+			<!-- # Exo case, changes the shares -->
+
+			var mySpend =  Math.round( js_vars.fixed_ratio * js_vars.Current[1][2]);
+			var p2Spend =  Math.round( js_vars.fixed_ratio  * js_vars.Current[2][2]) ;
+
+		}
+		else {
+				<!-- # Spend can't exceed the earn -->
+		var mySpend =  Math.floor((Math.random() * js_vars.Current[1][2]) + 1);
+		var p2Spend =  Math.floor((Math.random() * js_vars.Current[2][2]) + 1);
+		}
+		var myEarn = js_vars.Current[1][2] - mySpend ; 
+		if (js_vars.Faction_Number_minus1  == 1) {	
+			var total_spend = mySpend + p2Spend ;
+		}				
+        else {
+			if (js_vars.Exo ) {
+				var p3Spend =  Math.round(  js_vars.fixed_ratio  * js_vars.Current[3][2] );
+				var p4Spend =  Math.round(  js_vars.fixed_ratio  * js_vars.Current[4][2] );
+
+			}
+			else {
+			var p3Spend =  Math.floor((Math.random() * js_vars.Current[3][2]) + 1);
+			var p4Spend =  Math.floor((Math.random() * js_vars.Current[4][2]) + 1);
+			}
+			var total_spend = mySpend + p2Spend + p3Spend + p4Spend; 
+			}
+		if (total_spend == 0 ) {
+			NewShare = Math.round(1 / (js_vars.Faction_Number_minus1 +1) * 100) ;
+			<!-- Update js_vars -->
+			js_vars.Current[1] = [js1[0], js1[1],js1[2],mySpend, myEarn, NewShare];
+			js_vars.Current[2] = [js2[0], js2[1],js2[2], p2Spend, js_vars.Current[2][2] - p2Spend, NewShare];
+			if (js_vars.Faction_Number_minus1  == 3)  {			
+				js_vars.Current[3] = [js3[0], js3[1],js3[2], p3Spend, js_vars.Current[3][2] - p3Spend, NewShare ];
+				js_vars.Current[4] = [js4[0], js4[1],js4[2], p4Spend, js_vars.Current[4][2] - p4Spend,  NewShare];
+				}
+		}
+		else {
+			NewShare = Math.round(mySpend / total_spend *100);
+			<!-- Update js_vars -->
+			js_vars.Current[1] = [js1[0], js1[1],js1[2],mySpend, myEarn, NewShare];
+			js_vars.Current[2] = [js2[0], js2[1],js2[2], p2Spend, js_vars.Current[2][2] - p2Spend, Math.round(p2Spend / total_spend *100)];
+			if (js_vars.Faction_Number_minus1  == 3)  {			
+				js_vars.Current[3] = [js3[0], js3[1],js3[2], p3Spend, js_vars.Current[3][2] - p3Spend, Math.round(p3Spend / total_spend *100) ];
+				js_vars.Current[4] = [js4[0], js4[1],js4[2], p4Spend, js_vars.Current[4][2] - p4Spend,  Math.round(p4Spend / total_spend *100)];
+				}
+		}
+		
+
+
+
+
+		var Spends = [mySpend,p2Spend, p3Spend, p4Spend, total_spend  ];
+		<!-- console.log(String(Spends)); -->
+		<!-- console.log(NewShare); -->
+		ExampleWording(Spends, NewShare, myEarn);
+		var tempElem = document.getElementById('id_testingHistory');
+		tempElem.value = tempElem.value + "E," + String(Spends)+","+String(NewShare);
+		
+		
+
+		if (!js_vars.Exo) {
+		updateText('ShowExample','Example #'+(MyVariables.match+1).toFixed(0));
+		}
+		MyVariables.match++;
+		
+		if (MyVariables.match== 5  ) {
+				ele.disabled = true;
+		}
+
+		
+		document.getElementById("current_table").remove();
+		var div_c2= document.getElementById("column2");
+		ShowCurrentTable(div_c2);
+		document.getElementsByClassName('CurrentRound_cell LeftBorder')[0].innerHTML = "Example Round";
+
+
+		document.getElementById("next_table").remove();
+		var div_c2= document.getElementById("column3");
+		ShowNextTable(div_c3);
+
+		var a = document.getElementsByClassName("CurrentRound_cell col3");
+		highlightColuns(a);
+
+
+		document.getElementById('example_spend').style = "display:block";
+		document.getElementById('example_spend_b').style.display= "block";
+
+		document.getElementById('example_earn').style.display = "none";
+		document.getElementById('example_nextShare').style.display = "none";
+
+
+		ele.disabled = true;
+
+
+
+
+	}
+	function ExampleWording(Spends,NewShare,myEarn ) {
+		if (js_vars.Exo) {
+		var spends = `<p> In stage 2, you spend ${Spends[0]} points, `
+		}
+		else {
+		var spends = `<p> Suppose you spend ${Spends[0]} points in stage 2, `
+		}
+		var nextshares = `<p> If the match continues to a new round,`
+		if (js_vars.Faction_Number_minus1  == 1) {
+			spends += ` and participants 2 spends ${Spends[1]}  points. <\p>` 
+			if (Spends[4]== 0 ) {
+				nextshares +=  `since no one spend any point, the number of shares you will own at the beginning of next round will be` +
+				` \\( \\frac{1}{2} \\times 100 = ${NewShare} \\). <\p>` 
+				}
+			else {
+				nextshares +=  `the number of shares you will own at the beginning of next round will be` +
+				` \\( \\frac{${Spends[0]}}{${Spends[0]}+${Spends[1]}} \\times 100 = ${NewShare} \\). <\p>`
+				}
+		}
+		else {
+			if (Spends[4]== 0 ) {
+				nextshares +=  `since no one spend any point, the number of shares you will own at the beginning of next round will be` +
+				` \\( \\frac{1}{4} \\times 100 = ${NewShare} \\). <\p>` 
+				}
+			else {
+				spends += `and participants 2, 3, 4 spend ${Spends[1]}, ${Spends[2]}, ${Spends[3]} points, respectively. </p>` 
+				nextshares += `the number of shares you will own at the beginning of next round will be` +
+					` \\( \\frac{${Spends[0]}}{${Spends[0]}+${Spends[1]}+${Spends[2]}+${Spends[3]}} \\times 100 = ${NewShare} \\). <\p>`
+				}
+		}
+		var earns = `<p> Your payoff in this round is ${myEarn} points. </p>`
+		
+		document.getElementById('example_spend').innerHTML = spends;
+		document.getElementById('example_earn').innerHTML = earns;
+		document.getElementById('example_nextShare').innerHTML = nextshares;
+
+		MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+		
+		
+		}
+
+
+    </script>
+{% endblock %}
+

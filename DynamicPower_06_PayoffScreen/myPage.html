@@ -1,0 +1,145 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block app_styles %}
+
+<style type="text/css">
+
+.row {
+    display: flex;
+}
+
+/* Create two equal columns that sits next to each other */
+.column {
+    flex: 50%;
+    padding: 20px;
+}
+
+table {
+    table-layout: fixed;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th {
+    height: 50px;
+}
+
+tr:nth-child(even) {
+    background-color: #F8F8F8;
+}
+
+.axis path, .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+path {
+    stroke: black;
+    stroke-width: 2;
+    fill: none;
+}
+
+.line {
+    fill: none;
+    stroke-width: 5px;
+    opacity: 0.5;
+}
+
+.line:hover {
+    opacity: 1;
+}
+
+.otree-body {
+    border: none;
+    font-family: Proxima Nova;
+    font-size: 18px;
+    position: absolute;
+    max-width: 80%;
+    left: 10%
+}
+
+.otree-title {
+    background: white;
+    font-family: Proxima Nova;
+    text-align: center;
+}
+
+.card-body {
+    background: white;
+    font-family: Proxima Nova;
+    font-size: 18px;
+}
+
+.card.bg-light.instructions{
+    padding: 0px;
+    border: none;
+}
+
+.myOuterBox{
+    font-family:  Proxima Nova;
+    text-align: center;
+    position: fixed;
+    top: 15%;
+    left: 55%;
+}
+
+.blink_me {
+    -webkit-animation-name: blinker;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: 3;
+
+    -moz-animation-name: blinker;
+    -moz-animation-duration: 1s;
+    -moz-animation-timing-function: linear;
+    -moz-animation-iteration-count: 3;
+
+    animation-name: blinker;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: 3;
+}
+
+@-moz-keyframes blinker {
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+@-webkit-keyframes blinker {
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+
+</style>
+
+{% endblock %}
+
+
+
+
+{% block app_scripts %}
+
+<script>
+
+function hide(target) {
+    var x = document.getElementById(target);
+    x.style.display = "none";
+}
+
+function show(target) {
+    var x = document.getElementById(target);
+    x.style.display = "block";
+}
+
+function deleteElement(elementID){
+      var element = document.getElementById(elementID);
+      element.parentNode.removeChild(element);
+ }
+</script>
+
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "otree/Page.html" %}
+{% load staticfiles otree %}
+
+{% block app_styles %}
+    {% include 'DynamicPower_05_Experiment/commonCSS.html' %}
+{% endblock %}
+
+{% block scripts %}
+    {% include 'DynamicPower_05_Experiment/commonJS.html' %}
+{% endblock %}
+
+{% block title %}
+    How Round Payoffs are Determined
+{% endblock %}
+
+{% block content %}
+
+    <br><br>
+
+    <div class="card-body" style="text-align: left">
+
+        <p> Your payoff in a given round is the difference between the  <strong style="color: blue">Revenue</strong>  that you get and the  <strong style="color: red">Cost</strong> that you incur from processing tasks.</p>
+
+        <p> The  <strong style="color: blue">Revenue</strong>  is a function of the tasks processed by you and the participant you are paired with. Specifically,
+             you will receive <strong style="color: blue">36 points per task</strong> processed.</p>
+
+        <p> The <strong style="color: red">Cost</strong> is a function of your capacity choice and the fraction
+            of the time that you end up working in that round (which we denote <strong style="color: red">T</strong>).
+            We calculate T as the smaller between 1 and the ratio of (# of Tasks in the Queue) and (Total Capacity).
+            That is, if the total capacity in a given round is less than or equal to the # of tasks
+            in the queue, then you work the whole round (T=1). However, if the total capacity in a given round is larger
+            than the # of tasks in the queue, then the fraction of the time that you work is T=(# of Tasks in the Queue) / (Total Capacity).
+            For example, if in a given round the total capacity is 4, and there are 3 tasks in the queue, then
+            3 tasks will be processed and the fraction of the time you work in that round will be 3/4. </p>
+
+        <p> The cost function is increasing in your capacity choice and the fraction of the time you work as follows:
+            <ul>
+
+                <li>if you choose to allocate  <strong class="inlineOption1">1</strong> unit,
+            your cost is (2 &#215; T<sup>2</sup> + 18 &#215; T + 20)</li>
+                <li>if you choose to allocate <strong class="inlineOption2">2</strong> units, your cost is
+            (6 &#215; T<sup>2</sup> + 54 &#215; T + 20)</li>
+
+            </ul>
+        </p>
+
+        <p> The payoffs for the participant that you are paired with are calculated in the same way.</p>
+
+        <p> Next, we will consider a specific example.</p>
+
+        <p style="text-align: center"><br/><br/>
+            <button class="otree-btn-next btn btn-primary" id="NextButton" style="display:inline-block;">Continue</button>
+        </p>
+
+    </div>
+
+{% endblock %}

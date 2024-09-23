@@ -1,0 +1,90 @@
+{% extends "otree/Page.html" %}
+{% load staticfiles otree %}
+
+{% block app_styles %}
+    {% include 'DynamicPower_05_Experiment/commonCSS.html' %}
+{% endblock %}
+
+{% block scripts %}
+    {% include 'DynamicPower_05_Experiment/commonJS.html' %}
+
+    <script>
+
+	ShowTables()
+	// make sure the scroll bar starts from the right
+	$(document).ready(function(){
+    $('#column2').scrollLeft($(this).height())
+	})
+	
+	document.getElementById("effort_input").innerHTML = `${js_vars.effort_input[0]}, ${js_vars.effort_input[1]}, ${js_vars.effort_input[2]}, ${js_vars.effort_input[3]} `;
+
+    </script>
+{% endblock %}
+
+{% block title %}
+    Quiz
+{% endblock %}
+
+{% block content %}
+
+{% include 'DynamicPower_05_Experiment/commonHTML_Table.html' %}
+ <input type="hidden" name="placeholder" value="," id="id_calculatorHistory"/>
+
+	
+    <div class="card-body" style="text-align: left">
+	<div style="position:relative;left: 10%;width: 80%;background-color: #ffffff">
+
+        <!-- <p><strong style="color: blue">Question 5:</strong>  -->
+		<!-- {{ if Faction_Number_minus1 == 1 }}  -->
+		<!-- If  you and the other participant both choose {{ action_Y_button }} in this round, -->
+		<!-- {{ else }} -->
+		<!-- If you and other participants all choose {{ action_Y_button }} in this round, -->
+		<!-- {{ endif }} -->
+		<!-- what will your earnings be?   -->
+	<!-- <br> <em> Hint: If you open the calculator and select Y for you and select Y for all other participants,  -->
+	<!-- your earnings from stage 1 are presented in the first row of the ‘Earn’ column. </em> </p>	 -->
+	<!-- <center>  -->
+	<!-- <input  name='quiz4' id='quiz4' class='quiz' type='number' step="0.01" style='width: 60px;'  />   -->
+	<!-- <p style='text-align: center; color: red;' id='quiz4_error' ></p> -->
+	
+	<!-- </center>  -->
+	
+        <p><strong style="color: blue">Question 5:</strong> 
+		{{ if End }} 
+		If each of you spent 10% of the earnings (round to the nearest integer),  
+		{{ endif }}
+		what will your shares in the next round be? 
+		<!-- <p>  -->
+		<!-- <input type="button"  value = "Show me the hint" onclick="show('effort_input')"> -->
+		<!-- <span id = "effort_input" style="display: none"></span> </p> -->
+		
+		<br> <em> Hint: 10% of the earnings in stage 1 correspond to <span id = "effort_input"> </span> points respectively. 
+		If you open the calculator and specify the current scenario, ‘New Shares’ column will present the shares in the next round.  </em></p>
+	<!-- <p> 	You can also calculate it by using the formula   \( \frac{\text{points spent by you} }{ \text{points spent by all participants in the match}} \times 100  \) </p> -->
+
+
+	<center> 
+	<input  name='quiz5' id='quiz5' class='quiz' type='number' step="0.01" style='width: 60px;'  />  
+	<p style='text-align: center; color: red;' id='quiz5_error' ></p>
+	</center> 
+	
+	<p><strong style="color: blue">Question 6:</strong> 
+		In the next round, if all of you choose {{ action_Y_button }}  , 
+		what will your earnings be?  
+	<br> <em> Hint: Use the "import" button to import the new shares to the "Current share" column, select Y for you and all other participants,  
+		your earnings from stage 1 are presented in the first row of the ‘Stage 1 Earn’ column.	</em> </p>	
+	<center> 
+	<input  name='quiz6' id='quiz6' class='quiz' type='number' step="0.01" style='width: 60px;'  />  
+	<p style='text-align: center; color: red;' id='quiz6_error' ></p>
+	
+	<p> 
+    <input type="button" onclick="SubmitFunction()" value = "Check my answer" >
+	<!-- <p style="text-align: center;" id="quizMessage"></p> -->
+	</center> 	
+		
+    </div>
+	</div>
+	<center>
+	<button class="otree-btn-next btn btn-primary" id="NextButton" style="display:none;">Next</button>
+    <input type="hidden" name="quizHistory4" value="," id="id_testingHistory"/>
+	</center> {% endblock %}

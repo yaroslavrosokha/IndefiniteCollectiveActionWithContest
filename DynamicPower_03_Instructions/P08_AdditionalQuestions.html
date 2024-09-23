@@ -1,0 +1,55 @@
+{% extends "otree/Page.html" %}
+{% load staticfiles otree %}
+
+
+{% block scripts %}
+<script>
+
+	setTimeout(
+		function () {
+			alert("Please click 'Next' when you are done reading this page.");
+		},
+		120*1000 // 120 seconds
+	);
+</script>
+
+
+{% endblock %}
+
+
+{% block app_styles %}
+
+    {% include 'DynamicPower_05_Experiment/commonCSS.html' %}
+
+{% endblock %}
+
+{% block title %}
+    Additional Questions
+{% endblock %}
+
+{% block content %}
+    <div class="card-body" style="text-align: left">
+	<div style="position:relative;left: 20%;width: 60%;background-color: #ffffff">
+	{{ if End }}
+	    <p>In addition to the decisions at stage 1 and stage 2, you will be asked three questions in each round of the first and last match:
+    </p>
+	{{ else }}
+    <p>In addition to the decisions at stage 1 and stage 2, you will be asked three questions in each round of the first, 10th, and last match:
+    </p>
+	{{ endif }} 
+	<ul> 
+		<li> <strong> Q1 </strong> 
+				What do you think the chances are that {{ theotherParticipant }} will choose 
+				 {{ action_X_button }} or {{ action_Y_button }}? </li>
+		<li>  <strong> Q2 </strong>   How appropriate do YOU think your choices in this round are? </li> 
+		<li>  <strong> Q3 </strong>  How socially appropriate will MOST PEOPLE agree your actions are? </li> 
+	</ul>
+	
+	<p>  Next, we will provide more details regarding each of the questions.</p>
+	</div>
+            <p style="text-align: center"><br/>
+                <button class="otree-btn-next btn btn-primary" id="NextButton" style="display:inline-block;">Next</button>
+            </p>
+</div>
+
+{% endblock %}

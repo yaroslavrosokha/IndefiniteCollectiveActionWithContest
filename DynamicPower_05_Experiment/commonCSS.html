@@ -1,0 +1,454 @@
+<style type="text/css">
+
+    :root {
+        --C-color: #f9ff87;
+        --D-color: #8ec9ff;
+        --R-color: rgba(255,0,0,0.30);
+        --G-color: rgba(0,130,0,0.30);
+        --B-color: rgba(0,0,130,0.30);
+        --N-color: rgba(155, 155, 155, 0.30);
+        --cell-width: 50px;
+        --cell-height: 35px;
+        --line-height-small: 30px;
+        --line-height-regular: 45px;
+        --label-width: 250px;
+        --line1-top: 10px;
+        --line2-top: 60px;
+        --line3-top: 110px;
+        --line4-top: 160px;
+        --line5-top: 210px;
+        --line6-top: 245px;
+        --line7-top: 280px;
+        --inner-container-height: 315px;
+    }
+
+	table {
+	  border: 1px solid black;
+	  border-collapse: collapse;
+	  table-layout : fixed; 
+	}
+	
+	<!-- .current_table{ -->
+	<!-- display : table; -->
+	<!-- } -->
+	<!-- .calculator{ -->
+	<!-- display : none; -->
+	<!-- } -->
+	.Calculator_cell {
+		width: 500px;
+		height: 50px;
+		background-color: lightblue;
+		border: 1px solid black;
+		}
+	.table_belief {
+		border: hidden;
+		border-collapse: collapse;
+		width: 100%;
+	}	
+	.CurrentRound_row {
+	}
+	.CurrentRound_cell {
+		width: 50px;
+		height: 50px;
+		background-color: aliceblue;
+		border: 1px solid black;
+		}
+    .ChooseC_1 {
+    	background-color: #f9ff87 ;
+        }
+     .ChooseD_0 {
+         	background-color: #8ec9ff;
+     }
+	 .stage1 {
+		background-color: #ACE1AF ;
+		color: black;  
+		}		
+	 .stage2 {
+		background-color: rgb(230, 179, 179) ;
+		color: black;
+	 }
+	.History_title {
+		height: 57px;
+		width: 15px;
+		-moz-transform: rotate(-90.0deg);  /* FF3.5+ */
+		   -o-transform: rotate(-90.0deg);  /* Opera 10.5 */
+	  -webkit-transform: rotate(-90.0deg);  /* Saf3.1+, Chrome */
+				 filter:  progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083);  /* IE6,IE7 */
+			 -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083)"; /* IE8 */
+		font-size: 14px;
+		
+	}
+
+	.HistoryRound_cell {
+		width: 15px;
+		height: 50px;
+		text-orientation: upright;
+		color: grey;
+		border: 1px solid grey;
+	}
+    
+.DiceLabel{
+	color: grey;
+    font-size: 12px;
+    text-align: right;
+	border: 1px solid white;
+    height: 50px;
+    background-color: initial;
+}
+	.Me {
+		font-weight: bold;
+	}
+	.LeftBorder {
+		border-left: 3px solid black;
+	}
+	.TopBorder {
+		border-top: 3px solid black;
+	}
+	.RightBorder {
+		border-right: 3px solid black;
+	}
+	.BottomBorder{
+		border-bottom: 3px solid black;
+	}
+	.Me_emphasize{
+		border: 3px solid black;
+	}
+	th {
+		width: 50px;
+        height: 50px;
+		text-align: center;
+		font-weight: normal;
+		border: 1px solid black;
+        background-color: aliceblue;
+	}
+	td {
+		text-align: center;
+		border: 1px solid black;
+	}
+
+	.outer {
+	  position: relative;
+	}
+	.inner {
+	  overflow-x: scroll;
+	  overflow-y: visible;
+	  width: 450px; 
+	  margin-left: 0px;
+	  
+
+	}  
+.row_self {
+  margin-left:20px;
+  margin-right:0px;
+}
+ .column {
+        flex: 25%;
+        padding: 20px 50px 0px 50px;
+    }
+.closeTable {
+	float : left;
+	padding-right : 0px;
+	padding-left: 0px;
+	}
+.calculator {
+	float : left;
+	padding-right : 0px;
+	padding-left: 0px;
+	z-index: 16777271;
+	}
+		
+.overlay { 
+	z-index: 16777271;
+    <!-- position: fixed; -->
+    <!-- top: 0; -->
+    <!-- right: 0; -->
+    <!-- bottom: 0; -->
+    <!-- left: 0; -->
+    <!-- background: rgba(0,0,0,.8); -->
+	}
+
+.ChooseC_1 {
+  background-color: #f9ff87 ;
+}
+.ChooseD_0 {
+  background-color: #8ec9ff;
+}
+
+mark {
+  background-color: #f9ff87 ;
+  color: black;
+}
+mark_table {
+  background-color: aliceblue ;
+  color: black;
+}
+mark_calculator {
+  background-color: lightblue ;
+  color: black;
+}
+mark_stage1 {
+  background-color: #ACE1AF ;
+  color: black;
+}
+mark_stage2 {
+  background-color: rgb(230, 179, 179) ;
+  color: black;
+}
+mark_production {
+  background-color: rgb(240, 230, 140) ;
+  color: black;
+}
+input[type='X_button'] {
+  height: 30px;
+  width: 30px;
+  line-height: 15px;
+  padding: 5px;
+  background-color: #8ec9ff;
+  border-width: 3px;
+  border-color: white;
+  color: grey;
+  cursor: pointer;
+}
+input[type='Y_button'] {
+  height: 30px;
+  width: 30px;
+  line-height: 15px;
+  padding: 5px;
+  background-color: #f9ff87;
+  border-width: 3px;
+  border-color: white;
+  color: grey;
+  cursor: pointer;
+}
+button[type = 'X_button']{
+
+height: 50px; 
+width: 50px; 
+line-height: 19px; 
+padding: 3px; 
+background-color: #8ec9ff ; 
+border-color: green; 
+border-width: 3px ; 
+color: black"
+}
+
+button[type = 'Y_button']{
+
+height: 50px; 
+width: 50px; 
+line-height: 19px; 
+padding: 3px; 
+background-color:#f9ff87; 
+border-color: green; 
+border-width: 3px ; 
+color: black"
+
+}
+
+input[type="range" ] {
+	padding: 0px;
+	border: 0px;
+	height: 18px;
+	line-height: 5px;
+}
+
+input[type="number_X" ] {
+	padding: 0px;
+	border-color: black; 
+	border-width: 3px ; 
+	height: 30px;
+	width : 50px; 
+	line-height: 5px;
+	text-align: center;
+}
+input[type="number_Y" ] {
+	padding: 0px;
+	border-color: white; 
+	border-width: 0px ; 
+	height: 30px;
+	width : 50px; 
+	line-height: 5px;
+	text-align: center;
+}
+input[type="button" ] {
+	border-radius: 0;
+	padding: 0px;
+	border-bottom-width: 0px;
+	height: 20px;
+	line-height: 5px;
+	background-color: #0d6efd;
+    border-color: #0d6efd;
+	color: #fff;
+}
+input[type="button_e" ] {
+	color: red; 
+	border-width: 3px ; 
+	height: 30px;
+	line-height: 10px;
+	background-color: white;
+    border-color: #0d6efd;
+	text-align: center;
+}
+
+input[type="radio" ] {
+	border-radius: 50%;
+	width: 30px; 
+	height: 30px;
+}
+.effort {
+  float:left;
+  width: 50%;
+  height: 20px;
+}
+.payoff {
+  float:right;
+  width: 50%;
+  height: 20px;
+}
+.slider {
+  width: 100%;
+  height: 5px;
+}
+
+
+.overlay-inner {
+    height: 50%; /* Set your own height: percents, ems, whatever! */
+    width: 50%; /* Set your own width: percents, ems, whatever! */
+    overflow: auto; /* Recommended in case content is larger than the container */
+    margin: auto; /* Center the item vertically & horizontally */
+    position: absolute; /* Break it out of the regular flow */
+    top: 0; left: 0; bottom: 0; right: 0; /* Set the bounds in which to center it, relative to its parent/container */
+}
+
+.card-body {
+    flex: 1 1 auto;
+    padding: 0rem 1rem;
+}
+
+.column_quiz_left {
+    float: left;
+	width: 20%;
+	padding-left: 100px;
+    
+}
+.column_quiz_middle {
+	float: left;
+	width: 40%;
+}
+
+.column_quiz_right {
+	float: left;
+	width: 80%;
+	color: red;
+}
+
+.top_highlight_instruction {
+	border-top-width: thick;
+	border-top-color: red;
+	}
+.left_highlight_instruction {
+	border-left-width: thick;
+	border-left-color: red;
+	}	
+.right_highlight_instruction {
+	border-right-width: thick;
+	border-right-color: red;
+	}	
+.bottom_highlight_instruction {
+	border-bottom-width: thick;
+	border-bottom-color: red;
+	}
+<!-- This part defines the screen size and page properties -->
+   ._otree-content {
+        padding: 0px 50px 0px 50px;
+        text-align: center;
+        {#border: solid cyan;#}
+    }
+
+    .otree-body {
+
+        font-family: Proxima Nova;
+        font-size: 18px;
+        position: absolute;
+        width: 1678px;
+        height: 1048px;
+        max-width: 1678px;
+        max-height: 1048px;
+        border: solid black;
+    }
+
+    .otree-title {
+        background: white;
+        font-family: Proxima Nova;
+        text-align: center;
+    }
+
+    .otree-title.page-header {
+        font-family: Proxima Nova;
+        text-align: center;
+        padding: 0px;
+        {#border: dashed deepskyblue;#}
+    }
+
+    .progress{
+        position: relative;
+        bottom: 0;
+    }
+
+
+    .otree-wait-page {
+
+        font-family: Proxima Nova;
+        font-size: 18px;
+        position: absolute;
+        width: 1678px;
+        height: 1048px;
+        max-width: 1678px;
+        max-height: 1048px;
+        border: solid black;
+        top: 0px;
+        background: white;
+
+    }
+
+    .otree-wait-page.container {
+        padding: 0px;
+        top: 0px;
+
+    }
+
+    .otree-body.container {
+        padding: 0px;
+        top: 0px;
+
+    }
+
+    .otree-wait-page__title {
+        background: white;
+        font-family: Proxima Nova;
+        text-align: center;
+        {#border: dashed darkmagenta;#}
+        top: 0px;
+    }
+
+    .otree-wait-page__title.card-header {
+        font-family: Proxima Nova;
+        text-align: center;
+        padding: 0px;
+        font-size: 32px;
+        {#border: dashed deeppink;#}
+        margin: 0px 0px;
+    }
+	.card-header {
+	    border-bottom: 0px;
+	}
+	.card {
+	box-shadow : none;
+	border: 0px;
+	word-wrap: normal;
+	}
+	.otree-form-errors {
+		display: none;
+	}
+
+</style>

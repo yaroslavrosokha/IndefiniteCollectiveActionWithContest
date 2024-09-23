@@ -1,0 +1,60 @@
+{% extends "otree/Page.html" %}
+{% load staticfiles otree %}
+
+
+{% block title %}
+
+    Match #{{ player.group.matchNumber }}
+
+{% endblock %}
+
+
+
+{% block content %}
+
+		{% include 'DynamicPower_05_Experiment/commonHTML_Table.html' %}
+
+
+        {% include 'DynamicPower_05_Experiment/commonHTML_BeliefElicitation.html' %}
+        <br> </b>
+		<!-- <center> -->
+		<!-- <p> <em> You may refer to printed instructions for a reminder about Question 1.  </em> </p> -->
+		<!-- </center> -->
+		
+		<button class="otree-btn-next btn btn-primary" style="position: relative; margin-left:auto; left: 50% ">Next</button>
+		    <input type="hidden" name="calculatorHistory4" value="," id="id_calculatorHistory"/>
+
+{% endblock %}
+
+
+
+{% block scripts %}
+	{% include 'DynamicPower_05_Experiment/commonJS.html' %}	
+
+    <script>
+	
+	
+	ShowTables();
+	update_ToBeDecided1();
+	// make sure the scroll bar starts from the right
+	$(document).ready(function(){
+    $('#column2').scrollLeft($(history_table).width())
+
+	})
+	var select = document.getElementById('id_calculatorHistory'),
+    input = document.getElementById('calculatorHistory4');
+
+	select.addEventListener('change', function(){
+		input.value = select.value;
+	});
+	
+    </script>
+
+{% endblock %}
+
+
+{% block app_styles %}
+
+    {% include 'DynamicPower_05_Experiment/commonCSS.html' %}
+
+{% endblock %}

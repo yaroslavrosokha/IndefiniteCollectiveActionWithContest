@@ -1,0 +1,70 @@
+{% extends "otree/Page.html" %}
+{% load staticfiles otree %}
+
+{% block app_styles %}
+    {% include 'DynamicPower_05_Experiment/commonCSS.html' %}
+{% endblock %}
+
+{% block scripts %}
+    {% include 'DynamicPower_05_Experiment/commonJS.html' %}
+    <script>
+
+        MyVariables = {'period':0};
+        ShowHistory();
+
+    </script>
+{% endblock %}
+
+
+
+
+{% block title %}
+   Example
+{% endblock %}
+
+{% block content %}
+
+    {% include 'DynamicPower_05_Experiment/commonHTML_History.html' %}
+    <br>
+
+    <div class="card-body" style="text-align: left">
+
+    <p>The following example is visualized in the above history:</p>
+    <ul>
+        <li>Suppose that in Round 1, the <strong style="color: red">Number of New Tasks</strong> is <strong style="color: red">4</strong>, then there are <strong class="inlineTable4">4 Tasks in the Queue</strong> in Round 1.</li>
+            <li>If you choose <strong class="inlineOption1">1</strong> while the participant you are paired with chooses <strong class="inlineOption2">2</strong>, then
+                your payoff for Round 1 will be 68 points, and the other's payoff will be 28 points.</li>
+            <li>Suppose that in Round 2 the <strong style="color: red">Number of New Tasks</strong> is <strong style="color: red">2</strong>, then there are <strong class="inlineTable3">3 Tasks in the Queue</strong> in Round 2.
+                <ul>
+                    <li>First, we determine that <strong style="font-style: italic">1</strong>(=4&#8722;[1+2]) <strong style="font-style: italic">Leftover Task</strong>
+                        remains in the queue at the end of Round 1.</li>
+                    <li>Second, we add this <strong style="font-style: italic">Leftover Task</strong> to the <strong style="color: red">Number of New Tasks</strong> and
+                    determine that for the Round 2, # of tasks in the queue is <strong class="inlineTable3">3</strong>
+                        (=<strong style="font-style: italic">1</strong>+<strong style="color: red">2</strong>).</li>
+                </ul>
+            </li>
+        <li>If you choose <strong class="inlineOption2">2</strong> and the participant you are paired with chooses <strong class="inlineOption2">2</strong>, then
+                your payoff for Round 2 will be 44 points, and the other's payoff will be 44 points.</li>
+         <li>Suppose that in Round 3 the <strong style="color: red">Number of New Tasks</strong> is <strong style="color: red">2</strong>, then there are <strong class="inlineTable2">2 Tasks in the Queue</strong> in Round 3.
+                <ul>
+                    <li>First, we determine that there were  <strong style="font-style: italic">no</strong> <strong style="font-style: italic">Leftover Task</strong>
+                        at the end of Round 2 (Total Capacity &#8807; 3).</li>
+                    <li>Therefore the  # of tasks in the queue is equal to the <strong style="color: red">Number of New Tasks</strong> in Round 3, which means that # of tasks in the queue is <strong class="inlineTable2">2</strong>
+                        (=<strong style="font-style: italic">0</strong>+<strong style="color: red">2</strong>).</li>
+                </ul>
+        </li>
+        <li>If you choose <strong class="inlineOption2">2</strong> and the participant you are paired with chooses <strong class="inlineOption1">1</strong>, then
+                your payoff for Round 3 will be 14 points, and the other's payoff will be 40 points.</li>
+
+
+    </ul>
+
+
+
+    <p style="text-align: center"><br/>
+                <button class="otree-btn-next btn btn-primary" id="NextButton" style="display:inline-block;">Continue</button>
+    </p>
+
+    </div>
+
+{% endblock %}

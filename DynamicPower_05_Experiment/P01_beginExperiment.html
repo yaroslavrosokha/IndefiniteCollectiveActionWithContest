@@ -1,0 +1,55 @@
+{% extends "otree/Page.html" %}
+{% load staticfiles otree %}
+
+
+{% block scripts %}
+
+{% endblock %}
+
+
+{% block app_styles %}
+
+    {% include 'DynamicPower_05_Experiment/commonCSS.html' %}
+
+{% endblock %}
+
+{% block title %}
+    Reminders
+{% endblock %}
+
+{% block content %}
+
+    <p>
+	<div style="position:relative;left: 20%;width: 60%;background-color: #ffffff">
+
+        <ol style="text-align: left">
+            <li>Part 2 of the experiment is made up of {{ Matches }} matches. </li><br/>
+			
+			{% if Faction_Number_minus1 == 1 %}
+            <li>At the start of each match you will be randomly paired with another participant.</li><br/>
+			{% else %}
+			<li>At the start of each match you will be randomly paired with {{Faction_Number_minus1 }} other participants.</li><br/>
+			{% endif %}
+			
+            <li>In each round of a match you will select either X or Y. The other participant will also select either X or Y.</li><br/>
+            <li>The match will last a random number of rounds.</li><br/>
+			
+			{% if Faction_Number_minus1 == 1 %}
+            <li>When the match ends, you will again be randomly paired with another participant for the next match.</li><br/>
+			{% else %}
+			<li>When the match ends, you will again be randomly paired with {{Faction_Number_minus1 }} other participants. for the next match.</li><br/>
+			{% endif %}
+			
+			
+            <li>At the end of the experiment, your total points from Part 2 will be converted into
+              cash at the exchange rate of {{ PointsPerDollar }} points = $1. In addition, you will be paid your earnings from Part 1 and the show-up
+            fee of ${{ ShowUpFee }}.</li><br/>
+        </ol>
+
+    </p>
+            <p style="text-align: center"><br/>
+                <button class="otree-btn-next btn btn-primary" id="NextButton" style="display:inline-block;">Begin Experiment</button>
+            </p>
+</div>
+
+{% endblock %}

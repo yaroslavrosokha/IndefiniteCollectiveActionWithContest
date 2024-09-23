@@ -1,0 +1,66 @@
+{% extends "otree/Page.html" %}
+{% load staticfiles otree %}
+
+
+{% block title %}
+
+    Question 2 Instructions
+	<!-- (P10_PersonalNormElicitation) -->
+
+{% endblock %}
+
+
+
+{% block content %}
+    <div class="card-body" style="text-align: left">
+	<div style="position:relative;left: 20%;width: 60%;background-color: #ffffff">
+	Question 2 and the response table are presented below. 
+	During the experiment, you will need to enter your evaluation for your action {{ action_X_button }} and your action  {{ action_Y_button }}.
+	
+	<br>
+	
+	
+	{% include 'DynamicPower_05_Experiment/commonHTML_PersonalNormElicitation.html' %}
+        </b>
+		
+	
+	
+	<p> 	We ask you to truthfully report your evaluation. 
+	You will get {{ FixedNormPay }} points for any answer you provide.</p>
+		
+	<p> By appropriate, we mean behavior that you think is the "correct" or "ethical" thing to do.
+		You can think both actions are appropriate or inappropriate.  
+	</p>
+
+	
+		
+		
+		<button class="otree-btn-next btn btn-primary" style="position: relative; margin-left:auto; left: 50% ">Next</button>
+</div> 
+</div> 
+{% endblock %}
+
+
+
+{% block scripts %}
+	{% include 'DynamicPower_05_Experiment/commonJS.html' %}	
+
+	<script type="text/javascript" async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
+	setTimeout(
+		function () {
+			alert("Please click 'Next' when you are done reading this page.");
+		},
+		120*1000 // 120 seconds
+	);
+
+
+    </script>
+
+{% endblock %}
+
+
+{% block app_styles %}
+
+    {% include 'DynamicPower_05_Experiment/commonCSS.html' %}
+
+{% endblock %}

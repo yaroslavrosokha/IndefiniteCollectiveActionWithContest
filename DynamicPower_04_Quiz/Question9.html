@@ -1,0 +1,73 @@
+{% extends "otree/Page.html" %}
+{% load staticfiles otree %}
+
+{% block app_styles %}
+    {% include 'DynamicPower_05_Experiment/commonCSS.html' %}
+{% endblock %}
+
+{% block scripts %}
+    {% include 'DynamicPower_05_Experiment/commonJS.html' %}
+		<script>
+		ShowTables();	
+			// make sure the scroll bar starts from the right
+	$(document).ready(function(){
+    $('#column2').scrollLeft($(history_table).width())
+
+	})
+	
+
+	</script>
+{% endblock %}
+
+
+
+
+{% block title %}
+    Quiz
+{% endblock %}
+
+{% block content %}
+
+
+		{% include 'DynamicPower_05_Experiment/commonHTML_Table.html' %}
+		<input type="hidden" name="placeholder" value="," id="id_calculatorHistory"/>
+
+    <div class="card-body" style="text-align: left">
+		<div style="position:relative;left: 10%;width: 80%;background-color: #ffffff">
+
+
+        <!-- <p><strong style="color: blue">Question 8:</strong> -->
+        <p><strong style="color: blue">Question 5:</strong>
+		(True or False)
+		
+		{{ if End }}
+		If {{ if Faction_Number_minus1 == 1  }} the other participant  spends
+			{{ else }} the other participants each spend
+			{{ endif }}
+			 10 points in Stage 2, 
+			then you will get more shares in the next round if you spend more than 10 points. 
+		{{ else }}
+		The more earn you obtain in the current round, the more shares you will have in the next round. 
+		{{ endif }}
+		
+		
+        <p style="text-align: center">
+                <button class="otree-btn-next btn btn-primary" id="startMatchButton" type="button"
+            onclick="correctAnswer('This is correct.')">
+				True </button>
+            <button class="otree-btn-next btn btn-primary" id="startMatchButton" type="button"
+            onclick="incorrectAnswer('This is incorrect. Please raise your hand if you have questions. ')">
+				False </button>
+                       
+            </p>
+
+        <p style="text-align: center; color: red;" id="quizMessage"></p>
+
+
+    </div>
+	</div>
+	<center>
+<button class="otree-btn-next btn btn-primary" id="NextButton" style="display:none;">Next</button>
+    <input type="hidden" name="quizHistory8" value="," id="id_testingHistory"/>
+	</center> 
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'otree/WaitPage.html' %}
+{% load otree %}
+
+{% block app_styles %}
+
+    {% include 'DynamicPower_05_Experiment/commonCSS.html' %}
+
+{% endblock %}
+{% block title %}
+{% endblock %}
+
+
+{% block content %}
+    <div class="_otree-content">
+		{% include 'DynamicPower_05_Experiment/commonHTML_Table.html' %}
+
+        <br>
+
+        <div class="column" style="background-color:#ffffff;text-align: center;">
+            <p style="font-size: 18px;color: gray;z-index: 6; position: relative;">
+			Please wait for other participants to finish the instructions and the quiz.
+			While you wait, you may use the calculator to check different scenarios..
+			
+        </div>
+    </div>
+    <input type="hidden" name="calculatorHistory0" value="," id="id_calculatorHistory"/>
+
+{% endblock %}
+
+
+{% block app_scripts %}
+	{% include 'DynamicPower_05_Experiment/commonJS.html' %}	
+
+
+    <script>
+	
+		var select = document.getElementById('id_calculatorHistory'),
+    input = document.getElementById('calculatorHistory0');
+
+	select.addEventListener('change', function(){
+		input.value = select.value;
+	});
+
+	
+      	ShowTables();
+		document.getElementsByClassName('CurrentRound_cell LeftBorder')[0].innerHTML = "Practice Round <input  type='button'  onclick='Calculator()' id='CalculatorButton' value='Calculator' > </input>";
+		document.getElementById('calculator').style.display = "table";
+		update_ToBeDecided1();
+		// make sure the scroll bar starts from the right
+		$(document).ready(function(){
+		$('#column2').scrollLeft($(this).height())
+		})
+    </script>
+
+{% endblock %}
+
+

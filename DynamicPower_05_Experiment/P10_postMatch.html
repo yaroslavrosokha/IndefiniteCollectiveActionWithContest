@@ -1,0 +1,65 @@
+{% extends "otree/Page.html" %}
+{% load staticfiles otree %}
+
+{% block title %}
+    Match # {{ matchNumber }}
+{% endblock %}
+
+{% block content %}
+
+		{% include 'DynamicPower_05_Experiment/commonHTML_Table.html' %}
+    <br>
+    <div class="column" style="background-color:#ffffff;text-align: center;">
+        <p style="font-size: 18px;color: gray;z-index: 6; position: relative;">Match #{{ matchNumber }} has ended.</p>
+		
+		<p>
+		
+		In this match, you have accumulated {{ MatchPayoff }}, adding the payoffs in each round.
+
+		<!-- {{ if matchNumber == 1 or   matchNumber == 10  }} -->
+		<!-- In this match, you have accumulated {{ MatchPayoff }}, adding the payoffs in each round and the payments for answering question 1-3. -->
+		<!-- {{ else }} -->
+		<!-- In this match, you have accumulated {{ MatchPayoff }}, adding the payoffs in each round. -->
+		<!-- {{ endif }} -->
+		</p>
+        <button class="otree-btn-next btn btn-primary" id="NextButton" style="display:inline-block;">Continue</button>
+    </div>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+    {% include 'DynamicPower_05_Experiment/commonJS.html' %}
+
+    <script>
+
+	function sendValue() {
+	
+    liveSend({ 'my_id': js_vars.my_id});
+	}
+	
+	function liveRecv(data) {
+		console.log('received', data);
+		if (data["state"] == 'Contributed') {
+			document.getElementById("NextButton").click(); 
+			<!-- document.getElementById("NextPage").submit();  -->
+		}
+	}
+		// handle other types of messages here..
+	// create the tables
+	ShowTables()
+	// make sure the scroll bar starts from the right
+	$(document).ready(function(){
+	$('#column2').scrollLeft($(history_table).width())
+	})
+	
+    </script>
+{% endblock %}
+
+
+{% block app_styles %}
+
+    {% include 'DynamicPower_05_Experiment/commonCSS.html' %}
+
+{% endblock %}

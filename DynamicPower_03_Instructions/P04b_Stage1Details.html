@@ -1,0 +1,434 @@
+{% extends "otree/Page.html" %}
+{% load staticfiles otree %}
+
+{% block app_styles %}
+    {% include 'DynamicPower_05_Experiment/commonCSS.html' %}
+
+{% endblock %}
+
+
+
+
+{% block title %}
+    <mark_stage1> Stage 1 Examples  </mark_stage1>
+	<!-- (P04_Stage1Details) -->
+{% endblock %}
+
+{% block content %}
+    <div class="card-body" style="text-align: left">
+	
+			<div style="position:relative;left: 20%;width: 60%;background-color: #ffffff">
+
+		{% include 'DynamicPower_05_Experiment/commonHTML_Table.html' %}
+		<input type="hidden" name="placeholder" value="," id="id_calculatorHistory"/>
+
+
+	
+	
+	<center>
+	<p>To see an example, click the 'Example' button below. You will need to see 5 examples.</p>
+	<p> 
+		<button type="button" class="otree-btn-next btn btn-primary" 
+		style="left:5px; bottom:2px; height: 21px; width: 300px; line-height: 15px; padding: 3px; background-color: #1e8f27; border-color: #1e8f27;"
+		onclick="showExample(this)" > Example #1 </button>
+	</p>
+	
+
+	<p>
+	<button type="button" id="showMore" class="otree-btn-next btn btn-primary" 
+		style="display:none;left:5px; bottom:2px; height: 21px; width: 300px; line-height: 15px; padding: 3px; background-color: #1e8f27; border-color: #1e8f27;" 
+		onclick="showExampleMore(this)" > Example #1 </button>
+	</p>
+			<p  id="example" style="visibility:hidden" >  </p>
+
+	
+	</center>
+	
+	<div style="background-color: lightgrey;"> <em>
+		<center> Recap </center>
+			<p  id= "pay_X" style=""> If you choose action  {{ action_X_button }},
+		you will earn <strong> {{ payoff_R0 }} points </strong>  regardless of what everyone else chooses 
+		and regardless of how many shares you and other participants own. 
+		
+		
+		<p id= "pay_Y" style=""> If you choose action {{ action_Y_button }}
+			,  you will earn <strong> {{payoffforDefectionDeductCost}} points </strong>  +  <mark_production> amount </mark_production> * <strong style="color: blue;"> your proportion </strong>, where </p>	
+					
+
+			<ul id="pay_Y2" style="">
+			<li> the <mark_production> amount </mark_production> is
+			{{ if Faction_Number_minus1 == 1 }}
+			 either <mark_production>{{collectivegood_1C}}</mark_production>, or <mark_production>{{collectivegood_2C}}</mark_production> points 
+			 depending on whether 1 or 2 participants choose Y,
+			{{ else }}
+			 either <mark_production>{{collectivegood_1C}}</mark_production>, 
+			  <mark_production>{{collectivegood_2C}}</mark_production>, 
+			 <mark_production>{{collectivegood_3C}}</mark_production>, 
+			or <mark_production>{{collectivegood_4C}}</mark_production> points depending on whether 1, 2, 3, or 4 participants choose Y,
+			{{ endif }} </li>
+			
+			<li> <strong style="color: blue;"> your proportion of shares </strong> is your proportion of shares among those who chose Y.  </li>
+			
+			</ul>
+		</div> </em>
+
+		
+		<center>
+            <button class="otree-btn-next btn btn-primary" id="NextButton" style="display:none;">Next</button>
+		</center>
+		
+	    <input type='hidden' name='stage1Details' value=',' id='id_testingHistory'/>
+
+    </div>
+    </div>
+
+{% endblock %}
+
+
+{% block scripts %}
+    {% include 'DynamicPower_05_Experiment/commonJS.html' %}
+	<script type="text/javascript" async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
+		MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        },
+        "HTML-CSS": { availableFonts: ["TeX"] }
+    });
+	
+	setTimeout(
+		function () {
+			alert("Please click 'Next' when you are done reading this page.");
+		},
+		120*1000 // 120 seconds
+	);
+
+
+	
+	
+		<!-- Only generate the current table-->
+	var Card = document.getElementById("InformationTable");
+	var Card_div = document.createElement('div');
+	Card_div.className = "row";
+	Card_div.style = "justify-content: center;";
+	Card.appendChild(Card_div);	
+	
+	
+	var div_c1 =  document.createElement('div');
+	div_c1.className = "closeTable";
+	div_c1.style.width = "50px";
+	div_c1.id = "column1";
+	ShowFirstColumn(div_c1);
+	Card_div.appendChild(div_c1);
+
+	var div_c2 = document.createElement('div');
+	div_c2.className = "closeTable";
+	div_c2.style.width = "300px";
+	div_c2.id = "column2";
+	ShowCurrentTable(div_c2);
+	<!-- ShowCalculator(div_c2); -->
+	Card_div.appendChild(div_c2);	
+	document.getElementsByClassName('CurrentRound_cell LeftBorder')[0].innerHTML = "Example Round ";
+
+
+
+
+	
+	function getRandomInt(max) {
+	  return Math.floor(Math.random() * max);
+	}
+	function showExample(ele) {
+		<!-- 3 variables need to be updated: -->
+		document.getElementsByClassName('CurrentRound_cell LeftBorder')[0].innerHTML = "Example Round  ";
+		if (js_vars.Faction_Number_minus1  == 1) {
+			var NewShares = [40, 60];
+			for (var i = 1; i <= 2; i++) {
+            document.getElementsByClassName('CurrentRound_cell LeftBorder')[i+1].innerHTML = NewShares[i-1];
+			js_vars.Current[i] = [NewShares[i-1]];
+			
+			}
+			var situation = getRandomInt(2);
+		}				
+        else {
+			var NewShares = [40, 30, 20, 10];
+            for (var i = 1; i <= 4; i++) {
+            document.getElementsByClassName('CurrentRound_cell LeftBorder')[i+1].innerHTML = NewShares[i-1];
+			js_vars.Current[i] =[ NewShares[i-1]];
+			
+			}
+			var situation = getRandomInt(6);
+			
+		}
+		
+		ExampleWording(situation, NewShares);
+		
+		var x = document.getElementById('example');
+		var y = document.getElementById('showMore');
+        if (x.style.visibility == "hidden") {
+			x.style.visibility = "visible";
+		}
+		if (y.style.display == "none") {
+			y.style.display = "block";
+			ele.style.display = "none";
+		}
+		
+		
+		var tempElem = document.getElementById('id_testingHistory');
+		tempElem.value = tempElem.value + "E," + String(situation)+",";
+		
+
+	}
+	var MyVariables = {period:0,match:1};
+	function showExampleMore(ele) {
+		document.getElementsByClassName('CurrentRound_cell LeftBorder')[0].innerHTML = "Example Round ";
+		if (js_vars.Faction_Number_minus1  == 1) {
+			var myShare =  Math.floor((Math.random() * 100) + 1);
+			if  (myShare == 100 ) {
+				var NewShares = [myShare, 0];
+			}
+			else {
+				var NewShares = [myShare, 100-myShare];
+			}
+			for (var i = 1; i <= 2; i++) {
+            document.getElementsByClassName('CurrentRound_cell LeftBorder')[i+1].innerHTML = NewShares[i-1];
+			js_vars.Current[i] = [NewShares[i-1]];
+			}
+			var situation = getRandomInt(2);
+		}				
+        else {
+			var myShare =  Math.floor((Math.random() * 100) + 1);
+			if  (myShare == 100 ) {
+				var NewShares = [myShare, 0, 0, 0];
+			}
+			else {
+				var secondShare = Math.floor((Math.random() * (100-myShare)) + 1);
+				if (myShare + secondShare == 100 ) {	
+					var NewShares = [myShare, secondShare, 0, 0];
+				}
+				else {
+					var thirdShare = Math.floor((Math.random() * (100-myShare-secondShare)) + 1);
+					if (myShare + secondShare + thirdShare == 100 ) {	
+						var NewShares = [myShare, secondShare, thirdShare, 0];
+					}
+					else {
+						var NewShares = [myShare, secondShare, thirdShare, 100-(myShare + secondShare + thirdShare)];
+					}						
+				}
+			}
+            for (var i = 1; i <= 4; i++) {
+            document.getElementsByClassName('CurrentRound_cell LeftBorder')[i+1].innerHTML = NewShares[i-1];
+			js_vars.Current[i] =[ NewShares[i-1]];
+			}
+			var situation = getRandomInt(6);
+			
+		}
+		
+		ExampleWording(situation, NewShares);
+		updateText('showMore','Example #'+(MyVariables.match+1).toFixed(0));
+		var tempElem = document.getElementById('id_testingHistory');
+		tempElem.value = tempElem.value + "M," + String(NewShares) + "," +String(situation)+",";
+		MyVariables.match++;
+		
+		if (MyVariables.match==5) {
+				document.getElementById("NextButton").style = "display:block";
+				ele.disabled = true; 
+		}
+	
+	}
+	
+	
+	function ExampleWording(Situations, NewShares) {
+		console.log(Situations); 
+		var power = `<p> Suppose your own ${NewShares[0]} shares, `
+		if (js_vars.Faction_Number_minus1  == 1) {
+			power += `and participants 2 owns ${NewShares[1]} shares.`
+		}
+		else {
+			power += `and participants 2, 3, 4 own ${NewShares[1]}, ${NewShares[2]}, ${NewShares[3]} shares, respectively. </p>`
+		}
+		
+		if (Situations == 0) {
+		<!-- Note:  =0, only you choose Y -->
+			var myReturn = Math.round( r_0 - c + total_club_production(1)); 
+			var DefectReturn = Math.round( r_0 );
+			var totalProduction =  Math.round(Math.round(myReturn)-40);
+			
+			js_vars.Current[1] = [js_vars.Current[1][0], 1, myReturn,  "", ""];
+			js_vars.Current[2] = [js_vars.Current[2][0], 0, DefectReturn];
+			if ( js_vars.Faction_Number_minus1 != 1 ) {
+				js_vars.Current[3] = [js_vars.Current[3][0], 0, DefectReturn];
+				js_vars.Current[4] = [js_vars.Current[4][0], 0, DefectReturn];
+			}
+			var text = ` <p> Suppose that only you chooses {{ action_Y_button }}. </p> </p> You will earn <strong> ${myReturn} points </strong>` +
+				` \\( = 40 + \\frac{ ${NewShares[0]} }{ ${NewShares[0]} } \\times ${totalProduction} \\) ` +
+			`. </p> <p> To elaborate, because only you chooses {{ action_Y_button }}, the amount to be divided is  <mark_production>  ${totalProduction}  </mark_production>  points. </p>` +
+			`<p> Your proportion of that amount is <strong style="color: blue;">  1 </strong> because you are the only participant who chooses {{ action_Y_button }}. </p>`
+
+		}
+		
+		if (Situations == 1) {
+		<!-- Note:  =1, only you and participant 2 choose Y -->
+			if (NewShares[0]+ NewShares[1]!= 0 ) {
+				var myRatio = Math.round(NewShares[0] / (NewShares[0]+ NewShares[1])*100)/100;
+				var o2Ratio = Math.round(NewShares[1] / (NewShares[0]+ NewShares[1])*100)/100;
+				}
+			else {
+				var myRatio = 0.5;
+				var o2Ratio = 0.5;
+				}
+
+			var myReturn = Math.round( r_0 - c + myRatio * total_club_production(2)); 
+			var o2Return = Math.round( r_0 - c + o2Ratio * total_club_production(2)); 
+			var DefectReturn = Math.round( r_0 );
+			var totalProduction =   Math.round(( Math.round( r_0 - c + 1/2 * total_club_production(2))-40 ) * 2);
+			
+			js_vars.Current[1] = [js_vars.Current[1][0], 1, myReturn, "", ""];
+			js_vars.Current[2] = [js_vars.Current[2][0], 1, o2Return];
+			if ( js_vars.Faction_Number_minus1 != 1 ) {
+				js_vars.Current[3] = [js_vars.Current[3][0], 0, DefectReturn];
+				js_vars.Current[4] = [js_vars.Current[4][0], 0, DefectReturn];
+			}
+
+			
+			var text = ` <p> Suppose that you and participants 2 choose {{ action_Y_button }}. </p> </p> You will earn <strong> ${myReturn} points </strong>` +
+					` \\(= 40 + \\frac{ ${NewShares[0]} }{ ${NewShares[0]} + ${NewShares[1]} } \\times ${totalProduction} \\)` +
+					`. </p> <p> To elaborate,  because two participants choose {{ action_Y_button }} (you and participant 2) ` +
+					`, the amount to be divided is  <mark_production> ${totalProduction}  </mark_production> points. </p>` +
+					`<p> Your proportion of that amount is  <strong style="color: blue;">  ${myRatio} </strong>` +
+					`because you own ${NewShares[0]} shares and participants 2 owns ${NewShares[1]} shares.</p>`
+		}
+		if (Situations == 2) {
+		<!-- Note:  =2,  you and participant 2,3 choose Y -->
+			if ( NewShares[0]+ NewShares[1] +  NewShares[2] !=0 ) {
+				var myRatio = Math.round(NewShares[0] / (NewShares[0]+ NewShares[1] +  NewShares[2])*100)/100;
+				var o2Ratio =Math.round(NewShares[1] / (NewShares[0]+ NewShares[1] +  NewShares[2])*100)/100;
+				var o3Ratio =Math.round(NewShares[2] / (NewShares[0]+ NewShares[1] +  NewShares[2])*100)/100;
+			}
+			else {
+				var myRatio = Math.round(1/3*100)/100;
+				var o2Ratio = Math.round(1/3*100)/100;
+				var o3Ratio = Math.round(1/3*100)/100;
+			}
+			var myReturn = Math.round( r_0 - c + myRatio * total_club_production(3)); 
+			var o2Return = Math.round( r_0 - c + o2Ratio * total_club_production(3)); 
+			var o3Return = Math.round( r_0 - c + o3Ratio * total_club_production(3)); 
+			var DefectReturn = Math.round( r_0 );	
+			var totalProduction = Math.round( (Math.round( r_0 - c + 1/3 * total_club_production(3))-40) * 3);
+			
+			js_vars.Current[1] = [js_vars.Current[1][0], 1, myReturn,  "", ""];
+			js_vars.Current[2] = [js_vars.Current[2][0], 1, o2Return];
+			js_vars.Current[3] = [js_vars.Current[3][0], 1, o3Return];
+			js_vars.Current[4] = [js_vars.Current[4][0], 0, DefectReturn];
+			
+			var text = ` <p> Suppose that you and participants 2 and 3 choose {{ action_Y_button }}. </p> </p> You will earn <strong> ${myReturn} points </strong>` +
+					` \\(= 40 + \\frac{ ${NewShares[0]} }{ ${NewShares[0]} + ${NewShares[1]} + ${NewShares[2]} } \\times ${totalProduction} \\)` +
+					`. </p> <p> To elaborate,  because three participants choose {{ action_Y_button }} (you and participant 2 and 3) ` +
+					`, the amount to be divided is <mark_production> ${totalProduction}  </mark_production> points. </p>` +
+					`<p> Your proportion of that amount is  <strong style="color: blue;">  ${myRatio} </strong>` +
+					`because you own ${NewShares[0]} shares and participants 2 and 3 own ${NewShares[1]} and ${NewShares[2]} shares, respectively.</p>`
+		}	
+		if (Situations == 3) {
+		<!-- Note:  =3,  you and participant 2,4 choose Y -->
+			if ( NewShares[0]+ NewShares[1] +  NewShares[3] !=0 ) {
+				var myRatio = Math.round(NewShares[0] / (NewShares[0]+ NewShares[1] +  NewShares[3])*100)/100;
+				var o2Ratio =Math.round(NewShares[1] / (NewShares[0]+ NewShares[1] +  NewShares[3])*100)/100;
+				var o4Ratio =Math.round(NewShares[3] / (NewShares[0]+ NewShares[1] +  NewShares[3])*100)/100;
+			}
+			else {
+				var myRatio = Math.round(1/3*100)/100;
+				var o2Ratio = Math.round(1/3*100)/100;
+				var o4Ratio = Math.round(1/3*100)/100;
+			}
+			var myReturn = Math.round( r_0 - c + myRatio * total_club_production(3)); 
+
+			var o2Return = Math.round( r_0 - c + o2Ratio * total_club_production(3)); 
+			var o4Return = Math.round( r_0 - c + o4Ratio * total_club_production(3)); 
+			var DefectReturn = Math.round( r_0 );	
+
+			var totalProduction = Math.round( (Math.round( r_0 - c + 1/3 * total_club_production(3))-40) * 3);
+			
+			js_vars.Current[1] = [js_vars.Current[1][0], 1, myReturn,  "", ""];
+			js_vars.Current[2] = [js_vars.Current[2][0], 1, o2Return];
+			js_vars.Current[3] = [js_vars.Current[3][0], 0, DefectReturn];
+			js_vars.Current[4] = [js_vars.Current[4][0], 1, o4Return];
+			
+			var text = ` <p> Suppose that you and participants 2 and 4 choose {{ action_Y_button }}. </p> </p> You will earn <strong> ${myReturn} points </strong>` +
+					` \\(= 40 + \\frac{ ${NewShares[0]} }{ ${NewShares[0]} + ${NewShares[1]} + ${NewShares[3]} } \\times ${totalProduction} \\)` +
+					`. </p> <p> To elaborate,  because three participants choose {{ action_Y_button }} (you and participant 2 and 4) ` +
+					`, the amount to be divided is <mark_production> ${totalProduction}  </mark_production> points. </p>` +
+					`<p> Your proportion of that amount is  <strong style="color: blue;">  ${myRatio} </strong>` +
+					`because you own ${NewShares[0]} shares and participants 2 and 4 own ${NewShares[1]} and ${NewShares[3]} shares, respectively.</p>`
+		}	
+		if (Situations == 4) {
+		<!-- Note:  =4,  you and participant 3,4 choose Y -->
+			if ( NewShares[0]+ NewShares[2] +  NewShares[3] !=0 ) {
+				var myRatio = Math.round(NewShares[0] / (NewShares[0]+ NewShares[2] +  NewShares[3])*100)/100;
+				var o3Ratio =Math.round(NewShares[2] / (NewShares[0]+ NewShares[2] +  NewShares[3])*100)/100;
+				var o4Ratio =Math.round(NewShares[3] / (NewShares[0]+ NewShares[2] +  NewShares[3])*100)/100;
+			}
+			else {
+				var myRatio = Math.round(1/3*100)/100;
+				var o3Ratio = Math.round(1/3*100)/100;
+				var o4Ratio = Math.round(1/3*100)/100;
+			}
+			var myReturn = Math.round( r_0 - c + myRatio *  total_club_production(3)); 
+
+			var o3Return = Math.round( r_0 - c + o3Ratio * total_club_production(3)); 
+			var o4Return = Math.round( r_0 - c + o4Ratio * total_club_production(3)); 
+			var DefectReturn = Math.round( r_0 );	
+
+
+			var totalProduction = Math.round( (Math.round( r_0 - c + 1/3 * total_club_production(3))-40) * 3);
+			js_vars.Current[1] = [js_vars.Current[1][0], 1, myReturn, "", ""];
+			js_vars.Current[2] = [js_vars.Current[2][0], 0, DefectReturn];
+			js_vars.Current[3] = [js_vars.Current[3][0], 1, o3Return];
+			js_vars.Current[4] = [js_vars.Current[4][0], 1, o4Return];
+			
+
+		
+			var text = ` <p> Suppose that you and participants 3 and 4 choose {{ action_Y_button }}. </p> </p> You will earn <strong> ${myReturn} points </strong>` +
+					` \\(= 40 + \\frac{ ${NewShares[0]} }{ ${NewShares[0]} + ${NewShares[2]} + ${NewShares[3]} } \\times ${totalProduction} \\)` +
+					`. </p> <p> To elaborate,  because three participants choose {{ action_Y_button }} (you and participant 3 and 4) ` +
+					`, the amount to be divided is <mark_production> ${totalProduction}  </mark_production> points. </p>` +
+					`<p> Your proportion of that amount is  <strong style="color: blue;">  ${myRatio} </strong>` +
+					`because you own ${NewShares[0]} shares and participants 3 and 4 own ${NewShares[2]} and ${NewShares[3]} shares, respectively.</p>`
+		}	
+		if (Situations == 5) {
+		<!-- Note:  =5,  you and participant 2, 3,4 choose Y -->
+			var myRatio = NewShares[0] /100;
+			var myReturn = Math.round( r_0 - c + myRatio * total_club_production(4)); 
+			var o2Return = Math.round( r_0 - c + NewShares[1] /100 * total_club_production(4)); 
+
+			var o3Return = Math.round( r_0 - c + NewShares[2] /100 * total_club_production(4)); 
+			var o4Return = Math.round( r_0 - c + NewShares[3] /100 * total_club_production(4)); 
+
+			var totalProduction =  Math.round(( Math.round( r_0 - c + 1/4 * total_club_production(4)) -40 ) * 4);
+			js_vars.Current[1] = [js_vars.Current[1][0], 1, myReturn, "", ""];
+			js_vars.Current[2] = [js_vars.Current[2][0], 1, o2Return];
+			js_vars.Current[3] = [js_vars.Current[3][0], 1, o3Return];
+			js_vars.Current[4] = [js_vars.Current[4][0], 1, o4Return];
+			
+
+			var text = ` <p> Suppose that all participants choose {{ action_Y_button }}. </p> </p> You will earn <strong> ${myReturn} points </strong>` +
+					` \\(= 40 + \\frac{ ${NewShares[0]} }{ ${NewShares[0]} + ${NewShares[1]} + ${NewShares[2]} + ${NewShares[3]} } \\times ${totalProduction} \\)` +
+					`. </p> <p> To elaborate,  because four participants choose {{ action_Y_button }} (you and all other participants ) ` +
+					`, the amount to be divided is <mark_production> ${totalProduction}  </mark_production> points. </p>` +
+					`<p> Your proportion of that amount is  <strong style="color: blue;">  ${myRatio} </strong>` +
+					`because you own ${NewShares[0]} shares and all participants choose {{ action_Y_button }}.</p>`
+		}	
+		document.getElementById('example').innerHTML = power +  text;
+		MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+		document.getElementById("current_table").remove();
+		var div_c2= document.getElementById("column2");
+		ShowCurrentTable(div_c2);
+		document.getElementsByClassName('CurrentRound_cell LeftBorder')[0].innerHTML = "Example Round  ";
+		var stage2Cell = document.getElementsByClassName('col3 row1 Me')[0];
+		stage2Cell.className = stage2Cell.className.replace('stage2','');
+
+		}
+		 
+
+    </script>
+{% endblock %}

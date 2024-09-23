@@ -1,0 +1,69 @@
+{% extends "otree/Page.html" %}
+{% load staticfiles otree %}
+
+
+{% block title %}
+
+    Match #{{ player.group.matchNumber }}
+
+{% endblock %}
+
+
+
+
+{% block content %}
+
+		{% include 'DynamicPower_05_Experiment/commonHTML_Table.html' %}
+		
+        {% include 'DynamicPower_05_Experiment/commonHTML_Choice_both.html' %}
+		
+    <input type="hidden" name="calculatorHistory3" value="," id="id_calculatorHistory"/>
+
+		
+{% endblock %}
+
+
+{% block scripts %}
+
+	{% include 'DynamicPower_05_Experiment/commonJS.html' %}	
+
+	
+
+    <script>
+	
+
+
+	function sendValue() {
+	
+    liveSend({ 'my_id': js_vars.my_id});
+	}
+	
+	function liveRecv(data) {
+		console.log('received', data);
+		if (data["state"] == 'Contributed') {
+			document.getElementById("NextButton").click(); 
+			<!-- document.getElementById("NextPage").submit();  -->
+		}
+	}
+		// handle other types of messages here..
+	// create the tables
+	ShowTables()
+	// make sure the scroll bar starts from the right
+	$(document).ready(function(){
+    $('#column2').scrollLeft($(history_table).width())
+
+	})
+	
+    </script>
+
+
+{% endblock %}
+
+
+{% block app_styles %}
+	
+
+    {% include 'DynamicPower_05_Experiment/commonCSS.html' %}
+
+{% endblock %}
+

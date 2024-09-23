@@ -1,0 +1,85 @@
+{% extends "DynamicPower_08_FeedbackQuestions/myPage.html" %}
+{% load staticfiles otree %}
+
+
+{% block scripts %}
+
+    <!-- define a script -->
+    <script>
+
+document.addEventListener('keydown', function (event) {
+        if ((event.code == 'KeyR' || event.code == 'KeyF' || event.code == 'KeyS') && (event.ctrlKey || event.metaKey)) {
+            event.preventDefault();
+        }
+        if ((event.code == 'F5')) {
+            event.preventDefault();
+        }
+        if ((event.code == 'Tab')) {
+            event.preventDefault();
+        }
+        if ((event.code == 'Enter')) {
+            event.preventDefault();
+        }
+        if ((event.code == 'NumpadEnter')) {
+            event.preventDefault();
+        }
+        <!-- if ((event.code == 'Space')) { -->
+            <!-- event.preventDefault(); -->
+        <!-- } -->
+        if ((event.code == 'ArrowLeft' || event.code == 'ArrowRight') && (event.code == 'AltLeft' || event.code == 'altRight' || event.altKey || event.metaKey)) {
+            event.preventDefault();
+        }
+    });
+
+
+    </script>
+
+{% endblock %}
+
+
+{% block title %}
+
+    Questionnaire
+
+{% endblock %}
+
+{% block content %}
+
+    <p style="text-align: center">
+        Your feedback about the experiment is valuable to us.
+        You may skip questions, however the survey is anonymous and none of your
+        answers are linked to you.
+    </p>
+
+	<p style="text-align: center; top: 100px;">
+        Your total earnings, including the show-up fee, are ${{ earningsTotal|json }}.
+    </p>
+
+    <div class="row">
+        <div class="column" style="background-color:white; text-align: center">
+                {% formfield player.understandingSelect %}
+
+                {% formfield player.explainedText %}
+			
+                {% formfield player.strategy1Text %}
+
+                {% formfield player.strategy2Text %}
+        </div>
+
+        <div class="column" style="background-color:white; text-align: center">
+            
+                {% formfield player.strategy3Text %}
+                {% formfield player.strategy4Text %}
+			
+                {% formfield player.strategy5Text %}
+            </p>
+
+            <p style="text-align: center">
+                <button class="otree-btn-next btn btn-primary" id="NextButton" style="display:inline-block;">Submit</button>
+            </p>
+        </div>
+    </div>
+
+
+
+{% endblock %}

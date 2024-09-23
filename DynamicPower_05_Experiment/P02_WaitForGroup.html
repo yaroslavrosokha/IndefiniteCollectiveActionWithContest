@@ -1,0 +1,57 @@
+{% extends 'otree/WaitPage.html' %}
+{% load otree %}
+
+{% block app_styles %}
+
+    {% include 'DynamicPower_05_Experiment/commonCSS.html' %}
+
+{% endblock %}
+
+
+{% block title %}
+
+    New Match 
+
+{% endblock %}
+
+
+{% block content %}
+
+		{% include 'DynamicPower_05_Experiment/commonHTML_Table.html' %}
+
+    <div class="_otree-content">
+
+        <div class="column" style="background-color:#ffffff;text-align: center;">
+		{% if Faction_Number_minus1 == 1 %}
+            <!-- <p style="font-size: 18px;color: gray;z-index: 6; position: relative;">Please wait for a randomly selected participant to join Match #{{ matchNumber }}.</p> -->
+            <p style="font-size: 18px;color: gray;z-index: 6; position: relative;">Please wait for a randomly selected participant to join the new match.</p>
+        {% else %}
+            <!-- <p style="font-size: 18px;color: gray;z-index: 6; position: relative;">Please wait for other randomly selected participants to join Match #{{ matchNumber }}.</p> -->
+            <p style="font-size: 18px;color: gray;z-index: 6; position: relative;">Please wait for other randomly selected participants to join the new match .</p>
+		{% endif %}
+		
+		 <p style="font-size: 18px;color: gray;z-index: 6; position: relative;"> While you wait, you may use the calculator to check different scenarios. </p>
+		</div>
+		
+		    <input type="hidden" name="calculatorHistory2" value="," id="id_calculatorHistory"/>
+
+    </div>
+{% endblock %}
+
+
+
+{% block app_scripts %}
+	{% include 'DynamicPower_05_Experiment/commonJS.html' %}	
+
+    <script>
+
+      	ShowTables();
+		document.getElementsByClassName('CurrentRound_cell LeftBorder')[0].innerHTML = "Round <input  type='button'  onclick='Calculator()' id='CalculatorButton' value='Calculator' > </input>";
+		document.getElementById('calculator').style.display = "table";
+
+    </script>
+
+{% endblock %}
+
+
+

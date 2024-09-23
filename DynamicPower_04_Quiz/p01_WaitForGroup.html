@@ -1,0 +1,36 @@
+{% extends 'otree/WaitPage.html' %}
+{% load otree %}
+
+
+{% block title %}
+
+    Please Wait
+
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="_otree-content">
+        <br>
+        <div class="column" style="background-color:#ffffff;text-align: center;">
+            <p style="font-size: 18px;color: gray;z-index: 6; position: relative;">The experiment will begin once everyone finishes going through instructions and the quiz.</p>
+        </div>
+    </div>
+{% endblock %}
+
+
+
+{% block app_scripts %}
+
+    {% include 'DynamicPower_05_Experiment/commonJS.html' %}
+
+{% endblock %}
+
+
+
+{% block app_styles %}
+
+    {% include 'DynamicPower_05_Experiment/commonCSS.html' %}
+
+{% endblock %}

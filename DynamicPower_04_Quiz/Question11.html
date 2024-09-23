@@ -1,0 +1,57 @@
+{% extends "otree/Page.html" %}
+{% load staticfiles otree %}
+
+{% block app_styles %}
+    {% include 'DynamicPower_05_Experiment/commonCSS.html' %}
+{% endblock %}
+
+{% block scripts %}
+    {% include 'DynamicPower_05_Experiment/commonJS.html' %}
+
+{% endblock %}
+
+
+
+
+{% block title %}
+    Quiz
+{% endblock %}
+
+{% block content %}
+
+    <div class="card-body" style="text-align: left">
+				<div style="position:relative;left: 10%;width: 80%;background-color: #ffffff">
+
+	<!-- <p><strong style="color: blue">Question 10:</strong> -->
+	<p><strong style="color: blue">Question 7:</strong>
+
+		(True or False)
+		At the beginning of each new match, you will remain in the same group but restart with equal shares. 
+			
+        <p style="text-align: center">
+                <button class="otree-btn-next btn btn-primary" id="startMatchButton" type="button"
+            onclick="incorrectAnswer('This is incorrect. Please raise your hand if you have questions.')">
+				True </button>
+            <button class="otree-btn-next btn btn-primary" id="startMatchButton" type="button"
+            onclick="correctAnswer('This is correct.   ')">
+				False </button>
+                       
+            </p>
+
+        <p style="text-align: center; color: red;" id="quizMessage"></p>
+		<div style="background-color: lightgrey; position:relative; left: 20%; width: 60%;"> <em>
+			<center> Recap</center>
+			 <ul>
+			<li> You will be randomly paired with other participants in a new match. <br> It is very unlikely to remain in the same group;  </li> 
+			<li> You will restart with equal shares in the match. <br> The shares you gained in the last match will not be carried over. </li>
+			</ul>
+			
+		</div>
+
+    </div>
+	 </div>
+	<center>
+<button class="otree-btn-next btn btn-primary" id="NextButton" style="display:none;">Next</button>
+    <input type="hidden" name="quizHistory10" value="," id="id_testingHistory"/>
+	</center> 
+{% endblock %}

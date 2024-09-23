@@ -1,0 +1,158 @@
+{% extends "DynamicPower_06_PayoffScreen/myPage.html" %}
+{% load staticfiles otree %}
+
+{% block title %}
+    Earnings
+{% endblock %}
+
+{% block scripts %}
+
+    <!-- define a script -->
+    <script>
+
+    </script>
+
+{% endblock %}
+
+
+
+{% block content %}
+
+		<div class="card-body">
+         <div style="position:relative;left: 25%;width: 60%;background-color: #ffffff">
+		
+		<p align="justify">
+            You have completed part 2. Here is the summary of your total earnings today.
+        </p>
+		
+		<p align="justify">
+		In <strong> Part 1</strong>, the random task chosen for you is Task #{{ Chosen_Task }}.
+		</p>	
+			
+		{{ if Chosen_Task <= 4 }}
+		
+		<p align="justify">
+			The decision that is selected by the computer is: 
+        </p>
+
+		<p style="align-items: center">
+        {{ if Chosen_Task == 1  }}
+		<table class="table" id="CompensationTable" style="position:relative;display:flex; width: 1200px" >
+        <tr>
+            <td align="center" style="font-weight:bold">Decision</td>
+            <td align="right" style="font-weight:bold">Option A</td>
+            <td align="left" style="font-weight:bold">Option B</td>
+            <td align="center" style="font-weight:bold">Your Choice</td>
+        </tr>
+
+        <tr >
+            <td align="center">#{{ RiskAversionQuestion }} </td>
+            <td align="right"><strong style="color: #000000;">
+                ${{ Constants.riskySuccess }}</strong> with 50% chance;
+                <strong style="color: #000000;">${{ Constants.riskyFailure }}</strong> with 50% chance;
+            </td>
+            <td align="left"> <strong>${{ RiskAversionQuestion_optionA }}</strong>   </td>
+            <td align="center" style="font-weight:bold"> {{RiskAversionChoices}} </td>
+        </tr>
+		</table>
+        </p>
+		
+		<p align="justify"> 
+			Your payoff is ${{ RiskAversionEarn }} .
+		</p>
+		
+       {{ elif Chosen_Task == 2  }}
+	   <table class="table" id="CompensationTable" style="position:relative;display:flex; width: 1000px" >
+        <tr>
+            <td align="center" style="font-weight:bold">Decision</td>
+            <td align="right" style="font-weight:bold">Option A</td>
+            <td align="left" style="font-weight:bold">Option B</td>
+            <td align="center" style="font-weight:bold">Your Choice</td>
+        </tr>
+
+	   <tr >
+            <td align="center">#{{ LossAversionQuestion }}</td>
+            <td align="right"><strong style="color: red;"> -${{ LossAversionQuestion_optionA }}</strong> with 50% chance;
+                <strong style="color: #000000;">${{ Constants.flatPay }}</strong> with 50% chance</td>
+            <td style="vertical-align:middle">
+                <strong>$0.00</strong>
+            </td>
+            <td align="center" style="font-weight:bold; vertical-align:middle">
+               {{ LossAversionChoices }}
+            </td>
+        </tr>
+		</table>
+        </p>
+		
+		<p align="justify"> 
+			Your payoff is ${{ LossAversionEarn }} .
+		</p>
+		
+		{{ else }}
+		<table class="table" id="CompensationTable" style="position:relative; left: -25% ; display:flex; width: 1200px" >
+        <tr>
+            <td align="center" style="font-weight:bold">Decision</td>
+            <td align="right" style="font-weight:bold">Option A</td>
+            <td align="left" style="font-weight:bold">Option B</td>
+            <td align="center" style="font-weight:bold">Your Choice</td>
+        </tr>
+
+		    <tr>
+            <td align="center" style="vertical-align:middle;">#{{ SocialPreferenceQuestion }}</td>
+            
+            <td align="right" style="vertical-align:middle">
+                You earn <strong>$${{ Constants.equalPay }}</strong>; the other participant receives ${{ Constants.equalPay }}.
+            </td>
+			<td align="left" style="vertical-align:middle;">You earn <strong>${{ SocialPreferenceQuestion_optionA }}</strong>; 
+						 the other participant receives ${{ SocialPreferenceQuestion_optionAothers }}.</td>
+			
+            <td align="center" style="font-weight:bold;vertical-align:middle">
+               {{ SocialPreferenceChoices }}
+            </td>
+        </tr>
+		</table>
+        </p>
+				
+		<p align="justify"> 
+			Your payoff is ${{ SocialPreferenceEarn_me }}.
+			The participant who is randomly matched with you will receive ${{ SocialPreferenceEarn_other }}.
+		</p>
+		
+		{{ endif }}
+		
+		{{ else }} 
+		
+		<p align="justify"> 
+			Your payoff is ${{Constants.flatPay}} .
+			</p>
+		{{ endif }}
+		
+		{{ if MoneyReceived > 0 }}
+		<p align="justify"> 
+			Moreover, you receive additional ${{ MoneyReceived}}  sent by the participant who is matched with you.
+		</p>
+		{{ endif }}
+		
+		
+		<p align="justify">
+		In <strong> Part 2</strong>, you played {{ Matches }} matches and earned {{ MatchesPayoff }}. The exchange rate is: {{ PointsPerDollar }} points = $1. 
+		</p>
+		
+		
+        <p align="justify">
+            Thus, your total earnings are {{ TotalPayoff }} (including the show-up fee of $5).
+        </p>
+
+        <p align="justify">
+            Next, we ask that you complete a short post-experimental survey.
+        </p>
+
+	</div>
+	<center>
+    <button class="otree-btn-next btn btn-primary" id="NextButton" style="display:inline-block;">Next</button>
+	</center>
+</div>
+{#    {{ form.total.errors }}#}
+
+{% endblock %}
+

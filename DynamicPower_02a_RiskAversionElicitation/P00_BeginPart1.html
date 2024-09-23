@@ -1,0 +1,42 @@
+{% extends "DynamicPower_02a_RiskAversionElicitation/Page.html" %}
+
+{% load staticfiles otree %}
+
+{% block title %}
+  Part 1
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+setTimeout(
+    function () {
+        alert("Please click 'Begin Part 1' when you are done reading this page.");
+    },
+    60*1000 // 60 seconds
+);
+</script>
+{% endblock %}
+
+{% block content %}
+    <div class="card bg-light instructions">
+    <div class="card-body">
+	
+	 <!-- <div style="position:relative;left: 25%;width: 50%;background-color: #ffffff"> -->
+	<!-- <p align="center"> Part 1 of the experiment contains 6 tasks. </p> -->
+	<!-- <p align="center"> At the end of the experiment, one of the 6 tasks will be chosen at random. </p> -->
+	<p align="center"> Part 1 of the experiment contains 5 tasks. </p>
+	<p align="center"> At the end of the experiment, one of the 5 tasks will be chosen at random. </p>
+	<p align="center"> The chosen task will decide your compensation for part 1. </p>
+	<!-- </div> -->
+            <p style="text-align: center"><br/>
+                <button class="otree-btn-next btn btn-primary" id="NextButton" style="display:inline-block;">Begin Part 1</button>
+            </p>
+
+    </div>
+    </div>
+
+
+{% endblock %}
+
+

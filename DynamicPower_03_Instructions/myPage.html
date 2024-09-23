@@ -1,0 +1,646 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block app_styles %}
+
+<style type="text/css">
+
+:root {
+    --C-color: #f9ff87;
+    --D-color: #8ec9ff;
+    --cell-width: 50px;
+    --cell-height: 35px;
+    --line-height-small: 30px;
+    --line-height-regular: 45px;
+    --label-width: 150px;
+    --line1-top: 0px;
+    --line2-top: 35px;
+    --line3-top: 70px;
+    --line4-top: 120px;
+    --line5-top: 170px;
+    --line6-top: 205px;
+    --inner-container-height: 150px;
+}
+
+.row {
+    display: flex;
+}
+
+/* Create two equal columns that sits next to each other */
+.column {
+    flex: 50%;
+    padding: 20px 50px 0px 50px;
+}
+
+.payoffTablesColumn {
+    flex: 33%;
+    padding: 0px 0px 0px 0px;
+    text-align: center;
+}
+
+table {
+    table-layout: fixed;
+    width: 95%;
+    left: 2.5%;
+    line-height: 1.15;
+    vertical-align: middle;
+}
+
+th {
+    height: 50px;
+    vertical-align: middle;
+}
+
+
+tr{
+    border: none;
+    background-color: white;
+    vertical-align: middle;
+}
+
+
+.borderexample {
+    border-style: solid;
+    border-color: black;
+    padding: 2px;
+    font-weight: normal;
+    border-width: thin;
+}
+
+
+.otree-body {
+
+    font-family: Proxima Nova;
+    font-size: 18px;
+    position: absolute;
+    width: 1678px;
+    height: 1048px;
+    max-width: 1678px;
+    max-height: 1048px;
+    border: solid darkgreen;
+}
+
+.otree-title {
+    background: white;
+    font-family: Proxima Nova;
+    text-align: center;
+}
+
+.otree-title.page-header {
+    font-family: Proxima Nova;
+    text-align: center;
+    padding: 0px;
+}
+
+.card-body {
+    background: white;
+    font-family: Proxima Nova;
+    font-size: 18px;
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+.card.bg-light.instructions{
+    padding: 0;
+    border: none;
+}
+
+.outerbox
+{
+   width:100%; /* or whatever width you want. */
+   height: 130px;
+   max-width:100%; /* or whatever width you want. */
+   position: relative;
+   background: white;
+   {#top:100px;#}
+   {#left:0px;#}
+   overflow-x: hidden;
+   overflow-y: hidden;
+}
+
+
+.innerbox
+{
+   width:1150px; /* or whatever width you want. */
+   height: 90px;
+   max-width:1150px; /* or whatever width you want. */
+   position: absolute;
+   background: white;
+   top:0px;
+   left:150px;
+   overflow-x: hidden;
+   overflow-y: hidden;
+}
+
+.payoffbox
+{
+   width:350px; /* or whatever width you want. */
+   height: 200px;
+   max-width:350px; /* or whatever width you want. */
+   position: relative;
+   background: white;
+   top:0px;
+   left:50px;
+   overflow-x: hidden;
+   overflow-y: hidden;
+}
+
+.payoffDetail {
+    left:var(--label-width);
+    width:var(--cell-width);
+    height:var(--cell-width);
+    background: white;
+    border-style: solid;
+    border-width: thin;
+    position: absolute;
+
+    text-align: center;
+    line-height: var(--line-height-regular);
+    padding-bottom: 5px;
+}
+
+
+.randomNumLabel {
+    top:var(--line2-top);
+    left:0px;
+    width:var(--label-width);
+    height:var(--cell-height);
+    background: white;
+    border-style: none;
+    position: -webkit-sticky;
+    position: sticky;
+    opacity: .5;
+    {#top:10px;#}
+    {#left:10px;#}
+    text-align: center;
+    line-height: var(--line-height-small);
+    padding-bottom: 5px;
+    {#font-size: 35px;#}
+    z-index: 2;
+    font-size: 12px;
+}
+.randomNum {
+    left:30px;
+    top:var(--line2-top);
+    width:45px;
+    background: white;
+    border-style: none;
+    position: absolute;
+    opacity: .5;
+    {#top:10px;#}
+    {#left:10px;#}
+    text-align: center;
+    line-height: var(--line-height-small);
+    padding-bottom: 5px;
+    padding-left: 25px;
+    font-size: 12px;
+
+    opacity: 0;
+    animation: fadeIn5 .25s;
+    animation-delay: 0.1s;
+    animation-fill-mode: forwards;
+}
+
+.periodLabel {
+    top:var(--line1-top);
+    left:0px;
+    width:var(--label-width);
+    height:var(--cell-height);
+    background: white;
+    border-style: none;
+    position: -webkit-sticky;
+    position: sticky;
+    {#top:10px;#}
+    {#left:10px;#}
+    text-align: center;
+    line-height: var(--line-height-small);
+    padding-bottom: 5px;
+    {#font-size: 35px;#}
+    z-index: 2;
+}
+.period {
+    {#left:0px;#}
+    top:var(--line1-top);
+    width:var(--cell-width);
+    height:var(--cell-height);
+    background: white;
+    border-style: none;
+    position: absolute;
+    {#top:10px;#}
+    {#left:10px;#}
+    text-align: center;
+    line-height: var(--line-height-small);
+    padding-bottom: 5px;
+    {#font-size: 35px;#}
+
+    {#opacity: 0;#}
+    animation: fadeIn .25s;
+    animation-delay: .1s;
+    animation-fill-mode: forwards;
+
+	-webkit-animation-fill-mode: forwards;
+	-moz-animation-fill-mode: forwards;
+	-o-animation-fill-mode: forwards;
+	animation-fill-mode: forwards;
+
+}
+
+
+.myChoiceLabel {
+    top:var(--line3-top);
+    left:0px;
+    width:var(--label-width);
+    height:var(--cell-width);
+    background: white;
+    border-style: solid;
+    border-width: thin;
+    position: -webkit-sticky;
+    position: sticky;
+    {#top:10px;#}
+    {#left:10px;#}
+    text-align: center;
+    line-height: var(--line-height-regular);
+    padding-bottom: 5px;
+    {#font-size: 35px;#}
+    z-index: 2;
+}
+.myChoice {
+    left:0px;
+    top:var(--line3-top);
+    width:var(--cell-width);
+    height:var(--cell-width);
+    background: white;
+    border-style: solid;
+    border-width: thin;
+    position: absolute;
+    {#top:10px;#}
+    {#left:10px;#}
+    text-align: center;
+    line-height: var(--line-height-regular);
+    padding-bottom: 5px;
+    {#font-size: 35px;#}
+
+    opacity: 0;
+    animation: fadeIn .25s;
+    animation-delay: .15s;
+    animation-fill-mode: forwards;
+}
+
+
+
+.otherChoiceLabel {
+    top:var(--line4-top);
+    left:0px;
+    width:var(--label-width);
+    height:var(--cell-width);
+    background: white;
+    border-style: solid;
+    border-width: thin;
+    position: -webkit-sticky;
+    position: sticky;
+    {#top:10px;#}
+    {#left:10px;#}
+    text-align: center;
+    line-height: var(--line-height-regular);
+    padding-bottom: 5px;
+    {#font-size: 35px;#}
+    z-index: 2;
+}
+.otherChoice {
+    left:0px;
+    top:var(--line4-top);
+    width:var(--cell-width);
+    height:var(--cell-width);
+    background: white;
+    border-style: solid;
+    border-width: thin;
+    position: absolute;
+    {#top:10px;#}
+    {#left:10px;#}
+    text-align: center;
+    line-height: var(--line-height-regular);
+    padding-bottom: 5px;
+    {#font-size: 35px;#}
+
+    opacity: 0;
+    animation: fadeIn .25s;
+    animation-delay: .15s;
+    animation-fill-mode: forwards;
+}
+
+
+.myPayoffLabel {
+    top:var(--line5-top);
+    left:0px;
+    width:var(--label-width);
+    height:var(--cell-height);
+    background: white;
+    border-style: none;
+    position: -webkit-sticky;
+    position: sticky;
+    {#top:10px;#}
+    {#left:10px;#}
+    text-align: center;
+    line-height: var(--line-height-small);
+    padding-bottom: 5px;
+    {#font-size: 35px;#}
+    z-index: 2;
+}
+.myPayoff {
+    left:0px;
+    top:var(--line5-top);
+    width:var(--cell-width);
+    height:var(--cell-height);
+    background: white;
+    border-style: none;
+    position: absolute;
+    {#top:10px;#}
+    {#left:10px;#}
+    text-align: center;
+    line-height: var(--line-height-small);
+    padding-bottom: 5px;
+    {#font-size: 35px;#}
+
+    opacity: 0;
+    animation: fadeIn .25s;
+    animation-delay: .15s;
+    animation-fill-mode: forwards;
+}
+
+.otherPayoffLabel {
+    top:var(--line6-top);
+    left:0px;
+    width:var(--label-width);
+    height:var(--cell-height);
+    background: white;
+    border-style: none;
+    position: -webkit-sticky;
+    position: sticky;
+    {#top:10px;#}
+    {#left:10px;#}
+    text-align: center;
+    line-height: var(--line-height-small);
+    padding-bottom: 5px;
+    {#font-size: 35px;#}
+    z-index: 2;
+}
+.otherPayoff {
+    left:0px;
+    top:var(--line6-top);
+    width:var(--cell-width);
+    height:var(--cell-height);
+    background: white;
+    border-style: none;
+    position: absolute;
+    {#top:10px;#}
+    {#left:10px;#}
+    text-align: center;
+    line-height: var(--line-height-small);
+    padding-bottom: 5px;
+    {#font-size: 35px;#}
+
+    opacity: 0;
+    animation: fadeIn .25s;
+    animation-delay: .15s;
+    animation-fill-mode: forwards;
+    animation-timing-function: linear,ease;
+}
+
+.scrollLabel {
+    top:var(--line3-top);
+    left:0px;
+    width:var(--label-width);
+    height:20px;
+    background: white;
+    border-style: none;
+    position: -webkit-sticky;
+    position: sticky;
+    opacity: .5;
+    {#top:10px;#}
+    {#left:10px;#}
+    text-align: center;
+    line-height: var(--line-height-small);
+    {#font-size: 35px;#}
+    z-index: 2;
+    font-size: 12px;
+    vertical-align: middle;
+    display: none;
+}
+
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeIn5 {
+    from { opacity: 0; }
+    to { opacity: .5; }
+}
+
+
+</style>
+
+{% endblock %}
+
+
+
+
+{% block app_scripts %}
+
+<script>
+
+        document.addEventListener('keydown', function(event) {
+          if ((event.code == 'KeyR' || event.code == 'KeyF' || event.code == 'KeyS')  && (event.ctrlKey || event.metaKey)) {event.preventDefault();}
+          if ((event.code == 'F5')) {event.preventDefault();}
+          if ((event.code == 'Tab')) {event.preventDefault();}
+          if ((event.code == 'Enter')) {event.preventDefault();}
+          if ((event.code == 'NumpadEnter')) {event.preventDefault();}
+          if ((event.code == 'Space')) {event.preventDefault();}
+          if ((event.code == 'ArrowLeft' || event.code == 'ArrowRight') && (event.code=='AltLeft' || event.code=='altRight' || event.altKey || event.metaKey) ) {event.preventDefault();}
+        });
+
+        var MyVariables = {period:0,match:1};
+
+        showInline("startMatchButton");
+        enableButton("startMatchButton");
+        hide("matchSummary");
+        hide("NextButton");
+
+        function startMatch() {
+
+            resetGame();
+            MyVariables.period=1;
+            hide("matchSummary");
+            disableButton("startMatchButton");
+
+            //Period
+            var p = MyVariables.period;
+            var per = document.createElement('div');
+            per.className = 'period';
+            per.id = 'id_period_' + p.toFixed(0);
+            per.innerHTML = p.toFixed(0);
+            per.style.backgroundColor = 'white';
+            per.style.left = (50 * (1 - p)).toFixed(0) + "px";
+            document.getElementById("id_innerbox").appendChild(per);
+
+            var per = document.createElement('div');
+            per.className = 'randomNum';
+            per.id = 'id_randomNum_' + p.toFixed(0);
+            per.style.left = (50 * (1 - p)).toFixed(0) + "px";
+            per.innerHTML="";
+            document.getElementById("id_innerbox").appendChild(per);
+
+        };
+
+        function rollDice() {
+
+            var p = MyVariables.period;
+            var randomItem = 1 + Math.floor(Math.random() * 10);
+
+            var tempElem = document.getElementById('id_testingHistory');
+            tempElem.value = tempElem.value + randomItem.toFixed(0)+",";
+
+            if(MyVariables.period>23){
+                enableScroll("id_innerbox");
+                show("scrollLabel");
+            }
+
+            var per = document.getElementById('id_randomNum_' + p.toFixed(0));
+
+            if (randomItem < {{ CutoffRoll|json }}) {
+                per.innerHTML = randomItem;
+                MyVariables.period++;
+
+                var p = MyVariables.period;
+                var per = document.createElement('div');
+                per.className = 'period';
+                per.id = 'id_period_' + p.toFixed(0);
+                per.innerHTML = p.toFixed(0);
+                per.style.backgroundColor = 'white';
+                per.style.left = (50 * (p - 1)).toFixed(0) + "px";
+                document.getElementById("id_innerbox").appendChild(per);
+
+                var per = document.createElement('div');
+                per.className = 'randomNum';
+                per.id = 'id_randomNum_' + p.toFixed(0);
+                per.style.left = (50 * (p - 1)).toFixed(0) + "px";
+                per.innerHTML = "";
+                document.getElementById("id_innerbox").appendChild(per);
+
+
+            } else {
+                per.style.fontWeight = "bold";
+                per.style.color = "red";
+                per.innerHTML = randomItem;
+                per.style.opacity = 0;
+
+                var tempElem = document.getElementById('id_testingHistory');
+                tempElem.value = tempElem.value + "-";
+
+                updateText('startMatchButton','Test #'+(MyVariables.match+1).toFixed(0));
+                enableButton("startMatchButton");
+                show("matchSummary");
+                updateText("summaryRounds", MyVariables.period.toFixed(0));
+
+                MyVariables.match++;
+
+
+                if(MyVariables.match>5) { // <------ update to 10 for the experiment
+                    showInline("NextButton");
+                    disableButton("startMatchButton");
+                    hide("startMatchButton");
+                }
+                hide("diceRollButton");
+                disableButton("diceRollButton");
+
+            }
+
+
+            var names = ['id_randomNum_', 'id_period_'];
+
+
+            for (var p = 1; p <= MyVariables.period - 1; p++) {
+                for (var i = 0; i < names.length; i++) {
+                    var x = document.getElementById(names[i] + p.toFixed(0));
+                    x.style.left = (50 * (p-1)).toFixed(0) + "px";
+                }
+            }
+
+
+        };
+
+        function resetGame(){
+            var elems = ['id_period_','id_randomNum_'];
+            for( var p=1; p<=MyVariables.period; p++) {
+                for ( var i=0; i<elems.length; i++ ){
+                    var elemName = elems[i] + p.toFixed(0);
+                    var elementExists = document.getElementById(elemName);
+                    if (elementExists != null) {deleteElement(elemName);}
+                }
+            }
+            MyVariables.period=0;
+            hide("scrollLabel");
+            disableScroll("id_innerbox");
+
+            show("diceRollButton");
+            enableButton("diceRollButton");
+        };
+
+
+
+        function showText(target,someText) {
+            var x = document.getElementById(target);
+            x.style.display = "block";
+            x.innerHTML=someText;
+        };
+        function updateText(target,someText) {
+            var x = document.getElementById(target);
+            x.innerHTML=someText;
+        };
+        function hide(target) {
+            var x = document.getElementById(target);
+            x.style.display = "none";
+        };
+        function disableButton(target){
+            var x = document.getElementById(target);
+            x.style.borderColor = "gray";
+            x.style.backgroundColor = "gray";
+            x.style.pointerEvents="none";
+        };
+        function enableButton(target){
+           var x = document.getElementById(target);
+           x.style.borderColor = "#1e8f27";
+           x.style.backgroundColor = "#1e8f27";
+           x.style.pointerEvents="all";
+        };
+        function disableScroll(target){
+            var x = document.getElementById(target);
+            x.style.overflowX='hidden';
+        };
+        function enableScroll(target){
+            var x = document.getElementById(target);
+            x.style.overflowX='scroll';
+            {#x.style.direction='rtl';#}
+        };
+        function show(target) {
+            var x = document.getElementById(target);
+            x.style.display = "block";
+        };
+        function showInline(target) {
+            var x = document.getElementById(target);
+            x.style.display = "inline-block";
+        };
+        function showFlex(target) {
+            var x = document.getElementById(target);
+            x.style.display = "flex";
+        };
+        function deleteElement(elementID){
+              var element = document.getElementById(elementID);
+              element.parentNode.removeChild(element);
+         };
+
+
+</script>
+
+{% endblock %}

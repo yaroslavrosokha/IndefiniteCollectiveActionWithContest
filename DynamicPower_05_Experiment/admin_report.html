@@ -1,0 +1,21 @@
+<p>Here is the sorted list of payoffs in round {{ subsession.round_number }}</p>
+
+
+<table class="table" style="text-align:center">
+ <tr>
+    <th>ID</th>
+    <th>Match</th>
+    <th>Round</th>
+	<th>Round Payoff</th>
+	<th>Match Payoff</th>
+  </tr>
+  
+	{{ for row in table_output }}
+	<tr> 
+			{{ for ele in row }}
+			<td> {{ ele }} </td>
+			{{ endfor }}
+	</tr>
+		{{ endfor }}
+	
+</table> 

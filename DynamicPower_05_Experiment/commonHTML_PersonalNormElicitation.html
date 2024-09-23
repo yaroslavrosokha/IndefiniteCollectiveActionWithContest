@@ -1,0 +1,47 @@
+<div class="container" style="max-width: 1000px">
+ {{ if Enable_chat }}   <div class="row">
+    <div class="col-6" id ="Table_Belief"> {{ endif }}
+		<div class="column" style="background-color:#ffffff;text-align: center;font-size: 20px">
+		 <b> Question 2: How appropriate do YOU think your actions in this round are? </b>
+
+		</div>
+		
+		<table class="table table_belief" style="text-align: center">
+		<tr> 
+			<th> </th>
+			<th style="width:150px">  Inappropriate </th>
+			<th style="width:150px">  Somewhat <br>  Inappropriate </th>  
+			<th style="width:150px">  Somewhat <br>  Appropriate </th>
+			<th style="width:150px">  Appropriate </th>  
+		</tr>
+		
+		<tr>
+		<th> <button type="X_button" onclick="event.preventDefault()"> X </button>  </th> 
+		{{ for choice in  form.myPNorm_X}}
+			<td> {{ choice }} </td>
+		{{ endfor }}
+		</tr>
+		
+		
+		<tr>
+		<th> <button type="Y_button" onclick="event.preventDefault()"> Y </button> </th>
+		{{ for choice in  form.myPNorm_Y}}
+			<td> {{ choice }} </td>
+		{{ endfor }}
+
+		</tr>
+		</table>
+	
+	
+	{{ if Enable_chat }}
+	</div>
+    <div class="col-6">
+		<div class="card-body">
+		{{chat nickname=player.chat_nickname channel=player.channel_str }}	
+		</div>
+    </div>		
+	</div>
+	{{ endif }}
+	
+
+</div>

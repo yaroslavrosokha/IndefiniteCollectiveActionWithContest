@@ -1,0 +1,191 @@
+{% extends "otree/Page.html" %}
+{% load staticfiles otree %}
+
+{% block app_styles %}
+    {% include 'DynamicPower_05_Experiment/commonCSS.html' %}
+{% endblock %}
+
+
+
+
+{% block title %}
+   <mark_stage2> Stage 2 Details </mark_stage2>
+	<!-- (P05_Stage2Details) -->
+{% endblock %}
+
+{% block content %}
+		{% include 'DynamicPower_05_Experiment/commonHTML_Table.html' %}
+ <input type="hidden" name="placeholder" value="," id="id_calculatorHistory"/>
+
+
+    <div class="card-body" style="text-align: left">
+		<div style="position:relative;left: 20%;width: 60%;background-color: #ffffff">
+
+		<p> Once all participants in the match have chosen their actions in Stage 1, 
+		the summary table will be updated to reflect that choice and the experiment will proceed to Stage 2. 
+		<button type="button" class="otree-btn-next btn btn-primary" 
+		style="left:5px; bottom:2px; height: 21px; width: 50px; line-height: 15px; padding: 3px; background-color: #1e8f27; border-color: #1e8f27;" 
+		onclick="Unhighlight(this)" > Next </button>
+		</p>
+		
+		
+		<p id = "line2" style="display:none;">
+		{{ if End }}
+		In Stage 2, everyone will choose how many points earned in Stage 1 to spend on shares for the next Round. 
+		Currently, your choice is marked with a '?' denoting that it has not yet been made.
+		{{ else }}
+		In Stage 2, everyone will spend {{ FixedRatio}} of the points earned in Stage 1 on shares for the next Round.
+		Currently, your spend is marked with a '?'.
+		{{ endif }}
+		
+		<button type="button"  class="otree-btn-next btn btn-primary" 
+				style="left:5px; bottom:2px; height: 21px; width: 50px; line-height: 15px; padding: 3px; background-color: #1e8f27; border-color: #1e8f27;" 
+		onclick="NextLine3(this)" > Next </button>		</p>
+		
+		<p id = "line3"  style="display:none;"> The number of shares you get in the next round will be 
+		determined by what percentage of total points spent in Stage 2 was spent by you. 
+		{{ if End}} (If no one spent any point, each of you will get {{ EqualShares}} shares in the next round.) {{ endif }}
+		<button type="button"  class="otree-btn-next btn btn-primary" 
+				style="left:5px; bottom:2px; height: 21px; width: 50px; line-height: 15px; padding: 3px; background-color: #1e8f27; border-color: #1e8f27;" 
+		onclick="NextLines(this, 4)" > Next </button>
+		</p>
+		
+		<p id = "line4"  style="display:none;"> 
+
+		{{  if End }}
+		Again, you will be provided with a calculator to check different scenarios. 
+		{{ else }}
+		
+		You don't need to make a decision in this stage.
+		{{ endif }}
+
+		</p>
+		
+	
+		<center>
+            <button class="otree-btn-next btn btn-primary" id="NextButton" style="display:none;">Next</button>
+         </center>
+
+</div>
+
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+{% include 'DynamicPower_05_Experiment/commonJS.html' %}
+	<script type="text/javascript" async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
+    
+	setTimeout(
+		function () {
+			alert("Please click 'Next' when you are done reading this page.");
+		},
+		120*1000 // 120 seconds
+	);
+
+	
+		<!-- Only generate the current table-->
+	var Card = document.getElementById("InformationTable");
+	var Card_div = document.createElement('div');
+	Card_div.className = "row";
+	Card_div.style = "justify-content: center;";
+	Card.appendChild(Card_div);	
+	
+	
+	var div_c1 =  document.createElement('div');
+	div_c1.className = "closeTable";
+	div_c1.style.width = "50px";
+	div_c1.id = "column1";
+	ShowFirstColumn(div_c1);
+	Card_div.appendChild(div_c1);
+
+	var div_c2 = document.createElement('div');
+	div_c2.className = "closeTable";
+	div_c2.style.width = "300px";
+	div_c2.id = "column2";
+	ShowCurrentTable(div_c2);
+	Card_div.appendChild(div_c2);	
+	document.getElementsByClassName('CurrentRound_cell LeftBorder')[0].innerHTML = "Example Round ";
+	
+	<!-- var div_c3 = document.createElement('div'); -->
+	<!-- div_c3.className = "closeTable"; -->
+	<!-- div_c3.style.width = "300px"; -->
+	<!-- div_c3.id = "column3"; -->
+	<!-- ShowCurrentTable(div_c3); -->
+	<!-- Card_div.appendChild(div_c3);	 -->
+	<!-- document.getElementsByClassName('CurrentRound_cell LeftBorder')[0].innerHTML = "Next Round "; -->
+
+	<!-- Start with the highlighted shares.  -->
+
+	var shares = document.getElementsByClassName("col1 ");	 
+	shares[0].className += " top_highlight_instruction left_highlight_instruction ";
+	shares[1].className += " left_highlight_instruction ";
+	shares[2].className += " left_highlight_instruction ";
+	if ( js_vars.Faction_Number_minus1 == 1 ) {
+		shares[2].className += " bottom_highlight_instruction";
+	}
+	if ( js_vars.Faction_Number_minus1 != 1 ) {
+		shares[3].className += " left_highlight_instruction ";
+		shares[4].className += " bottom_highlight_instruction left_highlight_instruction ";
+	}
+	var shares = document.getElementsByClassName("col2 ");	 
+	shares[0].className += " top_highlight_instruction  right_highlight_instruction";
+	shares[1].className += "  right_highlight_instruction";
+	shares[2].className += "  right_highlight_instruction";
+	if ( js_vars.Faction_Number_minus1 != 1 ) {
+		shares[3].className += "  right_highlight_instruction";
+		shares[4].className += " bottom_highlight_instruction  right_highlight_instruction";
+	}
+	if ( js_vars.Faction_Number_minus1 == 1 ) {
+		shares[2].className += " bottom_highlight_instruction";
+	}
+	function Unhighlight(ele) {
+		var shares = document.getElementsByClassName("col1 ");	 
+		shares[0].className = shares[0].className.replace(" top_highlight_instruction left_highlight_instruction ","");
+		shares[1].className = shares[1].className.replace(" left_highlight_instruction ", "");
+		shares[2].className = shares[2].className.replace(" left_highlight_instruction ","");
+		if ( js_vars.Faction_Number_minus1 != 1 ) {
+		shares[3].className = shares[3].className.replace(" left_highlight_instruction ","");
+		shares[4].className = shares[4].className.replace(" bottom_highlight_instruction left_highlight_instruction ","");
+		}
+		if ( js_vars.Faction_Number_minus1 == 1 ) {
+		shares[2].className = shares[2].className.replace(" bottom_highlight_instruction","");
+		}
+		var shares = document.getElementsByClassName("col2 ");	 
+		shares[0].className = shares[0].className.replace(" top_highlight_instruction  right_highlight_instruction", "");
+		shares[1].className = shares[1].className.replace("  right_highlight_instruction","");
+		shares[2].className = shares[2].className.replace("  right_highlight_instruction","");
+		if ( js_vars.Faction_Number_minus1 == 1 ) {
+		shares[2].className = shares[2].className.replace(" bottom_highlight_instruction","");
+		}
+		if ( js_vars.Faction_Number_minus1 != 1 ) {
+		shares[3].className = shares[3].className.replace("  right_highlight_instruction","");
+		shares[4].className = shares[4].className.replace(" bottom_highlight_instruction  right_highlight_instruction","");
+		}
+		ele.style="display:none";
+		document.getElementById("ToBeDecided3").style = "border-color: red; border-width: thick; ";
+		document.getElementById("line2").style = "display:block";
+
+	}
+	
+	function NextLine3(ele) {
+		ele.style="display:none";
+		document.getElementById("ToBeDecided3").style = "background-color: aliceblue;";
+		document.getElementById("line3").style = "display:block";
+
+	}
+	
+	function NextLines(ele, i) {
+		ele.style="display:none";
+		document.getElementById("line"+String(i)).style = "display:block";
+		if (i==4) {
+		document.getElementById("NextButton").style = "display:block";
+		}
+	
+	}
+	
+
+
+    </script>
+{% endblock %}
+

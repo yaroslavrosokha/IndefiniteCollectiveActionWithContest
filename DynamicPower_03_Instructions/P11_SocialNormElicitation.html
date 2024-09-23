@@ -1,0 +1,187 @@
+{% extends "otree/Page.html" %}
+{% load staticfiles otree %}
+
+
+{% block title %}
+
+    Question 3 Instructions
+	<!-- (P11_SocialNormElicitation) -->
+
+{% endblock %}
+
+
+
+{% block content %}
+		<!-- {% include 'DynamicPower_05_Experiment/commonHTML_Table.html' %} -->
+
+		
+    <div class="card-body" style="text-align: left">
+	
+	<div style="position:relative;left: 20%;width: 60%;background-color: #ffffff">
+
+	 Question 3 and the response table are presented below. During the experiment, you will need to evaluate your action 
+	{{ action_X_button }} and  {{ action_Y_button }}.  
+	
+	<br>
+	
+	{% include 'DynamicPower_05_Experiment/commonHTML_SocialNormElicitation.html' %} 
+
+	<p> 	We ask you to truthfully report your evaluation. 
+	You will get {{ FixedNormPay }} points for any answer you provide.</p>
+	
+	<p> By socially appropriate, we mean behavior that most people agree is the "correct" or "ethical" thing to do. 
+	Another way to think about what we mean is that if a person were to  choose a socially inappropriate action, 
+	then someone else might be angry at the person for doing so. 
+	
+	<button type="button" class="otree-btn-next btn btn-primary" 
+		style="left:5px; bottom:2px; height: 21px; width: 300px; line-height: 15px; padding: 3px; background-color: #1e8f27; border-color: #1e8f27;" 
+	onclick="showHide(this,'details')" >Show me an example</button> </p>
+	</div>
+	
+	<div id="details" style="display:none;" >
+	<em>
+	<p> Consider the following situation: 
+	Individual A is at a local coffee shop near campus. 
+	While there, individual A notices that someone has left a wallet at one of the tables.
+	We list the 4 possible actions individual A can choose in the table below. 
+	You will rate each action on social appropriateness by clicking on the radial for that action. </p>
+	
+	<div  class="container" style="max-width: 2000px">
+		<table class="table table_belief" style=" text-align: center" >
+		<tr> 
+			<th style="width:500px; text-align: center"> Individual A's Actions  </th>
+			<th style="width:250px; text-align: center">  Very  socially inappropriate </th>
+			<th style="width:250px; text-align: center">  Somewhat socially inappropriate </th>  
+			<th style="width:250px; text-align: center">  Somewhat socially appropriate </th>
+			<th style="width:250px; text-align: center">  Very socially appropriate</th>  
+		</tr>
+			<th> Take the wallet </th>
+			{{ for choice in  form.option1}}
+			<td> {{ choice }} </td>
+			{{ endfor }}
+		<tr> 
+		</tr>
+			<th> Ask others nearby if the wallet belongs to them </th>
+			{{ for choice in  form.option2}}
+			<td> {{ choice }} </td>
+			{{ endfor }}
+		<tr> 
+		</tr>
+			<th> Leave the wallet where it is  </th>
+			{{ for choice in  form.option3}}
+			<td> {{ choice }} </td>
+			{{ endfor }}
+		<tr> 
+		</tr>
+			<th> Give the wallet to the shop manager </th>
+			{{ for choice in  form.option4}}
+			<td> {{ choice }} </td>
+			{{ endfor }}
+		<tr> 
+		</tr>
+		</table>
+	</div>
+	
+	<p> Suppose you believe that most  people think that 
+		taking the wallet is "very socially inappropriate", 
+		asking others nearby if the wallet belongs to them is "somewhat socially appropriate", 
+		leaving the wallet is "somewhat socially inappropriate" 
+		and giving the wallet to the shop manager is "very socially appropriate". 
+		Then you would have rated the actions in the following way:   
+	<button type="button"  class="otree-btn-next btn btn-primary" 
+		style="left:5px; bottom:2px; height: 21px; width: 200px; line-height: 15px; padding: 3px; background-color: #1e8f27; border-color: #1e8f27;" 	
+	onclick="FillSN()" > <em> Click me to show how </em> </button> 
+	</p>
+	<!-- <p> To reiterate, when you consider each situation, please try to give evaluations of the actions  -->
+	<!-- that will MATCH to the responses of most participants here in this room.  -->
+	<!-- At the end of each situation, you will get  {{ SocialNormPaya }} if your response matches to the category  -->
+	<!-- that is most frequently chosen by the participants in this room. </p> -->
+
+	<!-- <p>  In this part, we will show you several situations you may or may not have experienced in the previous experiment.  -->
+	<!-- For each situation, we would ask how socially appropriate you think each player's choices are.  -->
+	<!-- By socially appropriate, we mean behavior that most people agree is the "correct" or "ethical" thing to do. -->
+	<!-- Another way to think about what we mean is that if a person were to  choose a socially inappropriate action,  -->
+	<!-- then someone else might be angry at the person for doing so.  -->
+	<!-- </p> -->
+	
+	
+	<!-- <p> -->
+	<!-- To illustrate, in this example situation, you need to evaluate the actions of player 1 in round 2.  -->
+	<!-- In the history, you can see that all players chose action Y.  -->
+	<!-- Each player put 10 % of their return as effort and end up with the current power distribution.  -->
+	<!-- The table shows you the actions player 1 have.  -->
+	<!-- In the first row, you are evaluating how socially appropriate most participants here in the room would agree  -->
+	<!-- if player 1 choose action X in round 2.  -->
+	<!-- To answer this question, you need to drag the scroll bar to choose one of the four categories  -->
+	<!-- from very socially inappropriate to very socially appropriate.  -->
+	<!-- In the second row, you are evaluating how socially appropriate if player 1 continue choosing action Y in round 2.  -->
+	<!-- </p> -->
+		
+	
+	<!-- <p> -->
+	<!-- When you consider each situation, please try to give evaluations of the actions that  -->
+	<!-- will MATCH to the responses of most participants here in this room.  -->
+	<!-- At the end of each situation, you will get  {{ SocialNormPaya }} points if your response matches to the category that  -->
+	<!-- is most frequently chosen by the participants in this room.  -->
+	<!-- </p> -->
+	
+	
+	<p> 		
+	In the experiment, we ask you to evaluate how socially appropriate you actions are. 
+	That is, suppose we present the history and the current shares in your match to everyone in the room,
+	what will be the most common response regarding how appropriate your action {{ action_X_button}} and {{ action_Y_button }} are?   <p>
+	</em> 	
+
+	</div>
+	
+		<button class="otree-btn-next btn btn-primary" style="position: relative; margin-left:auto; left: 50% ">Next</button>
+		<input type='hidden' name='normDetails' value=',' id='id_testingHistory'/>
+
+
+	
+	
+	  
+	</div>
+	
+	
+
+{% endblock %}
+
+
+
+{% block scripts %}
+	{% include 'DynamicPower_05_Experiment/commonJS.html' %}	
+
+	<script type="text/javascript" async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
+	
+	
+	// make sure the scroll bar starts from the right
+	$(document).ready(function(){
+    $('#column2').scrollLeft($(this).height())
+	})
+	
+	function FillSN(){
+		document.getElementById('id_option1-0').checked = "checked";
+		document.getElementById('id_option2-2').checked = "checked";
+		document.getElementById('id_option3-1').checked = "checked";
+		document.getElementById('id_option4-3').checked = "checked";
+	
+	}
+	
+	setTimeout(
+		function () {
+			alert("Please click 'Next' when you are done reading this page.");
+		},
+		120*1000 // 120 seconds
+	);
+
+
+    </script>
+{% endblock %}
+
+
+{% block app_styles %}
+
+    {% include 'DynamicPower_05_Experiment/commonCSS.html' %}
+
+{% endblock %}

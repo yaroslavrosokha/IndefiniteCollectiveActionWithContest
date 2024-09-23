@@ -1,0 +1,126 @@
+{% extends "otree/Page.html" %}
+{% load staticfiles otree %}
+
+
+{% block title %}
+
+    Question 1 Instructions
+	<!-- (P09_BeliefElicitation)  -->
+
+{% endblock %}
+
+
+
+{% block content %}
+    <div class="card-body" style="text-align: left">
+		<div style="position:relative;left: 20%;width: 60%;background-color: #ffffff">
+
+	<p>
+	
+	Question 1 and the response table are presented below. 
+	During the experiment, you will need to enter the percent for the {{ action_X_button }} column only. 
+	The {{ action_Y_button }}  column will be updated automatically.
+	 </p>
+
+	{% include 'DynamicPower_05_Experiment/commonHTML_BeliefElicitation.html' %}
+
+
+	</b>
+	
+	
+	 
+	<!-- <p> To answer this question, you need to drag the scroll bar.  -->
+		<!-- The length of the blue bar indicates the likelihood of {{ theotherParticipant }} choosing X.  -->
+		<!-- You will receive either {{ BeliefSCorrectPerRound }} points or {{ BeliefSWrongPerRound }} point for each guess.  -->
+		<!-- Suppose you state a high number as your guess that the participant will choose X.  -->
+		<!-- Your chance of receiving {{ BeliefSCorrectPerRound }} is high if s/he chooses X,  -->
+		<!-- and your chance of receiving {{ BeliefSCorrectPerRound }}  is low if s/he chooses Y.	</p> -->
+		
+	 <p> You can earn up to 10 points based on the accuracy of your answer.
+	 <u> You can secure the largest chance of earning points by reporting your most-accurate guess. </u> </p>
+	  
+	 <p> You don't need to understand the details of how the payment works for this question. 
+	 If you are interested, please click the "More Details". If you are not interested, you can stop reading this page and click 'Next' now.	</p>
+	
+	<!-- <p> You don't need to understand the details of how the payment works for this question.  -->
+		<!-- If you are interested, the details follow below. If you are not interested, you can stop reading this page now.  -->
+	<!-- </p> -->
+	
+	<!-- <em> <p> <strong> Details. </strong>   -->
+	<!-- <input type="button_d" onclick="show('details')" value="Details.">  -->
+	<button type="button" class="otree-btn-next btn btn-primary" 
+		style="left:5px; bottom:2px; height: 21px; width: 100px; line-height: 15px; padding: 3px; background-color: #1e8f27; border-color: #1e8f27;" 
+	onclick="showHide(this,'details')" >More Details</button>
+
+	<div id="details" style="display:none; "  >
+	<em> 	Your chance of receiving {{ BeliefSCorrectPerRound }} points is determined by the following formulas: </P>
+	
+	
+	
+	<ul>
+		<li> \(  [1- [\frac{100 - \text{your guess}}{100}) ^2] \times 100 \) &nbsp; if  the other participant chooses X </li>
+		<li> \(  [1- (\frac{\text{your guess}}{100}) ^2] \times 100 	 \) &nbsp; if the other participant chooses Y  </li>
+		
+	</ul>
+	
+	<p>
+	To illustrate, suppose you guess that the chance of the participant 2 chooses X is 70. 
+	<ul>
+		<li> If s/he chooses X, your chance of receiving {{ BeliefSCorrectPerRound }} points is 
+		\( [1- (\frac{100 - 70}{100}) ^2] \times 100 =  91 \)
+		</li>
+			
+		<li>If s/he chooses X, your chance of receiving {{ BeliefSCorrectPerRound }} points is 
+			\( [1- (\frac{70}{100}) ^2] \times 100 =51 \)
+		</li> 
+	
+	</ul>
+	
+	</p> 
+	
+	<p>
+	To determine whether you receive {{ BeliefSCorrectPerRound }} points, the computer will randomly draw a number between 0 and 100. 
+	Each number between 0 and 100 is equally likely to be picked. 
+	If the number drawn by the computer is less than or equal to your chance of receiving {{BeliefSCorrectPerRound }} points as determined by the formulas above, 
+	then you will receive the points. Otherwise, you will receive {{ BeliefSWrongPerRound }} point. 
+	
+	</p>
+	</em>
+	</div>
+		</div>
+	
+	
+        <br>
+		
+		<button class="otree-btn-next btn btn-primary" style="position: relative; margin-left:auto; left: 50% ">Next</button>
+		<input type='hidden' name='beliefDetails' value=',' id='id_testingHistory'/>
+
+	</div>
+{% endblock %}
+
+
+
+{% block scripts %}
+	{% include 'DynamicPower_05_Experiment/commonJS.html' %}	
+
+	<script type="text/javascript" async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
+	setTimeout(
+		function () {
+			alert("Please click 'Next' when you are done reading this page.");
+		},
+		120*1000 // 120 seconds
+	);
+
+
+	
+	
+	</script>
+
+{% endblock %}
+
+
+{% block app_styles %}
+
+    {% include 'DynamicPower_05_Experiment/commonCSS.html' %}
+
+{% endblock %}
