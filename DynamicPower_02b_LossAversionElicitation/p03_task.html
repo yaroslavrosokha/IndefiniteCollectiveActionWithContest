@@ -1,0 +1,80 @@
+{% extends "DynamicPower_02b_LossAversionElicitation/Page.html" %}
+{% load staticfiles otree %}
+
+{% block scripts %}
+<script>
+	setTimeout(
+		function () {
+			alert("Please click 'Submit Decisions' when you are done reading this page.");
+		},
+		120*1000 // 120 seconds
+	);
+
+</script>
+{% endblock %}
+
+
+{% block title %}
+    Task # 2
+    <p align="center" style="font-size:18px">
+        Please make a choice for <strong style="color: red">each of the 16 decisions</strong> in this task. Notice that the amount in red will be subtracted from your earnings in case that outcome happens.
+    </p>
+{% endblock %}
+
+{% block content %}
+    <div class="card bg-light instructions">
+    <div class="card-body">
+
+
+    <table class="table" id="decisionTable">
+        <tr>
+            <td align="center" style="font-weight:bold;vertical-align:middle;">Decision</td>
+            <td align="right" width="400px" style="font-weight:bold;vertical-align:middle;">Option A</td>
+            <td width="20px"></td>
+            <td width="30px"></td>
+            <td align="left" style="font-weight:bold;vertical-align:middle;">Option B</td>
+            <td align="center" style="font-weight:bold;vertical-align:middle;">Your Choice</td>
+        </tr>
+        {% for number,safe in offer_numbers %}
+        <tr>
+            <td align="center">#{{ number }}</td>
+            <td align="right"><strong style="color: red;"> -${{ safe }}</strong> with 50% chance;
+                <strong style="color: #000000;">$4.00</strong> with 50% chance</td>
+            <td style="vertical-align:middle;">
+                <input type="radio" name="offer_{{ number }}" id="id_offer_A_{{ number }}" value="True" onclick="selectInTable('id_responses','id_offer_A_{{ number }}')">
+            </td>
+            <td align="left" style="vertical-align:middle;">
+                <input type="radio" name="offer_{{ number }}" value="False" onclick="selectInTable('id_responses','id_offer_A_{{ number }}')">
+            </td>
+            <td style="vertical-align:middle">
+                <strong>$0.00</strong>
+            </td>
+            <td align="center" style="font-weight:bold; vertical-align:middle">
+                __
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <p align="justify" id="SingleSwitchingMessage" style="display: none; color: red">
+        Please revisit the decision table to ensure that your responses are consistent. That is, if you switch from A to B, you should not switch back to A again.
+    </p>
+
+        <p align="center" id="NextMessage" style="display: none">
+
+        <button class="otree-btn-next btn btn-primary" id="NextButton" style="display:none;">Submit Decisions</button>
+
+    </p>
+
+    <input type="hidden" name="responses" value="0000000000000000" id="id_responses"/>
+    <input type="hidden" name="checkConfirm" id="id_checkConfirm"/>
+
+
+
+    </div>
+    </div>
+
+{% endblock %}
+
+
+

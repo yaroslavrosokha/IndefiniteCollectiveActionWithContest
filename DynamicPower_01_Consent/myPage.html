@@ -1,0 +1,141 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block app_styles %}
+
+<style type="text/css">
+
+
+.row {
+    display: flex;
+}
+
+/* Create two equal columns that sits next to each other */
+.column {
+    flex: 50%;
+    padding: 20px;
+}
+
+div.fixedTop {
+    position: fixed;
+    top: 0;
+    left: 50px;
+    border: none;
+    padding: 20px;
+}
+
+div.fixedBottom {
+    position: fixed;
+    bottom: 0;
+    left: 50px;
+    border: none;
+    padding: 20px;
+}
+
+table {
+    table-layout: fixed;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th {
+    height: 50px;
+}
+
+tr:nth-child(even) {
+    background-color: #F8F8F8;
+}
+
+.axis path, .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+path {
+    stroke: black;
+    stroke-width: 2;
+    fill: none;
+}
+
+.line {
+    fill: none;
+    stroke-width: 5px;
+    opacity: 0.5;
+}
+
+.line:hover {
+    opacity: 1;
+}
+
+.otree-body {
+
+    font-family: Proxima Nova;
+    font-size: 18px;
+    position: absolute;
+    width: 1678px;
+    height: 1048px;
+    max-width: 1678px;
+    max-height: 1048px;
+    border: solid darkgreen;
+}
+
+.otree-title {
+    background: white;
+    font-family: Proxima Nova;
+    text-align: center;
+}
+
+.otree-title.page-header {
+    font-family: Proxima Nova;
+    text-align: center;
+    padding: 0px;
+}
+
+.card-body {
+    background: white;
+    font-family: Proxima Nova;
+    font-size: 18px;
+}
+
+.card.bg-light.instructions{
+    padding: 0;
+    border: none;
+}
+
+
+
+</style>
+
+{% endblock %}
+
+
+
+
+{% block app_scripts %}
+
+<script>
+
+function hide(target) {
+    var x = document.getElementById(target);
+    x.style.display = "none";
+}
+
+function show(target) {
+    var x = document.getElementById(target);
+    x.style.display = "block";
+}
+
+function deleteElement(elementID){
+      var element = document.getElementById(elementID);
+      element.parentNode.removeChild(element);
+ }
+
+function updateText(target,someText) {
+    var x = document.getElementById(target);
+    x.innerHTML=someText;
+}
+    
+</script>
+
+{% endblock %}

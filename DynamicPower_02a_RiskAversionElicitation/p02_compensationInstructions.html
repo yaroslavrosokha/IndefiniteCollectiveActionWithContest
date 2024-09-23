@@ -1,0 +1,116 @@
+{% extends "DynamicPower_02a_RiskAversionElicitation/Page.html" %}
+{% load staticfiles otree %}
+
+{% block title %}
+    Tasks #1-4: Compensations
+{% endblock %}
+
+{% block scripts %}
+<script>
+setTimeout(
+    function () {
+        alert("Please click 'Next' when you are done reading this page.");
+    },
+    90*1000 // 90 seconds
+);
+</script>
+{% endblock %}
+
+{% block content %}
+    <div class="card bg-light instructions">
+    <div class="card-body">
+	 <div style="position:relative;left: 25%;width: 50%;background-color: #ffffff">
+     <p align="justify">
+            In each of the Tasks #1-4, you will make a series of decisions. 
+			At the end of the experiment, if one of these tasks is chosen for compensation, then the computer will
+            randomly select one of the decisions to be carried out.
+            As an example, we will demonstrate how compensation works with the practice tasks that you just did.
+     </p>
+
+     <p align="justify">The procedure involves two steps:
+     <ul align="justify">
+         <li>First, one of the decisions from the task will be chosen at random. For example, in the practice task you had
+                5 decisions, so one will be chosen randomly by the computer (with equal probability).
+         </li>
+         <li>Second, depending on the chosen decision in step one, a random draw might be necessary.
+                For example, if you chose Option A over Option B, then a random draw will be made to determine the
+                outcome of Option A. For example, in the practice task, Option A has 50% to pay ${{ Constants.riskySuccess }} and 50% to pay ${{ Constants.riskyFailure }}.
+         </li>
+     </ul>
+     </p>
+
+     <p align="justify">To demonstrate the compensation procedure, we will perform the two steps
+            using the practice task.
+     </p>
+
+     <p id="parPickTask"></p>
+			<!-- <p style="align-items: center"> -->
+			<table class="table" id="CompensationTable" style="display:flex;">
+			<tr>
+				<td align="center" style="font-weight:bold">Decision</td>
+				<td align="right" width="400px" style="font-weight:bold">Option A</td>
+				<td align="left"  width="100px" style="font-weight:bold">Option B</td>
+				<td align="center" style="font-weight:bold">Your Choice</td>
+			</tr>
+			{% for number, safe in offer_numbers %}
+			<tr>
+				<td align="center">#{{ number }} </td>
+				<td align="right"><strong style="color: #000000;">
+					${{ Constants.riskySuccess }}</strong> with 50% chance;
+					<strong style="color: #000000;">${{ Constants.riskyFailure }}</strong> with 50% chance;
+				</td>
+				<td align="left"> <strong>${{ safe }}</strong>   </td>
+				<td align="center" style="font-weight:bold"> --  </td>
+			</tr>
+			{% endfor %}
+			</table>
+			<!-- </p> -->
+
+
+        <p align="center">
+        <button type="button" id='pickDecisionButton' class="btn btn-primary btn-large"
+                onclick="randomDecision();" style="display:flex;">Randomly Pick a Decision
+        </button>
+        </p>
+        <p id="parPickDecision"></p>
+
+        <p align="center">
+        <button type="button" id='pickDrawButton' class="btn btn-primary btn-large"
+                onclick="randomDraw();" style="display:none;">Randomly Determine the Outcome of Option A
+        </button>
+        </p>
+        <p id="parPickDraw"></p>
+        <p id="parSumComp" style="font-weight:bold;color:red"></p>
+
+
+        <p id="continueNext" align="justify" style="display:none;">
+            To gain further understanding of the compensation procedure, you may try
+            again. You may also raise your hand and and an experiment administrator will
+            come up to you. At that time you can quietly ask a question.
+        </p>
+        <p align="center">
+        <button type="button" id='tryAgainButton' class="btn btn-primary btn-large"
+                onclick="tryAgain();" style="display:none;">Try Again</button>
+        </p>
+        <p id="continueNextNote" align="justify" style="display:none;">
+            In the actual experiment, this procedure will be carried out <strong style="color: red;">only once</strong>.
+            If you are ready to begin, please click <strong style="color: blue;">Next</strong>.
+        </p>
+		
+		<center>
+        <button class="otree-btn-next btn btn-primary" id="NextButton" style="display:none;">Next</button>
+		</center>
+    </div>
+    </div>
+	</div>
+
+
+
+    <input type="hidden" name="practiceTaskSelected" value="" id="id_taskSelected"/>
+    <input type="hidden" name="practiceDecisionSelected" value="" id="id_decisionSelected"/>
+    <input type="hidden" name="practiceDrawSelected" value="" id="id_drawSelected"/>
+	
+{% endblock %}
+
+
+

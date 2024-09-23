@@ -1,0 +1,140 @@
+{% extends "DynamicPower_01_Consent/myPage.html" %}
+{% load staticfiles otree %}
+
+{% block title %}
+    Research Participant Information Template<br/>
+
+{% endblock %}
+
+{% block scripts %}
+
+    <!-- define a script -->
+    <script>
+
+
+function myConsentFunction() {
+  confirm("You have chosen to not participate. At this time you will will be asked to leave the lab. Please RAISE YOUR HAND to let the experimenter know or go back to the consent form.");
+}
+
+    </script>
+
+{% endblock %}
+
+
+
+
+
+{% block content %}
+
+    <div class="fixedTop">
+    IRB Protocol #: [...]
+    </div>
+
+    <div class="fixedBottom">
+    You may ask for a copy of this information sheet for your records.
+    </div>
+
+    <p align="center">
+        <small style="font-size: 18px; align-content: center">[...Economics Experiment Title...]</small><br/>
+        <small style="font-size: 18px;">[...Contact Information...]</small>
+    </p>
+
+    <div class="row">
+  <div class="column" style="background-color:white;">
+
+    <p align="justify">
+        <strong>Key Information:</strong> Please take time to review this information carefully.
+        This is a research study. Your participation in this study is voluntary which means that you
+        may choose not to participate at any time without penalty or loss of benefits to which you are
+        otherwise entitled.  You may ask questions to the researchers about the study whenever you would
+        like. If you decide to take part in the study, be sure you understand what you will do and any possible risks or benefits.
+    </p>
+
+
+    <p align="justify">
+        <strong>What is the purpose of this study?</strong> This is research to learn how people make economic decisions using human subjects as participants.
+    </p>
+
+    <p align="justify">
+        <strong>What will I do if I choose to be in this study?</strong> The experiment will begin with a set of instructions presented to you on the computer screen.
+        After the instructions, you will be given a quiz to make sure you've read the instructions. After the quiz, the experiment will begin.
+
+In the experiment, you will face a sequence of matches against randomly selected participants in this room.
+        In each match, you will make decisions. For each decision, you will choose one of the available options.
+        At the end of the experiment, you will be asked to complete a feedback questionnaire.
+
+The data collected in the experiment will include the choices you have made, as well as your responses to questionnaires.
+        The data will be recorded using randomly assigned identification numbers that are not linked to your identity.
+    </p>
+
+    <p align="justify">
+        <strong>How long will I be in the study?</strong> The entire experiment (including instructions) is expected to last approximately [...duration...].
+    </p>
+
+    <p align="justify">
+        <strong>What are the possible risks or discomforts?</strong> Risks are minimal and are no greater than those encountered in everyday activities.
+        Because the experiment is in a group, other subjects will know that you participated, but they will not learn the choices you make.
+        In addition, we will take precautions to minimize the risk of breach of confidentiality as described in the confidentiality section.
+    </p>
+
+    <p align="justify">
+        <strong>Are there any potential benefits?</strong> There is no direct benefit to you.
+    </p>
+
+    <p align="justify">
+        <strong>What alternatives are available? </strong> You may choose not to participate in this research study.
+    </p>
+
+
+  </div>
+  <div class="column" style="background-color:white;">
+
+          <p align="justify">
+        <strong>Will I receive payment or other incentive?</strong> You will be paid in cash at the end of the experiment.
+              The amount of money earned depends upon your decisions and on chance. The typical amount ranges between $10 and $30 per person.
+              You are guaranteed to receive $5 regardless of your decisions. You will receive $5 even if you choose to withdraw from the experiment.
+
+According to the rules of the Internal Revenue Service (IRS), payments that are made to you as a result of your participation in a study may be considered taxable income.
+
+    </p>
+
+<p align="justify">
+        <strong>Will information about me and my participation be kept confidential?</strong> The project's research records may be reviewed by the US DHHS Office for
+    Human Research Protections, and by departments at [...university...] responsible for regulatory and research oversight.
+
+Data from the experiment are recorded using randomly assigned identification numbers that are not linked to your identity.
+    The data will be stored indefinitely on the researcher’s computer. The data may be used in future research
+    and shared with other researchers. You will need to sign a receipt in order to get paid. The receipt with
+    your name and signature may be provided to the business office in order to facilitate reimbursement.
+
+    </p>
+
+    <p align="justify">
+        <strong>What are my rights if I take part in this study? </strong> Your participation in this study is voluntary.
+        You may choose not to participate or, if you agree to participate, you can withdraw your participation at any time without penalty or loss of benefits to which you are otherwise entitled.
+    </p>
+
+    <p align="justify">
+        <strong>Who can I contact if I have questions about the study?</strong> If you have questions, comments or concerns about this research project, you can talk to one of the researchers.  Please contact [...contact information...]
+
+If you have questions about your rights while taking part in the study or have concerns about the treatment of research participants, please contact [...contact info...]
+
+    </p>
+
+    <p align="justify">
+        <strong>Informed Consent:</strong> I have had the opportunity to read this consent form and ask questions about the research study, and my questions have been answered.
+        I am <b>at least 18 years </b> of age and prepared to participate in the research study described above using a web-browser on a desktop computer.
+    </p>
+
+    <div style="text-align: center">
+          <button name="consent" value="Yes" class="btn btn-primary btn-large"><strong>Yes</strong>, I agree to participate</button>
+          <button type="button" class="btn btn-primary" onclick="myConsentFunction()"> <strong>No</strong>, I do not agree to participate </button>
+      </div>
+
+
+  </div>
+</div>
+
+
+{% endblock %}
+

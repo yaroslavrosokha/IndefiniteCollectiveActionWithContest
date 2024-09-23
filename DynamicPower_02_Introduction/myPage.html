@@ -1,0 +1,389 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block app_styles %}
+
+<style type="text/css">
+
+table {
+    table-layout: fixed;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th {
+    height: 50px;
+}
+
+tr:nth-child(even) {
+    background-color: #F8F8F8;
+}
+
+.axis path, .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+path {
+    stroke: black;
+    stroke-width: 2;
+    fill: none;
+}
+
+.line {
+    fill: none;
+    stroke-width: 5px;
+    opacity: 0.5;
+}
+
+.line:hover {
+    opacity: 1;
+}
+
+
+.otree-body {
+
+    font-family: Proxima Nova;
+    font-size: 18px;
+    position: absolute;
+    width: 1678px;
+    height: 1048px;
+    max-width: 1678px;
+    max-height: 1048px;
+    border: solid darkgreen;
+}
+
+.otree-title {
+    background: white;
+    font-family: Proxima Nova;
+    text-align: center;
+}
+
+.otree-title.page-header {
+    font-family: Proxima Nova;
+    text-align: center;
+    padding: 0px;
+}
+
+.card-body {
+    background: white;
+    font-family: Proxima Nova;
+    font-size: 18px;
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+.card.bg-light.instructions{
+    padding: 0;
+    border: none;
+}
+
+.blink_me {
+    -webkit-animation-name: blinker;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: 3;
+
+    -moz-animation-name: blinker;
+    -moz-animation-duration: 1s;
+    -moz-animation-timing-function: linear;
+    -moz-animation-iteration-count: 3;
+
+    animation-name: blinker;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: 3;
+}
+
+@-moz-keyframes blinker {
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+@-webkit-keyframes blinker {
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+
+</style>
+
+{% endblock %}
+
+
+
+
+{% block app_scripts %}
+
+<script>
+
+var MyVariables = {currentPage:1};
+
+
+function showText(target,someText) {
+    var x = document.getElementById(target);
+    x.style.display = "block";
+    x.innerHTML=someText;
+}
+
+function updateText(target,someText) {
+    var x = document.getElementById(target);
+    x.innerHTML=someText;
+}
+
+function hide(target) {
+    var x = document.getElementById(target);
+    x.style.display = "none";
+}
+
+function show(target) {
+    var x = document.getElementById(target);
+    x.style.display = "block";
+}
+
+function deleteElement(elementID){
+      var element = document.getElementById(elementID);
+      element.parentNode.removeChild(element);
+ }
+
+
+function draw1() {
+
+    var canvas = document.getElementById("canvas1");
+    if (null == canvas || !canvas.getContext) return;
+
+    var axes = {}, ctx = canvas.getContext("2d");
+    axes.xMin = 35;  // x0 pixels from left to x=0
+    axes.xMax = canvas.width - 35;
+    axes.yMin = -35 + canvas.height; // y0 pixels from top to y=0
+    axes.yMax = 35;
+    axes.xScale = (axes.xMax - axes.xMin) / 20.0;
+    axes.yScale = (axes.yMin - axes.yMax) / 0.35;
+
+    funGraph(ctx, axes, fun3, "#8e5ea2", 3);
+    showAxes(ctx, axes);
+}
+function draw2() {
+
+    var canvas = document.getElementById("canvas1");
+    if (null == canvas || !canvas.getContext) return;
+
+    var axes = {}, ctx = canvas.getContext("2d");
+    axes.xMin = 35;  // x0 pixels from left to x=0
+    axes.xMax = canvas.width - 35;
+    axes.yMin = -35 + canvas.height; // y0 pixels from top to y=0
+    axes.yMax = 35;
+    axes.xScale = (axes.xMax - axes.xMin) / 20.0;
+    axes.yScale = (axes.yMin - axes.yMax) / 0.35;
+
+    ctx.clearRect(0, 0, ctx.width, ctx.height);
+    pointsGraph(ctx, axes,[.5,.75,1.9,1.2]);
+    bestGraph(ctx, axes, fun3, 0,1.9);
+
+    funGraph(ctx, axes, fun3, "#8e5ea2", 3);
+    showAxes(ctx, axes);
+}
+function draw3() {
+
+    var canvas = document.getElementById("canvas1");
+    if (null == canvas || !canvas.getContext) return;
+
+    var axes = {}, ctx = canvas.getContext("2d");
+    axes.xMin = 35;  // x0 pixels from left to x=0
+    axes.xMax = canvas.width - 35;
+    axes.yMin = -35 + canvas.height; // y0 pixels from top to y=0
+    axes.yMax = 35;
+    axes.xScale = (axes.xMax - axes.xMin) / 20.0;
+    axes.yScale = (axes.yMin - axes.yMax) / 0.35;
+
+    ctx.clearRect(0, 0, ctx.width, ctx.height);
+    shadeGraph1(ctx, axes, fun3, "#fdccc7",1.9);
+    shadeGraph2(ctx, axes, fun3, "#d7eedd",1.9);
+    pointsGraph(ctx, axes,[.5,.75,1.9,1.2]);
+    bestGraph(ctx, axes, fun3, 1,1.9);
+
+    funGraph(ctx, axes, fun3, "#8e5ea2", 3);
+    showAxes(ctx, axes);
+}
+function funGraph (ctx,axes,func,color,thick) {
+    var xx, yy, dx = 1, x0 = axes.xMin, x1 = axes.xMax, y0 = axes.yMin, y1 = axes.yMax;
+    var xScale = axes.xScale, yScale = axes.yScale;
+    var iMax = Math.round((x1 - x0) / dx);
+    var iMin = 0;
+    ctx.beginPath();
+    ctx.lineWidth = thick;
+    ctx.strokeStyle = color;
+
+    for (var i = iMin; i <= iMax; i++) {
+        xx = dx * i;
+        yy = yScale * func(xx / xScale);
+        if (i == iMin) ctx.moveTo(x0 + xx, y0 - yy);
+        else ctx.lineTo(x0 + xx, y0 - yy);
+    }
+    ctx.stroke();
+}
+function pointsGraph(ctx,axes,points) {
+
+    var xx, yy, dx = 1, x0 = axes.xMin, x1 = axes.xMax, y0 = axes.yMin, y1 = axes.yMax;
+    var xScale = axes.xScale, yScale = axes.yScale;
+
+    ctx.beginPath();
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = "black";
+
+    for (var i = 0; i < points.length; i++) {
+        xx = points[i] * xScale;
+        yy = y0 - 20;
+        ctx.moveTo(x0 + xx, y0);
+        ctx.lineTo(x0 + xx, yy)
+    }
+    ctx.stroke();
+}
+function pointGraph(ctx,axes,point,color) {
+
+    var xx, yy, dx = 1, x0 = axes.xMin, x1 = axes.xMax, y0 = axes.yMin, y1 = axes.yMax;
+    var xScale = axes.xScale, yScale = axes.yScale;
+
+    ctx.beginPath();
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = color;
+
+
+    xx = point * xScale;
+    yy = y0 - 20;
+    ctx.moveTo(x0 + xx, y0);
+    ctx.lineTo(x0 + xx, yy);
+
+    ctx.stroke();
+}
+function bestGraph(ctx,axes,func,showProbs,best) {
+
+    var xx, yy, dx = 1, x0 = axes.xMin, x1 = axes.xMax, y0 = axes.yMin, y1 = axes.yMax;
+    var xScale = axes.xScale, yScale = axes.yScale;
+
+
+    if (showProbs == 1) {
+        ctx.beginPath();
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = "rgb(128,128,128)";
+
+        xx = (best / 2.0) * xScale;
+        yy = (yScale * func(xx / xScale) + 0) / 2.0;
+        ctx.moveTo(x0 + xx, y0 - yy);
+        ctx.lineTo(x0 + xx, y0 - yy - 150);
+        ctx.setLineDash([5, 6]);
+        ctx.stroke();
+
+        ctx.textAlign = 'center';
+        ctx.fillStyle = "rgb(128,128,128)";
+        ctx.fillText((100 * fun3Cumulative(best)).toFixed(0) + "%", x0 + xx, y0 - yy - 150);
+
+        xx = ((best + 20) / 2.0) * xScale;
+        yy = (yScale * func(xx / xScale) + 0) / 2.0;
+        ctx.moveTo(x0 + xx, y0 - yy);
+        ctx.lineTo(x0 + xx, y0 - yy - 150);
+        ctx.setLineDash([5, 6]);
+        ctx.stroke();
+
+        ctx.textAlign = 'center';
+        ctx.fillStyle = "rgb(128,128,128)";
+        ctx.fillText((100 * (1 - fun3Cumulative(best))).toFixed(0) + "%", x0 + xx, y0 - yy - 150);
+
+        ctx.setLineDash([]);
+    }
+}
+function shadeGraph1 (ctx,axes,func,color,best) {
+    var xx, yy, dx = 1, x0 = axes.xMin, x1 = axes.xMax, y0 = axes.yMin, y1 = axes.yMax;
+    var xScale = axes.xScale, yScale = axes.yScale;
+    var iMax = Math.round((best * xScale) / dx);
+    var iMin = 0;
+    ctx.beginPath();
+
+    ctx.fillStyle = color;
+
+    for (var i = iMin; i <= iMax; i++) {
+        xx = dx * i;
+        yy = yScale * func(xx / xScale);
+        if (i == iMin) ctx.moveTo(x0 + xx, y0 - yy);
+        else ctx.lineTo(x0 + xx, y0 - yy);
+    }
+    ctx.lineTo(x0 + xx, y0);
+    ctx.lineTo(x0, y0);
+    ctx.fill();
+}
+function shadeGraph2 (ctx,axes,func,color,best) {
+    var xx, yy, dx = 1, x0 = axes.xMin, x1 = axes.xMax, y0 = axes.yMin, y1 = axes.yMax;
+    var xScale = axes.xScale, yScale = axes.yScale;
+
+    var iMin = Math.round((best * xScale) / dx);
+    var iMax = Math.round((x1 - x0) / dx);
+    ctx.beginPath();
+
+    ctx.fillStyle = color;
+
+    for (var i = iMin; i <= iMax; i++) {
+        xx = dx * i;
+        yy = yScale * func(xx / xScale);
+        if (i == iMin) ctx.moveTo(x0 + xx, y0 - yy);
+        else ctx.lineTo(x0 + xx, y0 - yy);
+    }
+    ctx.lineTo(xx, y0);
+    ctx.lineTo(x0 + best * xScale, y0);
+    ctx.fill();
+}
+function showAxes(ctx,axes) {
+    var x0 = axes.xMin, x1 = axes.xMax;
+    var y0 = axes.yMin, y1 = axes.yMax;
+    ctx.beginPath();
+    ctx.strokeStyle = "rgb(128,128,128)";
+    ctx.moveTo(x0, y0);
+    ctx.lineTo(x1, y0);  // X axis
+    ctx.moveTo(x0, y0);
+    ctx.lineTo(x0, y1);  // Y axis
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+
+    var points = [0, 1, 2, 3, 4, 5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
+    var xx, yy, dx = 1, x0 = axes.xMin, x1 = axes.xMax, y0 = axes.yMin, y1 = axes.yMax;
+    var xScale = axes.xScale, yScale = axes.yScale;
+
+    ctx.beginPath();
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = "rgb(128,128,128)";
+    ctx.fillStyle = "rgb(128,128,128)";
+    ctx.textAlign = 'center';
+
+    for (var i = 0; i < points.length; i++) {
+        xx = points[i] * xScale;
+        yy = y0 + 10;
+        ctx.moveTo(x0 + xx, y0);
+        ctx.lineTo(x0 + xx, yy);
+
+        ctx.fillText(points[i].toFixed(0), x0 + xx, yy + 10);
+    }
+    ctx.stroke();
+
+
+    ctx.fillText("Technology Profit ($)", (x0 + x1) / 2.0, yy + 20);
+
+
+    var lineHeight = 15;
+    x = x0 - 20;
+    y = (y0 + y1) / 2.0;
+
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(-Math.PI / 2);
+
+    ctx.fillText('Likelihood', 0, lineHeight / 2);
+
+    ctx.restore();
+}
+
+</script>
+
+{% endblock %}

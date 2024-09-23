@@ -1,0 +1,64 @@
+{% extends "DynamicPower_02_Introduction/myPage.html" %}
+{% load staticfiles otree %}
+
+{% block title %}
+		Experiment Overview
+		<!-- (P01_Overview) -->
+{% endblock %}
+
+{% block scripts %}
+<script>
+setTimeout(
+    function () {
+        alert("Please click 'Next' when you are done reading this page.");
+    },
+    60*1000 // 60 seconds
+);
+</script>
+{% endblock %}
+
+{% block content %}
+    <div class="card bg-light instructions">
+    <div class="card-body">
+    <p align="justify">Today's experiment will last about {{ Constants.duration }} minutes.</p>
+
+    <p align="justify">
+        You will be paid a show-up fee of ${{ Constants.min_payment }} together with any money you accumulate during this experiment.
+        The amount of money you accumulate will depend partly on your actions, partly on the actions of other participants, and partly on chance.
+        This money will be paid at the end of the experiment in private and in cash.
+    </p>
+
+    <p align="justify">
+        It is important that during the experiment you remain <b>silent</b>.
+        If you have a question or need assistance of any kind, please <b>raise your hand,
+        but do not speak</b> - and an experiment administrator will
+        come to you, and you may then whisper your question.
+    </p>
+
+    <p align="justify">
+        In addition, please <b>turn off your cell phones and
+        put them away now</b>.
+    </p>
+
+    <p align="justify">
+        Anybody who breaks these rules will be asked to leave.
+    </p>
+
+
+        <strong style="color: blue">Agenda:</strong>
+        <ul>
+		<li>Part 1 </li>
+		<li>Part 2 </li>
+		<li>Questionnaire </li>
+        </ul>
+
+    </p>
+            <p style="text-align: center"><br/>
+                <button class="otree-btn-next btn btn-primary" id="NextButton" style="display:inline-block;">Next</button>
+            </p>
+
+    </div>
+
+    </div>
+
+{% endblock %}

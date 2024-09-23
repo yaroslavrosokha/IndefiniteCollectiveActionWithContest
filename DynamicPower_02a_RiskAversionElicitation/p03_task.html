@@ -1,0 +1,222 @@
+{% extends "DynamicPower_02a_RiskAversionElicitation/Page.html" %}
+{% load staticfiles otree %}
+
+{% block title %}
+    Task #1
+    <p align="center" style="font-size:18px">
+        Please make a choice for <strong style="color: red">each of the 16 decisions</strong> in this task.
+    </p>
+{% endblock %}
+
+{% block scripts %}
+<script>
+	setTimeout(
+		function () {
+			alert("Please click 'Submit Decisions' when you are done reading this page.");
+		},
+		120*1000 // 120 seconds
+	);
+
+    function selectInTable(taskID,whichOffer) {
+            var k = document.getElementById(taskID);
+            var s = k.value;
+            var elemNames = ["id_offer_A_1", "id_offer_A_2", "id_offer_A_3", "id_offer_A_4", "id_offer_A_5", "id_offer_A_6", "id_offer_A_7", "id_offer_A_8", "id_offer_A_9", "id_offer_A_10",
+            "id_offer_A_11", "id_offer_A_12", "id_offer_A_13", "id_offer_A_14", "id_offer_A_15", "id_offer_A_16"];
+            for (var i = 0; i < elemNames.length; i++) {
+
+
+                if (elemNames[i] == whichOffer) {
+
+                    console.log("Current Element:",elemNames[i])
+
+
+                    j = document.getElementById(elemNames[i]);
+                    s = s.substr(0, i) + j.checked.toString().substr(0, 1) + s.substr(i + 1);
+                    s = s.replace(/t/g, "A");
+                    s = s.replace(/f/g, "B");
+
+                    updateRow(i+1,s)
+                }
+            }
+
+            if (s.indexOf('0') > -1) {
+                console.log("Still some zeros...")
+            }else{
+
+                var res = checkSingleSwitching(s);
+
+                console.log("Single Switching Result:",res);
+
+                if(res[0]>res[1]) {
+                    var tempElem = document.getElementById('id_checkConfirm');
+                    tempElem.value = 'True';
+                    hide("SingleSwitchingMessage")
+                    show("NextMessage");
+                    show("NextButton");
+                }else{
+                    show("SingleSwitchingMessage");
+
+                    hide("NextMessage");
+                    hide("NextButton");
+
+                }
+            }
+
+            console.log("--->",s);
+            k.value = s;
+        }
+
+    function updateRow(rowNum,decisions){
+            console.log("updateRow()...decisions.charAt(rowNum)=",decisions.charAt(rowNum));
+            //Check if table exists
+            var table = document.getElementById("decisionTable");
+
+            for (var i = 1, row; row = table.rows[i]; i++) {
+                //iterate through rows
+                //rows would be accessed using the "row" variable assigned in the for loop
+
+                if(i==rowNum) {
+                    for (var j = 0, col; col = row.cells[j]; j++) {
+                    if(j==1){
+                        if(decisions.charAt(i-1)=='A'){
+                            col.style.background="#b2f2ad";
+                            col.style.border="thin solid green";
+                            col.style.opacity=1;
+                        }else{
+                            col.style.background="#DCDCDC";
+                            col.style.border="none";
+                            col.style.opacity=.5;
+                        }
+                    }
+
+                    if(j==4){
+                        if(decisions.charAt(i-1)=='B'){
+                            col.style.background="#b2f2ad";
+                            col.style.border="thin solid green";
+                            col.style.opacity=1;
+                        }else{
+                            col.style.background="#DCDCDC";
+                            col.style.border="none";
+                            col.style.opacity=.5;
+                        }
+                    }
+
+                    if(j==5){
+                        if(decisions.charAt(i-1)=='A'){
+                            col.innerHTML ="A";
+                        }else if(decisions.charAt(i-1)=='B'){
+                            col.innerHTML ="B";
+                        }else{
+                            col.innerHTML ="X";
+                        }
+                    }
+                    //iterate through columns
+                    //columns would be accessed using the "col" variable assigned in the for loop
+                }
+                }
+            }
+        }
+
+    function checkSingleSwitching(s){
+                var i=0;
+                while (s.charAt(i)!='B' && i<s.length){
+                    i=i+1;
+                }
+
+                var j=s.length-1;
+                while (s.charAt(j)!='A' && j>=0){
+                    j=j-1;
+                }
+                return [i,j]
+        }
+
+    function hide(target) {
+            var x = document.getElementById(target);
+            x.style.display = "none";
+        }
+
+        function show(target) {
+            console.log("Show()...",target)
+            var x = document.getElementById(target);
+
+            if(target=="CompensationTable"){
+                x.style.display="inherit";
+            }else{
+                x.style.display = "block";
+            }
+        }
+
+        function showText(target,someText) {
+            var x = document.getElementById(target);
+            x.style.display = "block";
+            x.innerHTML=someText;
+        }
+
+        function updateText(target,someText) {
+            var x = document.getElementById(target);
+            x.innerHTML=someText;
+        }
+
+</script>
+{% endblock %}
+
+{% block content %}
+    <div class="card bg-light instructions">
+    <div class="card-body">
+
+    <table class="table" id="decisionTable">
+        <tr>
+            <td align="center" style="font-weight:bold; vertical-align:middle">Decision</td>
+            <td align="right" width="400px" style="font-weight:bold">Option A</td>
+            <td width="20px"></td>
+            <td width="30px"></td>
+            <td align="left" style="font-weight:bold">Option B</td>
+            <td align="center" style="font-weight:bold">Your Choice</td>
+        </tr>
+        {% for number,safe in offer_numbers %}
+        <tr>
+            <td align="center" style="vertical-align:middle;">#{{ number }}</td>
+            <td align="right" style="vertical-align:middle;"><strong style="color: #000000">
+                ${{ Constants.riskySuccess }}</strong> with 50% chance;
+                <strong style="color: #000000;">${{ Constants.riskyFailure }}</strong> with 50% chance</td>
+            <td style="vertical-align:middle">
+                <input type="radio" name="offer_{{ number }}" id="id_offer_A_{{ number }}" value="True" onclick="selectInTable('id_responses','id_offer_A_{{ number }}')">
+            </td>
+            <td align="left" style="vertical-align:middle">
+                <input type="radio" name="offer_{{ number }}" value="False" onclick="selectInTable('id_responses','id_offer_A_{{ number }}')">
+            </td>
+            <td style="vertical-align:middle">
+                <strong>${{ safe }}</strong>
+            </td>
+            <td align="center" style="font-weight:bold;vertical-align:middle">
+                __
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <p align="justify" id="SingleSwitchingMessage" style="display: none; color: red">
+        Please revisit the decision table to ensure that your responses are consistent. That is, if you switch from A to B, you should not switch back to A again.
+    </p>
+
+        <p align="center" id="NextMessage" style="display: none">
+
+        <button class="otree-btn-next btn btn-primary" id="NextButton" style="display:none;">Submit Decisions</button>
+
+    </p>
+
+    <input type="hidden" name="responses" value="0000000000000000" id="id_responses"/>
+    <input type="hidden" name="checkConfirm" id="id_checkConfirm"/>
+
+
+    </div>
+    </div>
+
+
+
+
+
+{% endblock %}
+
+
+
