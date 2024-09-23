@@ -1,0 +1,67 @@
+{% extends "DynamicPower_02d_IQ/myPage.html" %}
+{% load staticfiles otree %}
+
+
+{% block scripts %}
+
+    <!-- define a script -->
+    <script>
+
+
+
+
+    </script>
+
+{% endblock %}
+
+
+{% block title %}
+
+    Question #{{ player.round_number }} of 11<br/>
+{#    <strong style="font-size: 18px;color: #8f8f81">[...{{ image_path }}...]</strong>#}
+
+{% endblock %}
+
+{% block content %}
+
+    <p style="text-align: center; font-size: 18px">
+
+        Please indicate which is the best answer to complete the figure below. There is only one right answer. <br><br>
+
+            [...The eleven-question matrix reasoning test developed by the International Cognitive
+Ability Resource Team.<br> For research purposes, the questions are available on request from ICAR (https://icar-project.com; see Condon
+and Revelle, 2014, for more about ICAR)...]
+
+    </p><br/>
+
+
+{#    <p style="text-align: center">#}
+{#	    <img align="middle" style="width: 606px;height:433.4px;" src="{% static image_path %}"/>#}
+
+
+</p>
+<p style="text-align: center; font-size: 18px">
+        <input type="radio" id="radio-btn-1" name="radio-btns" style="width: 150px">
+        <label for="radio-btn-1" onclick="updateSelection(1,1)" class="btn" style="width: 75px">A</label>
+
+        <input type="radio" id="radio-btn-2" name="radio-btns">
+        <label for="radio-btn-2" onclick="updateSelection(1,2)" class="btn" style="width: 75px">B</label>
+
+        <input type="radio" id="radio-btn-3" name="radio-btns">
+        <label for="radio-btn-3" onclick="updateSelection(1,3)" class="btn" style="width: 75px">C</label>
+
+        <input type="radio" id="radio-btn-4" name="radio-btns">
+        <label for="radio-btn-4" onclick="updateSelection(1,4)" class="btn" style="width: 75px">D</label>
+
+        <input type="radio" id="radio-btn-5" name="radio-btns">
+        <label for="radio-btn-5" onclick="updateSelection(1,5)" class="btn" style="width: 75px">E</label>
+
+        <input type="radio" id="radio-btn-6" name="radio-btns">
+        <label for="radio-btn-6" onclick="updateSelection(1,6)" class="btn" style="width: 75px">F</label>
+
+</p>
+    <input type="hidden" name="iqResponses" value=",0" id="id_responses"/>
+    <p style="text-align: center">
+        <button class="otree-btn-next btn btn-primary" id="NextButton" style="display:none;">Submit</button>
+    </p>
+{% endblock %}

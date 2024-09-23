@@ -1,0 +1,436 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block app_styles %}
+
+    <style type="text/css">
+
+        table {
+           table-layout: fixed;
+           border-collapse: collapse;
+           width: 100%;
+           line-height: .9;
+        }
+
+        th {
+            height: 35px;
+            vertical-align: middle;
+        }
+
+
+
+
+
+tr{
+    border: none;
+    background-color: white;
+    vertical-align: middle;
+    height: 35px;
+}
+
+tr:nth-child(even) {background-color: #F8F8F8;}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+path {
+    stroke: black;
+    stroke-width: 2;
+    fill: none;
+}
+
+.line {
+  fill: none;
+  stroke-width: 5px;
+  opacity: 0.5;
+}
+
+.line:hover {
+  opacity: 1;
+
+}
+
+    .myOuterBox{
+        font-family:  Proxima Nova;
+        text-align: center;
+        position: fixed;
+        top: 10%;
+        left: 55%;
+    }
+
+
+.otree-body {
+    border: none;
+    font-family: Proxima Nova;
+    font-size: 18px;
+    position: absolute;
+    width: 1678px;
+    height: 1048px;
+    position: absolute;
+    max-width: 1678px;
+    max-height: 1048px;
+    border: solid darkgreen;
+}
+
+.otree-title {
+    background: white;
+    font-family: Proxima Nova;
+    text-align: center;
+}
+
+.otree-title.page-header {
+    font-family: Proxima Nova;
+    text-align: center;
+    padding: 0px;
+}
+
+.card-body {
+    background: white;
+    font-family: Proxima Nova;
+    font-size: 18px;
+}
+
+.card.bg-light.instructions{
+    padding: 0px;
+    border: none;
+}
+
+
+    @-moz-keyframes blinker {
+        0% { opacity: 1.0; }
+        50% { opacity: 0.0; }
+        100% { opacity: 1.0; }
+    }
+
+    @-webkit-keyframes blinker {
+        0% { opacity: 1.0; }
+        50% { opacity: 0.0; }
+        100% { opacity: 1.0; }
+    }
+
+    </style>
+
+{% endblock %}
+
+
+    {% block app_scripts %}
+
+    <script>
+
+        var MyVariables = {drawTask:0,chosenOptions:0,drawBall:0,drawDecision:0,currentPage:1,
+        responses:NaN, safeOptions:[20,19,17,14,10,5,0,0,0,0],safeOptions1:[0.5,2.5,5,7.5,10.0], decisionNumber:0, decisionPayoff:0};
+
+
+        function drawTable(decisions){
+            //Check if table exists
+            var table = document.getElementById("decisionTable");
+            for (var i = 1, row; row = table.rows[i]; i++) {
+                //iterate through rows
+                //rows would be accessed using the "row" variable assigned in the for loop
+                row.style.opacity = 1;
+                row.style.border = "none";
+                console.log("Total Columns in Table:",row.cells.length);
+                for (var j = 0, col; col = row.cells[j]; j++) {
+
+                    console.log("Column:",j);
+                    if(j==1){
+                        if(decisions.charAt(i-1)=='A'){
+                            col.style.background="#b2f2ad";
+                            col.style.border="thin solid green"
+                            var elName = "id_comment_A_"+i.toString();
+                            {#updateText(elName,"For Decision #"+i.toString()+" you chose Option A over Option B")#}
+                        }else{
+                            col.style.background="#DCDCDC";
+                            col.style.opacity=.5;
+                            col.style.border="none";
+                            var elName = "id_comment_A_"+i.toString();
+                            {#updateText(elName,"For Decision #"+i.toString()+" you chose Option B over Option A")#}
+                        }
+                    }
+
+                    if(j==2){
+                        if(decisions.charAt(i-1)=='B'){
+                            col.style.background="#b2f2ad";
+                            col.style.border="thin solid green";
+                        }else{
+                            col.style.background="#DCDCDC";
+                            col.style.opacity=.5;
+                            col.style.border="none";
+                        }
+                    }
+
+                    if(j==3){
+                        if(decisions.charAt(i-1)=='A'){
+                            col.innerHTML ="A";
+                        }else if(decisions.charAt(i-1)=='B'){
+                            col.innerHTML ="B";
+                        }else{
+                            col.innerHTML ="X";
+                        }
+                    }
+                    //iterate through columns
+                    //columns would be accessed using the "col" variable assigned in the for loop
+                }
+            }
+        }
+
+        function highlightRow(rowNum){
+            //Check if table exists
+            var table = document.getElementById("CompensationTable");
+
+            for (var i = 1, row; row = table.rows[i]; i++) {
+                //iterate through rows
+                //rows would be accessed using the "row" variable assigned in the for loop
+
+                if(i==rowNum) {
+                    row.style.border = "thick solid red";
+                    row.style.opacity = 1;
+                } else {
+                    row.style.opacity = .2;
+                    row.style.border = "none";
+                }
+
+            }
+        }
+
+        function resetRows(rowNum){
+            //Check if table exists
+            var table = document.getElementById("CompensationTable");
+
+            for (var i = 1, row; row = table.rows[i]; i++) {
+                //iterate through rows
+                //rows would be accessed using the "row" variable assigned in the for loop
+                    row.style.opacity = 1;
+                    row.style.border = "none";
+            }
+        }
+
+        function updateRow(table_num, rowNum,decisions){
+            console.log("updateRow()...decisions.charAt(rowNum)=",decisions.charAt(rowNum));
+            //Check if table exists
+            var table = document.getElementById("decisionTable"+String(table_num));
+
+            for (var i = 1, row; row = table.rows[i]; i++) {
+                //iterate through rows
+                //rows would be accessed using the "row" variable assigned in the for loop
+
+                if(i==rowNum) {
+                    for (var j = 0, col; col = row.cells[j]; j++) {
+                    if(j==1){
+                        if(decisions.charAt(i-1)=='A'){
+                            col.style.background="#b2f2ad";
+                            col.style.border="thin solid green";
+                            col.style.opacity=1;
+                        }else{
+                            col.style.background="#DCDCDC";
+                            col.style.border="none";
+                            col.style.opacity=.5;
+                        }
+                    }
+
+                    if(j==4){
+                        if(decisions.charAt(i-1)=='B'){
+                            col.style.background="#b2f2ad";
+                            col.style.border="thin solid green";
+                            col.style.opacity=1;
+                        }else{
+                            col.style.background="#DCDCDC";
+                            col.style.border="none";
+                            col.style.opacity=.5;
+                        }
+                    }
+
+                    if(j==5){
+                        if(decisions.charAt(i-1)=='A'){
+                            col.innerHTML ="A";
+                        }else if(decisions.charAt(i-1)=='B'){
+                            col.innerHTML ="B";
+                        }else{
+                            col.innerHTML ="X";
+                        }
+                    }
+                    //iterate through columns
+                    //columns would be accessed using the "col" variable assigned in the for loop
+                }
+                }
+            }
+        }
+
+
+
+        function selectCompensation(taskID) {
+            var k = document.getElementById(taskID);
+            var s = k.value;
+            var elemNames = ["id_offer_1", "id_offer_2", "id_offer_3", "id_offer_4", "id_offer_5", "id_offer_6", "id_offer_7", "id_offer_8", "id_offer_9", "id_offer_10",
+            "id_offer_A_11", "id_offer_A_12", "id_offer_A_13", "id_offer_A_14", "id_offer_A_15", "id_offer_A_16", "id_offer_A_17", "id_offer_A_18", "id_offer_A_19", "id_offer_A_20"];
+
+            for (var i = 0; i < elemNames.length; i++) {
+                j = document.getElementById(elemNames[i]);
+                s = s.substr(0, i) + j.checked.toString().substr(0, 1) + s.substr(i + 1);
+            }
+            s = s.replace(/t/g, "A");
+            s = s.replace(/f/g, "B");
+            console.log(s);
+            k.value = s;
+        }
+
+
+
+        function randomDecision(){
+            hide("pickDecisionButton");
+            var paragraph = document.getElementById("parPickDecision");
+            var selectedDec = Math.floor((Math.random() * 5) + 1);
+            MyVariables.drawDecision=selectedDec;
+            paragraph.innerHTML="  1. The randomly chosen decision is Decision #"+selectedDec.toString();
+            highlightRow(selectedDec);
+            console.log(MyVariables.responses.charAt(selectedDec-1))
+            if(MyVariables.responses.charAt(selectedDec-1)=="A") {
+                show("pickDrawButton");
+            }else{
+
+                console.log("Option B, of decision #",selectedDec)
+                console.log("Safe Options: ",MyVariables.safeOptions1)
+
+                var paragraph = document.getElementById("parPickDraw");
+                paragraph.innerHTML="  2. For the selected decision have chosen Option B. ";
+                var paragraph2 = document.getElementById("parSumComp");
+                paragraph2.innerHTML="  -> Therefore, your payoff is $" +
+                    MyVariables.safeOptions1[selectedDec-1].toString()+".";
+                    show("continueNext");
+                    show("tryAgainButton");
+                    show("NextButton");
+                    show("continueNextNote");
+
+
+                    var taskRecord = document.getElementById("id_taskSelected");
+                    taskRecord.value=taskRecord.value+MyVariables.drawTask.toString();
+                    var decisionRecord = document.getElementById("id_decisionSelected");
+                    decisionRecord.value=decisionRecord.value+MyVariables.drawDecision.toString();
+                    var drawRecord = document.getElementById("id_drawSelected");
+                    drawRecord.value=decisionRecord.value+"0";
+            }
+        }
+
+
+
+        function selectInTable(taskID,whichOffer) {
+            var k = document.getElementById(taskID);
+            var s = k.value;
+            var elemNames = ["id_offer_A_1", "id_offer_A_2", "id_offer_A_3", "id_offer_A_4", "id_offer_A_5", "id_offer_A_6", "id_offer_A_7", "id_offer_A_8", "id_offer_A_9"];
+			
+			
+			for (var i = 0; i < elemNames.length; i++) {
+
+
+                if (elemNames[i] == whichOffer) {
+
+                    console.log("Current Element:",elemNames[i])
+					console.log('why I cant print?', s)
+
+                    j = document.getElementById(elemNames[i]);
+					var ii = i%9;
+					
+                    s = s.substr(0, ii) + j.checked.toString().substr(0, 1) + s.substr(ii + 1);
+                    s = s.replace(/t/g, "A");
+                    s = s.replace(/f/g, "B");
+					var table_num = Math.trunc(i / 9) + 1;
+                    updateRow(table_num, ii+1,s)
+					console.log('s updated?', s)
+                }
+								
+            }
+
+            if (s.indexOf('0') > -1) {
+                console.log("Still some zeros...")
+            }
+			else{
+			
+			
+			var tempElem = document.getElementById('id_checkConfirm'+String(table_num));
+
+		
+			var res = checkSingleSwitching(s);
+
+			console.log("Single Switching Result:",res);
+
+			if(res[0]>res[1]) {
+				tempElem.value = 'True';	
+				hide("SingleSwitchingMessage"+String(table_num));
+				show("NextMessage");
+				show("NextButton");
+						}
+			else{
+				tempElem.value = 'False';
+				show("SingleSwitchingMessage"+String(table_num));
+
+				hide("NextMessage");
+				hide("NextButton");
+
+			}
+		
+			
+        }
+		console.log("--->",s);
+			k.value = s;
+		}
+
+        function checkSingleSwitching(s){
+                var i=0;
+                while (s.charAt(i)!='B' && i<s.length){
+                    i=i+1;
+                }
+
+                var j=s.length-1;
+                while (s.charAt(j)!='A' && j>=0){
+                    j=j-1;
+                }
+                return [i,j]
+        }
+		function checkSingleSwitching_reverse(s){
+                var i=0;
+                while (s.charAt(i)!='A' && i<s.length){
+                    i=i+1;
+                }
+
+                var j=s.length-1;
+                while (s.charAt(j)!='B' && j>=0){
+                    j=j-1;
+                }
+                return [i,j]
+        }
+
+        function hide(target) {
+            var x = document.getElementById(target);
+            x.style.display = "none";
+        }
+
+        function show(target) {
+            console.log("Show()...",target)
+            var x = document.getElementById(target);
+
+            if(target=="CompensationTable"){
+                x.style.display="inherit";
+            }else{
+                x.style.display = "block";
+            }
+        }
+
+        function showText(target,someText) {
+            var x = document.getElementById(target);
+            x.style.display = "block";
+            x.innerHTML=someText;
+        }
+
+        function updateText(target,someText) {
+            var x = document.getElementById(target);
+            x.innerHTML=someText;
+        }
+
+
+    </script>
+
+{% endblock %}

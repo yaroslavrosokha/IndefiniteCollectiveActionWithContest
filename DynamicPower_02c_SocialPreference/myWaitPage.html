@@ -1,0 +1,32 @@
+{% extends 'otree/WaitPage.html' %}
+{% load static otree %}
+{% block title %}{{ title_text }}{% endblock %}
+
+{% block content %}
+    {{ body_text }}
+{% endblock %}
+
+{% block app_styles %}
+
+<style type="text/css">
+
+
+.otree-wait-page__title {
+    background: white;
+    font-family: Proxima Nova;
+    text-align: center;
+}
+
+
+
+</style>
+
+{% endblock %}
+
+
+
+
+{% block app_scripts %}
+
+
+{% endblock %}
